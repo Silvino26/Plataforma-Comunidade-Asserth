@@ -1807,27 +1807,95 @@ html>body{padding:0}
   window.AsserthViews = window.AsserthViews || {};
   window.AsserthViews['comunicados'] = {
     init: function() {
-      const records=[
-        {id:1,title:'Boas-vindas aos novos membros',campaign:'Integração Agosto 2026',group:'Avisos',date:'2026-08-20',time:'14:00',status:'pending',type:'text',message:'Olá!\nSeja bem-vindo(a) à Comunidade Asserth.\n\nEste é o nosso grupo oficial de avisos.'},
-        {id:2,title:'Atualização de benefícios',campaign:'Benefícios 2026',group:'Avisos',date:'2026-08-18',time:'10:30',status:'sent',type:'text',message:'*Atualização de benefícios*\nConsulte as novas orientações no portal.'},
-        {id:3,title:'Pesquisa de experiência',campaign:'Sem campanha',group:'Avisos',date:'2026-08-21',time:'10:30',status:'scheduled',type:'text',message:'Sua opinião é importante. Participe da nossa pesquisa de experiência.'},
-        {id:4,title:'Fechamento da folha',campaign:'Sem campanha',group:'Departamento Pessoal',date:'2026-08-24',time:'09:00',status:'approved',type:'text',message:'O fechamento da folha ocorrerá nesta semana.'},
-        {id:5,title:'Prazo para envio de notas fiscais',campaign:'Sem campanha',group:'Financeiro',date:'2026-08-25',time:'15:00',status:'scheduled',type:'text',message:'📢 *ATENÇÃO!*\nO prazo para envio da nota fiscal termina hoje.'},
-        {id:6,title:'Comunicado institucional',campaign:'Integração Agosto 2026',group:'Avisos',date:'2026-08-24',time:'09:00',status:'rejected',type:'text',message:'Comunicado institucional reprovado para revisão.'},
-        {id:7,title:'Manutenção programada',campaign:'Sem campanha',group:'Tecnologia',date:'2026-08-17',time:'18:00',status:'rejected',type:'text',message:'A manutenção programada ocorrerá após o expediente.'},
-        {id:8,title:'Oportunidades internas',campaign:'Sem campanha',group:'Recrutamento e Seleção',date:'2026-08-26',time:'11:00',status:'scheduled',type:'text',message:'Confira as novas oportunidades internas.'},
-        {id:9,title:'Reunião de resultados',campaign:'Sem campanha',group:'Diretoria',date:'2026-08-15',time:'16:00',status:'sent',type:'text',message:'A reunião de resultados foi confirmada.'},
-        {id:10,title:'Orientações comerciais',campaign:'Sem campanha',group:'Comercial',date:'2026-08-27',time:'08:30',status:'pending',type:'text',message:'Confira as orientações comerciais desta semana.'},
-        {id:11,title:'Integração de prestadores',campaign:'Integração Agosto 2026',group:'Prestadores',date:'2026-07-29',time:'09:30',status:'sent',type:'text',message:'Bem-vindo(a) ao Grupo Asserth.'},
-        {id:12,title:'Aviso de expediente',campaign:'Sem campanha',group:'Colaboradores',date:'2026-07-30',time:'17:00',status:'sent',type:'text',message:'Confira o horário de expediente.'},
-        {id:13,title:'Encontro de lideranças',campaign:'Sem campanha',group:'Gerência',date:'2026-08-28',time:'14:30',status:'approved',type:'text',message:'Encontro de lideranças confirmado.'},
-        {id:14,title:'Campanha de integração',campaign:'Integração Agosto 2026',group:'Avisos',date:'2026-08-29',time:'10:00',status:'rejected',type:'text',message:'Confira a campanha de integração.'}
-      ];
-      const statusInfo={pending:['Aguardando aprovação','is-pending'],approved:['Aprovado','is-sent'],scheduled:['Agendado','is-scheduled'],sent:['Enviado','is-sent'],rejected:['Reprovado','is-error']};
+      // Dados reais (Supabase, tabela comunidades.comunicacoes) - ver
+      // BUILD_NOTES.md "Comunicados: dados reais" para o mapeamento de
+      // campos e as decisões tomadas. Cada linha da tabela já corresponde
+      // a 1 grupo (o cadastro por múltiplos grupos grava 1 linha por
+      // grupo, com o mesmo `codigo`) - a listagem replica isso 1:1, sem
+      // agrupar visualmente por código, porque o mock original também
+      // tratava cada registro como uma linha independente.
+      let records=[];
+      const statusInfo={pending:['Aguardando aprovação','is-pending'],approved:['Aprovado','is-sent'],scheduled:['Agendado','is-scheduled'],sent:['Enviado','is-sent'],rejected:['Reprovado','is-error'],error:['Erro no envio','is-error']};
       let filtered=records.slice(),currentPage=1,previewOrigin='list',objectUrl='';
       const pageSize=4,list=document.getElementById('comunicados-pv-comm-list'),pageButtons=document.getElementById('comunicados-pv-page-buttons');
+      const toastEl=document.getElementById('comunicados-pv-toast'),toastText=toastEl?toastEl.querySelector('span'):null;
+      let toastTimer=null;
+      function showToast(msg){
+        if(!toastEl||!toastText)return;
+        toastText.textContent=msg;
+        if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(toastText);
+        toastEl.classList.add('is-visible');
+        if(toastTimer)clearTimeout(toastTimer);
+        toastTimer=setTimeout(function(){toastEl.classList.remove('is-visible')},5000);
+      }
       function brDate(value){const p=value.split('-');return p[2]+'/'+p[1]+'/'+p[0]}
-      function escapeHtml(value){return value.replace(/[&<>]/g,function(char){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[char]})}
+      function escapeHtml(value){return String(value==null?'':value).replace(/[&<>]/g,function(char){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[char]})}
+      // Status reais do fluxo (n8n + aba Aprovações): um comunicado nasce
+      // AGUARDANDO_APROVACAO; ao ser aprovado vira PENDENTE (agendado,
+      // aguardando o disparo do workflow "Disparo de Comunicados"); depois
+      // vira ENVIADO ou ERRO. REJEITADO/CANCELADO cobrem os outros
+      // desfechos possíveis. Mapeado para as chaves visuais que a tela já
+      // usava (pending/scheduled/sent/rejected) para não mudar nenhuma cor
+      // ou rótulo existente; "error" é a única chave nova, reaproveitando
+      // a cor is-error já usada por "rejected" (sem inventar cor nova).
+      function mapStatus(dbStatus){
+        switch(String(dbStatus||'').toUpperCase()){
+          case 'AGUARDANDO_APROVACAO': return 'pending';
+          case 'PENDENTE': return 'scheduled';
+          case 'ENVIADO': return 'sent';
+          case 'ERRO': return 'error';
+          case 'REJEITADO': return 'rejected';
+          case 'CANCELADO': return 'rejected';
+          default: return 'pending';
+        }
+      }
+      function splitDisparo(value){
+        if(!value)return{date:'',time:''};
+        const parsed=new Date(value);
+        if(!isNaN(parsed.getTime()))return{date:parsed.getFullYear()+'-'+pad(parsed.getMonth()+1)+'-'+pad(parsed.getDate()),time:pad(parsed.getHours())+':'+pad(parsed.getMinutes())};
+        const raw=String(value).split(/[T ]/);
+        return{date:raw[0]||'',time:(raw[1]||'').slice(0,5)};
+      }
+      function mapRow(row,index){
+        const parts=splitDisparo(row.data_disparo);
+        const grupo=row.grupo_nome||(Array.isArray(row.grupos_destino)?row.grupos_destino.join(', '):row.grupos_destino)||'—';
+        return{
+          id:index,
+          title:row.nome||'(sem nome)',
+          campaign:'Código '+(row.codigo||'—'),
+          group:grupo,
+          date:parts.date,
+          time:parts.time,
+          status:mapStatus(row.status),
+          type:/imag/i.test(row.tipo||'')?'image':'text',
+          message:row.mensagem||'',
+          image:row.url_imagem||''
+        };
+      }
+      function loadRecords(){
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient){
+          showToast('Não foi possível conectar ao serviço de comunicados.');
+          records=[];filtered=[];currentPage=1;render();
+          return Promise.resolve();
+        }
+        return supaClient.from('comunicacoes').select('*').order('criado_em',{ascending:false}).then(function(resposta){
+          if(resposta&&resposta.error){
+            console.error('[Comunicados] erro ao carregar comunicados:',resposta.error);
+            showToast('Não foi possível carregar os comunicados agora. Tente novamente em instantes.');
+            records=[];filtered=[];currentPage=1;render();
+            return;
+          }
+          records=(resposta&&resposta.data||[]).map(mapRow);
+          filtered=records.slice();
+          currentPage=1;
+          render();
+        }).catch(function(err){
+          console.error('[Comunicados] falha inesperada ao carregar comunicados:',err);
+          showToast('Não foi possível carregar os comunicados agora. Tente novamente em instantes.');
+          records=[];filtered=[];currentPage=1;render();
+        });
+      }
       function render(){
         const pages=Math.max(1,Math.ceil(filtered.length/pageSize));if(currentPage>pages)currentPage=pages;
         const first=(currentPage-1)*pageSize,visible=filtered.slice(first,first+pageSize);
@@ -1880,8 +1948,80 @@ html>body{padding:0}
       list.addEventListener('click',function(e){const link=e.target.closest('[data-record]');if(!link)return;const r=records.find(function(item){return item.id===Number(link.dataset.record)});if(r){previewOrigin='list';showPreview(r.message,r.time,r.image||'')}});
       function closePreview(e){e.preventDefault();location.hash=previewOrigin==='form'?'comunicados-pv-comm-new':''}
       document.getElementById('comunicados-pv-preview-close').addEventListener('click',closePreview);document.getElementById('comunicados-pv-preview-back').addEventListener('click',closePreview);
-      document.getElementById('comunicados-pv-register-action').addEventListener('click',function(event){event.preventDefault();scheduleError.style.color='#b42332';const imageOk=type.value!=='image'||(imageFile.files&&imageFile.files.length),messageOk=type.value==='image'||message.value.trim(),groupsOk=selectedGroups().length>0;if(!validate()||!imageOk||!messageOk||!groupsOk){scheduleError.textContent=scheduleError.textContent||(!imageOk?'Selecione o arquivo da imagem.':!messageOk?'A mensagem é obrigatória para comunicados de texto.':'Selecione ao menos um grupo de destino.');if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError);return}scheduleError.style.color='var(--pv-green)';scheduleError.textContent='Comunicado validado e pronto para encaminhamento à aprovação.';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError)});
-      render();
+      // Cadastro real: insere 1 linha por grupo selecionado na tabela
+      // comunicacoes, sempre com status AGUARDANDO_APROVACAO (a aprovação
+      // em si é feita na aba Aprovações, não aqui). Mesmo `codigo` em
+      // todas as linhas de um mesmo comunicado - é assim que o workflow
+      // n8n "Cadastro de Comunicados" já grava quando explode
+      // grupos_destino, então mantemos compatibilidade com o que o
+      // workflow de Disparo espera encontrar.
+      document.getElementById('comunicados-pv-register-action').addEventListener('click',async function(event){
+        event.preventDefault();
+        scheduleError.style.color='#b42332';
+        const imageOk=type.value!=='image'||(imageFile.files&&imageFile.files.length),messageOk=type.value==='image'||message.value.trim(),groupsOk=selectedGroups().length>0;
+        if(!validate()||!imageOk||!messageOk||!groupsOk){
+          scheduleError.textContent=scheduleError.textContent||(!imageOk?'Selecione o arquivo da imagem.':!messageOk?'A mensagem é obrigatória para comunicados de texto.':'Selecione ao menos um grupo de destino.');
+          if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError);
+          return;
+        }
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient){
+          scheduleError.style.color='#b42332';
+          scheduleError.textContent='Não foi possível conectar ao serviço. Tente novamente em instantes.';
+          if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError);
+          showToast('Não foi possível cadastrar: sem conexão com o serviço.');
+          return;
+        }
+        const grupos=selectedGroups();
+        const codigo='CM-'+Date.now().toString(36).toUpperCase();
+        const nome=(document.getElementById('comunicados-pv-comm-name').value||'').trim();
+        const tipo=type.value==='image'?'imagem':'texto';
+        const observacaoField=document.querySelector('#comunicados-pv-comm-form .pv-message-box');
+        const observacao=observacaoField&&observacaoField.value.trim()?observacaoField.value.trim():null;
+        // Assume fuso horário fixo de Brasília (-03:00, sem horário de
+        // verão desde 2019) - a mesma premissa do restante da tela
+        // (validação de dia útil/horário usa o relógio local do
+        // navegador). Confirmar com a Ana se o workflow de Disparo espera
+        // outro fuso.
+        const dataDisparo=sendDate.value+'T'+(sendTime.value||'00:00')+':00-03:00';
+        const usuarioId=(window.AsserthSession&&window.AsserthSession.user&&window.AsserthSession.user.id)||null;
+        // url_imagem fica sempre null: não há Storage configurado no
+        // Supabase ainda, então o upload de arquivo não é implementado
+        // nesta rodada (ver BUILD_NOTES.md - pendência documentada).
+        const linhas=grupos.map(function(grupo){
+          return{codigo:codigo,nome:nome,tipo:tipo,mensagem:message.value,url_imagem:null,grupos_destino:grupos,data_disparo:dataDisparo,status:'AGUARDANDO_APROVACAO',criado_por:usuarioId,observacao:observacao,grupo_id:null,grupo_nome:grupo};
+        });
+        const registerLink=event.currentTarget;
+        registerLink.style.pointerEvents='none';
+        scheduleError.style.color='var(--pv-muted)';
+        scheduleError.textContent='Enviando comunicado para aprovação...';
+        if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError);
+        try{
+          const resposta=await supaClient.from('comunicacoes').insert(linhas);
+          registerLink.style.pointerEvents='';
+          if(resposta&&resposta.error){
+            console.error('[Comunicados] erro ao cadastrar:',resposta.error);
+            scheduleError.style.color='#b42332';
+            scheduleError.textContent='Não foi possível cadastrar o comunicado. Tente novamente.';
+            if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError);
+            showToast('Não foi possível cadastrar o comunicado agora. Tente novamente.');
+            return;
+          }
+          scheduleError.style.color='var(--pv-green)';
+          scheduleError.textContent='Comunicado validado e pronto para encaminhamento à aprovação.';
+          if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError);
+          showToast('Comunicado cadastrado e enviado para aprovação.');
+          loadRecords();
+        }catch(err){
+          registerLink.style.pointerEvents='';
+          console.error('[Comunicados] falha inesperada ao cadastrar:',err);
+          scheduleError.style.color='#b42332';
+          scheduleError.textContent='Não foi possível cadastrar o comunicado. Tente novamente.';
+          if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError);
+          showToast('Não foi possível cadastrar o comunicado agora. Tente novamente.');
+        }
+      });
+      loadRecords();
       // Adição de integração (não existia no mockup original): como este bloco
       // agora é injetado dinamicamente pela SPA a cada troca de aba, é preciso
       // reprocessar os ícones [data-lucide] desta view depois de montá-la —
@@ -2258,6 +2398,12 @@ errorExport.addEventListener('click',e=>{e.preventDefault();const p=meta[current
         { db: { schema: 'comunidades' } }
       )
     : null;
+
+  // Exposto em window para ser reaproveitado por outras views que já
+  // rodam em <script> IIFE separados (ex.: window.AsserthViews['comunicados']),
+  // sem criar uma segunda instância de cliente Supabase. Não altera nenhum
+  // comportamento existente, só publica a referência já criada acima.
+  window.AsserthSupabase = supa;
 
   // Slugs dos módulos que existem hoje no menu lateral (mesma lista da
   // migração SQL - "visao-geral" fica de fora de propósito, é sempre
