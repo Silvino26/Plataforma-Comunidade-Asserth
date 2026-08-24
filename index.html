@@ -1261,7 +1261,7 @@ html>body{padding:0}
 #asserth-platform-overview .pv-editor-toolbar{position:relative}.pv-emoji-menu{display:none;position:absolute;top:42px;left:160px;z-index:45;width:230px;padding:8px;border:1px solid var(--pv-line);border-radius:9px;background:var(--pv-surface);box-shadow:0 14px 34px rgba(0,0,0,.16);grid-template-columns:repeat(8,1fr);gap:3px}.pv-emoji-menu.is-open{display:grid}.pv-emoji-menu button{min-width:0!important;width:24px!important;height:24px!important;padding:0;border:0!important;background:transparent!important;font-size:14px!important}.pv-emoji-menu button:hover{background:var(--pv-surface-soft)!important}
 #asserth-platform-overview .pv-wa-body{background-image:none!important;background-color:#efeae2!important}
 #asserth-platform-overview .pv-calendar-day{font-size:6.3px!important}
-#asserth-platform-overview .pv-whatsapp{overflow:hidden;border:1px solid #ded8ce;border-radius:12px;background:#efeae2;min-height:430px}.pv-wa-body{min-height:430px;padding:70px 18px 28px;background-color:#efeae2;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23d9d0c3' stroke-width='1' opacity='.45'%3E%3Cpath d='M8 18c8-8 18 3 10 10S0 26 8 18Zm55-9 5 10 11 2-8 8 2 11-10-5-10 5 2-11-8-8 11-2Z'/%3E%3Ccircle cx='98' cy='72' r='12'/%3E%3Cpath d='M15 76c18-6 27 11 13 22M69 73c-8 4-8 16 2 20m19 14 18-18M42 48c4-12 18-12 22 0s-7 21-11 25c-5-5-15-13-11-25Z'/%3E%3C/g%3E%3C/svg%3E")}.pv-wa-bubble{position:relative;margin-left:auto;max-width:84%;padding:9px 10px 6px;border-radius:8px 2px 8px 8px;background:#d9fdd3;color:#111;font-family:Arial,sans-serif;font-size:11px;line-height:1.42;box-shadow:0 1px 1px rgba(0,0,0,.1)}.pv-wa-bubble::after{content:'';position:absolute;right:-7px;top:0;border-style:solid;border-width:0 0 9px 8px;border-color:transparent transparent transparent #d9fdd3}.pv-wa-image{display:none;width:100%;max-height:250px;object-fit:cover;margin-bottom:7px;border-radius:6px}.pv-wa-time{text-align:right;color:#66736d;font-size:7.5px;margin-top:4px}
+#asserth-platform-overview .pv-whatsapp{overflow-y:auto;overflow-x:hidden;border:1px solid #ded8ce;border-radius:12px;background:#efeae2;min-height:430px;max-height:520px}.pv-wa-body{min-height:430px;padding:70px 18px 28px;background-color:#efeae2;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23d9d0c3' stroke-width='1' opacity='.45'%3E%3Cpath d='M8 18c8-8 18 3 10 10S0 26 8 18Zm55-9 5 10 11 2-8 8 2 11-10-5-10 5 2-11-8-8 11-2Z'/%3E%3Ccircle cx='98' cy='72' r='12'/%3E%3Cpath d='M15 76c18-6 27 11 13 22M69 73c-8 4-8 16 2 20m19 14 18-18M42 48c4-12 18-12 22 0s-7 21-11 25c-5-5-15-13-11-25Z'/%3E%3C/g%3E%3C/svg%3E")}.pv-wa-bubble{position:relative;margin-left:auto;max-width:84%;padding:9px 10px 6px;border-radius:8px 2px 8px 8px;background:#d9fdd3;color:#111;font-family:Arial,sans-serif;font-size:11px;line-height:1.42;box-shadow:0 1px 1px rgba(0,0,0,.1)}.pv-wa-bubble::after{content:'';position:absolute;right:-7px;top:0;border-style:solid;border-width:0 0 9px 8px;border-color:transparent transparent transparent #d9fdd3}.pv-wa-image{display:none;width:100%;max-height:250px;object-fit:cover;margin-bottom:7px;border-radius:6px}.pv-wa-time{text-align:right;color:#66736d;font-size:7.5px;margin-top:4px}
 #asserth-platform-overview .pv-wa-line{min-height:1.42em}#asserth-platform-overview .pv-wa-list{position:relative;padding-left:14px}#asserth-platform-overview .pv-wa-list::before{content:'•';position:absolute;left:2px}
 @media(max-width:760px){#asserth-platform-overview .pv-page-head{flex-direction:column}.pv-comm-head-side{width:100%;justify-items:stretch}.pv-comm-actions{width:100%}.pv-comm-button{flex:1}.pv-comm-row{grid-template-columns:1fr auto}.pv-comm-cell:not(:last-child),.pv-comm-state{display:none}.pv-filter-grid,.pv-comm-form,.pv-inline-choice{grid-template-columns:1fr}.pv-comm-form .is-full{grid-column:1}}
 
@@ -1794,13 +1794,13 @@ html>body{padding:0}
 
   <section class="pv-native-panel" id="comunicados-pv-comm-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar comunicados</h2><p>Combine os critérios necessários e aplique à listagem.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><form class="pv-native-form"><div class="pv-filter-grid"><div class="pv-native-field"><label>Mês</label><select id="comunicados-pv-filter-month"><option value="">Todos</option><option value="2026-08">Agosto 2026</option><option value="2026-07">Julho 2026</option></select></div><div class="pv-native-field"><label>Status</label><select id="comunicados-pv-filter-status"><option value="">Todos</option><option value="pending">Aguardando aprovação</option><option value="approved">Aprovado</option><option value="scheduled">Agendado</option><option value="sent">Enviado</option><option value="rejected">Reprovado</option></select></div><div class="pv-native-field"><label>Campanha</label><select id="comunicados-pv-filter-campaign"><option value="">Todas</option><option>Integração Agosto 2026</option><option>Benefícios 2026</option><option>Sem campanha</option></select></div><div class="pv-native-field"><label>Grupo</label><select id="comunicados-pv-filter-group"><option value="">Todos os grupos autorizados</option><option>Avisos</option><option>Financeiro</option><option>Departamento Pessoal</option></select></div><div class="pv-native-field"><label>Data inicial</label><input id="comunicados-pv-filter-start" type="date"></div><div class="pv-native-field"><label>Data final</label><input id="comunicados-pv-filter-end" type="date"></div></div></form></div><div class="pv-native-actions"><a class="pv-native-secondary" id="comunicados-pv-clear-filters" href="#">Limpar</a><a id="comunicados-pv-apply-filters" href="#">Aplicar filtros</a></div></div></section>
 
-  <section class="pv-native-panel" id="comunicados-pv-comm-new"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Novo comunicado</h2><p>Cadastre o conteúdo e encaminhe para aprovação.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><form class="pv-comm-form" id="comunicados-pv-comm-form"><div class="pv-native-field is-full"><label>Nome da comunicação *</label><input id="comunicados-pv-comm-name" value="Boas-vindas · Agosto"></div><div class="pv-native-field"><label>Tipo *</label><select id="comunicados-pv-comm-type"><option value="text">Texto</option><option value="image">Imagem</option></select></div><div class="pv-native-field"><label>Campanha</label><select id="comunicados-pv-comm-campaign"><option>Sem campanha</option><option>Integração Agosto 2026</option><option>Benefícios 2026</option></select></div>
+  <section class="pv-native-panel" id="comunicados-pv-comm-new"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Novo comunicado</h2><p>Cadastre o conteúdo e encaminhe para aprovação.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><form class="pv-comm-form" id="comunicados-pv-comm-form"><div class="pv-native-field is-full"><label>Nome da comunicação *</label><input id="comunicados-pv-comm-name" placeholder="Ex.: Boas-vindas · Agosto"></div><div class="pv-native-field"><label>Tipo *</label><select id="comunicados-pv-comm-type"><option value="text">Texto</option><option value="image">Imagem</option></select></div><div class="pv-native-field"><label>Campanha</label><select id="comunicados-pv-comm-campaign"><option>Sem campanha</option><option>Integração Agosto 2026</option><option>Benefícios 2026</option></select></div>
 <div class="pv-native-field is-full pv-image-fields" id="comunicados-pv-image-fields" hidden><label>Imagem do comunicado *</label><div class="pv-upload"><input id="comunicados-pv-image-file" type="file" accept="image/png,image/jpeg,image/webp"><label class="pv-upload-label" for="comunicados-pv-image-file">Selecionar imagem</label><span class="pv-upload-name" id="comunicados-pv-upload-name">Nenhum arquivo selecionado</span></div><p class="pv-help-text">PNG, JPG ou WEBP. O arquivo será tratado, hospedado e vinculado automaticamente.</p></div>
-<div class="pv-native-field is-full"><label id="comunicados-pv-message-label">Mensagem *</label><div class="pv-editor"><div class="pv-editor-toolbar"><button type="button" data-format="bold"><b>B</b></button><button type="button" data-format="italic"><i>I</i></button><button type="button" data-format="strike"><s>S</s></button><button type="button" data-format="list">• Lista</button><button type="button" id="comunicados-pv-emoji" aria-label="Selecionar emoji">😊</button><div class="pv-emoji-menu" id="comunicados-pv-emoji-menu"></div></div><textarea id="comunicados-pv-message">Olá!&#10;Seja bem-vindo(a) à Comunidade Asserth.&#10;&#10;Este é o nosso grupo oficial de avisos.</textarea><div class="pv-editor-meta"><span id="comunicados-pv-message-rule">Obrigatória · máximo de 4.096 caracteres</span><span id="comunicados-pv-char-count">85 / 4096</span></div></div></div>
+<div class="pv-native-field is-full"><label id="comunicados-pv-message-label">Mensagem *</label><div class="pv-editor"><div class="pv-editor-toolbar"><button type="button" data-format="bold"><b>B</b></button><button type="button" data-format="italic"><i>I</i></button><button type="button" data-format="strike"><s>S</s></button><button type="button" data-format="list">• Lista</button><button type="button" id="comunicados-pv-emoji" aria-label="Selecionar emoji">😊</button><div class="pv-emoji-menu" id="comunicados-pv-emoji-menu"></div></div><textarea id="comunicados-pv-message" placeholder="Digite a mensagem que será enviada aos grupos selecionados..."></textarea><div class="pv-editor-meta"><span id="comunicados-pv-message-rule">Obrigatória · máximo de 4.096 caracteres</span><span id="comunicados-pv-char-count">0 / 4096</span></div></div></div>
 <div class="pv-native-field"><label>Data do disparo *</label><div class="pv-date-picker" id="comunicados-pv-send-picker"><input id="comunicados-pv-send-date" type="hidden"><button class="pv-date-trigger" id="comunicados-pv-send-date-trigger" type="button"><span>Selecione uma data</span><i data-lucide="calendar-days"></i></button><div class="pv-calendar" id="comunicados-pv-send-calendar"></div></div></div><div class="pv-native-field"><label>Hora do disparo *</label><input id="comunicados-pv-send-time" type="time"></div><div class="pv-native-field"><label>Recorrência</label><select id="comunicados-pv-recurrence"><option value="once">Envio único</option><option value="daily">Todos os dias · segunda a sexta</option><option value="weekly">Uma vez por semana · mesmo dia</option><option value="biweekly">A cada 15 dias · mesmo dia da semana</option><option value="monthly">Primeiro dia útil do mês</option><option value="lastBusiness">Último dia útil do mês</option></select></div><div class="pv-native-field pv-recurrence-end" id="comunicados-pv-recurrence-end" hidden><label>Repetir até *</label><div class="pv-date-picker" id="comunicados-pv-until-picker"><input id="comunicados-pv-recurrence-until" type="hidden"><button class="pv-date-trigger" id="comunicados-pv-until-date-trigger" type="button"><span>Selecione uma data</span><i data-lucide="calendar-days"></i></button><div class="pv-calendar" id="comunicados-pv-until-calendar"></div></div></div><p class="pv-recurrence-note" id="comunicados-pv-recurrence-note">Este comunicado será enviado uma única vez.</p><div class="pv-form-error is-full" id="comunicados-pv-schedule-error"></div>
 <div class="pv-native-field is-full"><label>Grupos de destino *</label><div class="pv-group-picker" id="comunicados-pv-group-picker"><div class="pv-group-control" id="comunicados-pv-group-control"></div><div class="pv-group-menu" id="comunicados-pv-group-menu"><label><input type="checkbox" value="Avisos" checked>Avisos</label><label><input type="checkbox" value="Departamento Pessoal">Departamento Pessoal</label><label><input type="checkbox" value="Recrutamento e Seleção">Recrutamento e Seleção</label><label><input type="checkbox" value="Financeiro">Financeiro</label><label><input type="checkbox" value="Comercial">Comercial</label><label><input type="checkbox" value="Tecnologia">Tecnologia</label><label><input type="checkbox" value="Diretoria">Diretoria</label><label><input type="checkbox" value="Gerência">Gerência</label><label><input type="checkbox" value="Colaboradores">Colaboradores</label><label><input type="checkbox" value="Prestadores">Prestadores</label></div></div></div><div class="pv-native-field is-full"><label>Observação</label><textarea class="pv-message-box" style="min-height:70px" placeholder="Informação interna opcional. Não será enviada no WhatsApp."></textarea></div></form></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Cancelar</a><a class="pv-native-secondary" id="comunicados-pv-preview-action" href="#comunicados-pv-comm-preview">Visualizar</a><a id="comunicados-pv-register-action" href="#">Cadastrar comunicado</a></div></div></section>
 
-  <section class="pv-native-panel" id="comunicados-pv-comm-preview"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Prévia no WhatsApp</h2></div><a class="pv-native-close" id="comunicados-pv-preview-close" href="#">×</a></div><div class="pv-native-body"><div class="pv-whatsapp"><div class="pv-wa-body"><div class="pv-wa-bubble"><img class="pv-wa-image" id="comunicados-pv-wa-image" alt="Imagem do comunicado"><div id="comunicados-pv-wa-message">Olá!<br>Seja bem-vindo(a) à Comunidade Asserth.<br><br>Este é o nosso grupo oficial de avisos.</div><div class="pv-wa-time" id="comunicados-pv-wa-time">09:00 ✓✓</div></div></div></div></div><div class="pv-native-actions"><a id="comunicados-pv-preview-back" href="#">Fechar</a></div></div></section>
+  <section class="pv-native-panel" id="comunicados-pv-comm-preview"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Prévia no WhatsApp</h2></div><a class="pv-native-close" id="comunicados-pv-preview-close" href="#">×</a></div><div class="pv-native-body"><div class="pv-whatsapp"><div class="pv-wa-body"><div class="pv-wa-bubble"><img class="pv-wa-image" id="comunicados-pv-wa-image" alt="Imagem do comunicado"><div id="comunicados-pv-wa-message"></div><div class="pv-wa-time" id="comunicados-pv-wa-time">09:00 ✓✓</div></div></div></div></div><div class="pv-native-actions"><a id="comunicados-pv-preview-back" href="#">Fechar</a></div></div></section>
 </section>
 <script>
 (function(){
@@ -1842,6 +1842,15 @@ html>body{padding:0}
         switch(String(dbStatus||'').toUpperCase()){
           case 'AGUARDANDO_APROVACAO': return 'pending';
           case 'PENDENTE': return 'scheduled';
+          // 'PROCESSANDO' é gravado pelo próprio workflow n8n "Disparo de
+          // Comunicados da Comunidade" (nó "Marcar Processando") no
+          // instante em que pega o disparo da fila, antes de confirmar
+          // sucesso/erro - não existia nas telas conectadas até agora.
+          // Mapeado para 'scheduled' (mesmo rótulo/cor de "Agendado") em
+          // vez de cair no default 'pending', que erradamente sugeriria
+          // que o comunicado ainda aguarda aprovação enquanto ele já está
+          // sendo enviado neste exato momento.
+          case 'PROCESSANDO': return 'scheduled';
           case 'ENVIADO': return 'sent';
           case 'ERRO': return 'error';
           case 'REJEITADO': return 'rejected';
@@ -1912,7 +1921,13 @@ html>body{padding:0}
       document.getElementById('comunicados-pv-clear-filters').addEventListener('click',function(e){e.preventDefault();['comunicados-pv-filter-month','comunicados-pv-filter-status','comunicados-pv-filter-campaign','comunicados-pv-filter-group','comunicados-pv-filter-start','comunicados-pv-filter-end'].forEach(function(id){document.getElementById(id).value=''});filtered=records.slice();currentPage=1;render();location.hash=''});
       const type=document.getElementById('comunicados-pv-comm-type'),imageFields=document.getElementById('comunicados-pv-image-fields'),message=document.getElementById('comunicados-pv-message'),label=document.getElementById('comunicados-pv-message-label'),rule=document.getElementById('comunicados-pv-message-rule'),count=document.getElementById('comunicados-pv-char-count');
       const sendDate=document.getElementById('comunicados-pv-send-date'),sendTime=document.getElementById('comunicados-pv-send-time'),scheduleError=document.getElementById('comunicados-pv-schedule-error');
-      const imageFile=document.getElementById('comunicados-pv-image-file'),uploadName=document.getElementById('comunicados-pv-upload-name'),picker=document.getElementById('comunicados-pv-group-picker'),control=document.getElementById('comunicados-pv-group-control'),checks=Array.from(document.querySelectorAll('#comunicados-pv-group-menu input')),recurrence=document.getElementById('comunicados-pv-recurrence'),recurrenceEnd=document.getElementById('comunicados-pv-recurrence-end'),recurrenceUntil=document.getElementById('comunicados-pv-recurrence-until'),recurrenceNote=document.getElementById('comunicados-pv-recurrence-note');
+      const imageFile=document.getElementById('comunicados-pv-image-file'),uploadName=document.getElementById('comunicados-pv-upload-name'),picker=document.getElementById('comunicados-pv-group-picker'),control=document.getElementById('comunicados-pv-group-control'),groupMenu=document.getElementById('comunicados-pv-group-menu'),recurrence=document.getElementById('comunicados-pv-recurrence'),recurrenceEnd=document.getElementById('comunicados-pv-recurrence-end'),recurrenceUntil=document.getElementById('comunicados-pv-recurrence-until'),recurrenceNote=document.getElementById('comunicados-pv-recurrence-note');
+      let checks=Array.from(groupMenu.querySelectorAll('input'));
+      // grupoIdPorNome: preenchido só se a tabela real de grupos (ver
+      // tentativaCarregarGruposReais abaixo) existir e tiver linhas. Sem
+      // isso, continua tudo exatamente como já era (grupo_id ausente do
+      // cadastro, checkbox estático com os 10 nomes do mockup).
+      let grupoIdPorNome={};
       function pad(value){return String(value).padStart(2,'0')}
       function iso(date){return date.getFullYear()+'-'+pad(date.getMonth()+1)+'-'+pad(date.getDate())}
       function nextAllowed(){let value=new Date(Date.now()+5*60000);if(value.getDay()===6){value.setDate(value.getDate()+2);value.setHours(9,0,0,0)}if(value.getDay()===0){value.setDate(value.getDate()+1);value.setHours(9,0,0,0)}return value}
@@ -1942,12 +1957,60 @@ html>body{padding:0}
       function formatted(value){return escapeHtml(value).split('\n').map(function(line){const list=line.startsWith('• ');if(list)line=line.slice(2);line=line.replace(/\*([^*\n]+?)\*/g,'<strong>$1</strong>').replace(/_([^_\n]+?)_/g,'<em>$1</em>').replace(/~([^~\n]+?)~/g,'<s>$1</s>');return '<div class="pv-wa-line'+(list?' pv-wa-list':'')+'">'+(line||'&nbsp;')+'</div>'}).join('')}
       function selectedGroups(){return checks.filter(function(c){return c.checked}).map(function(c){return c.value})}
       function renderGroups(){const groups=selectedGroups();control.innerHTML=groups.map(function(g){return '<span class="pv-group-chip">'+escapeHtml(g)+'</span>'}).join('')||'<span style="color:var(--pv-muted);font-size:9px">Selecione um ou mais grupos</span>'}
-      control.addEventListener('click',function(){picker.classList.toggle('is-open')});checks.forEach(function(c){c.addEventListener('change',renderGroups)});document.addEventListener('click',function(e){if(!picker.contains(e.target))picker.classList.remove('is-open')});renderGroups();
+      function bindGroupChecks(){checks=Array.from(groupMenu.querySelectorAll('input'));checks.forEach(function(c){c.addEventListener('change',renderGroups)});renderGroups()}
+      control.addEventListener('click',function(){picker.classList.toggle('is-open')});bindGroupChecks();document.addEventListener('click',function(e){if(!picker.contains(e.target))picker.classList.remove('is-open')});
+      // Tenta substituir a lista estática de 10 grupos (herdada do mockup,
+      // nunca ligada a um id real de WhatsApp) pelos grupos cadastrados de
+      // verdade na tabela `comunidades.grupos_whatsapp` (ver
+      // supabase_migration_grupos.sql). Se a tabela não existir ainda, vier
+      // vazia, ou a consulta falhar por qualquer motivo, a lista estática
+      // atual continua exatamente como está - isto é só um reforço, nunca
+      // uma dependência para o cadastro funcionar.
+      (function tentativaCarregarGruposReais(){
+        // Try/catch envolvendo tudo, inclusive a montagem da consulta:
+        // isto é um reforço opcional, nunca pode derrubar o resto do
+        // init() da tela (cadastro/listagem de comunicados) se alguma
+        // chamada aqui falhar de um jeito inesperado.
+        try{
+          const supaClient=window.AsserthSupabase;
+          if(!supaClient)return;
+          supaClient.from('grupos_whatsapp').select('id,nome').eq('ativo',true).then(function(resposta){
+            if(!resposta||resposta.error||!Array.isArray(resposta.data)||!resposta.data.length)return;
+            const marcados=new Set(selectedGroups());
+            grupoIdPorNome={};
+            groupMenu.innerHTML=resposta.data.map(function(g){
+              grupoIdPorNome[g.nome]=g.id;
+              const marcado=marcados.size?marcados.has(g.nome):false;
+              return '<label><input type="checkbox" value="'+escapeHtml(g.nome)+'"'+(marcado?' checked':'')+'>'+escapeHtml(g.nome)+'</label>';
+            }).join('');
+            bindGroupChecks();
+          }).catch(function(err){console.error('[Comunicados] não foi possível carregar grupos reais (mantendo lista padrão):',err)});
+        }catch(err){console.error('[Comunicados] tentativa de carregar grupos reais falhou (mantendo lista padrão):',err)}
+      })();
       function showPreview(value,time,imageSource){document.getElementById('comunicados-pv-wa-message').innerHTML=formatted(value);document.getElementById('comunicados-pv-wa-time').textContent=(time||'09:00')+' ✓✓';const img=document.getElementById('comunicados-pv-wa-image');if(objectUrl){URL.revokeObjectURL(objectUrl);objectUrl=''}let src=imageSource||'';if(!src&&type.value==='image'&&imageFile.files&&imageFile.files[0]){objectUrl=URL.createObjectURL(imageFile.files[0]);src=objectUrl}if(src){img.src=src;img.style.display='block'}else{img.removeAttribute('src');img.style.display='none'}}
       document.getElementById('comunicados-pv-preview-action').addEventListener('click',function(){previewOrigin='form';showPreview(message.value,sendTime.value,'')});
       list.addEventListener('click',function(e){const link=e.target.closest('[data-record]');if(!link)return;const r=records.find(function(item){return item.id===Number(link.dataset.record)});if(r){previewOrigin='list';showPreview(r.message,r.time,r.image||'')}});
       function closePreview(e){e.preventDefault();location.hash=previewOrigin==='form'?'comunicados-pv-comm-new':''}
       document.getElementById('comunicados-pv-preview-close').addEventListener('click',closePreview);document.getElementById('comunicados-pv-preview-back').addEventListener('click',closePreview);
+      // Limpa o formulário de "Novo comunicado" depois de um cadastro bem
+      // sucedido, para que o próximo comunicado comece com os campos
+      // vazios (não deve reaparecer texto do envio anterior).
+      const nameField=document.getElementById('comunicados-pv-comm-name'),observacaoBox=document.querySelector('#comunicados-pv-comm-form .pv-message-box');
+      function resetForm(){
+        nameField.value='';
+        message.value='';
+        updateType();
+        if(observacaoBox)observacaoBox.value='';
+        checks.forEach(function(c){c.checked=false});
+        renderGroups();
+        recurrence.value='once';
+        updateRecurrence();
+        const reset=nextAllowed();
+        sendDate.value=iso(reset);sendTime.value=pad(reset.getHours())+':'+pad(reset.getMinutes());
+        sendCalendar.refresh();untilCalendar.refresh();
+        recurrenceUntil.value='';
+        validate();
+      }
       // Cadastro real: insere 1 linha por grupo selecionado na tabela
       // comunicacoes, sempre com status AGUARDANDO_APROVACAO (a aprovação
       // em si é feita na aba Aprovações, não aqui). Mesmo `codigo` em
@@ -1973,7 +2036,14 @@ html>body{padding:0}
           return;
         }
         const grupos=selectedGroups();
-        const codigo='CM-'+Date.now().toString(36).toUpperCase();
+        // Formato do código alinhado ao que o workflow n8n "Cadastro de
+        // Comunicados" já gera (nó "Gerar Código Comunicação"):
+        // COM-AAAAMMDD-XXXXXX. Antes esta tela gerava um formato próprio
+        // (CM-<timestamp em base36>), o que deixava registros da
+        // plataforma com uma convenção de código diferente dos registros
+        // criados via n8n na mesma tabela.
+        const agora=new Date();
+        const codigo='COM-'+agora.getFullYear()+String(agora.getMonth()+1).padStart(2,'0')+String(agora.getDate()).padStart(2,'0')+'-'+Date.now().toString().slice(-6);
         const nome=(document.getElementById('comunicados-pv-comm-name').value||'').trim();
         const tipo=type.value==='image'?'imagem':'texto';
         const observacaoField=document.querySelector('#comunicados-pv-comm-form .pv-message-box');
@@ -1985,28 +2055,115 @@ html>body{padding:0}
         // outro fuso.
         const dataDisparo=sendDate.value+'T'+(sendTime.value||'00:00')+':00-03:00';
         const usuarioId=(window.AsserthSession&&window.AsserthSession.user&&window.AsserthSession.user.id)||null;
-        // url_imagem fica sempre null: não há Storage configurado no
-        // Supabase ainda, então o upload de arquivo não é implementado
-        // nesta rodada (ver BUILD_NOTES.md - pendência documentada).
-        const linhas=grupos.map(function(grupo){
-          return{codigo:codigo,nome:nome,tipo:tipo,mensagem:message.value,url_imagem:null,grupos_destino:grupos,data_disparo:dataDisparo,status:'AGUARDANDO_APROVACAO',criado_por:usuarioId,observacao:observacao,grupo_id:null,grupo_nome:grupo};
-        });
+        // grupo_id fica de fora do payload (em vez de enviado como null):
+        // ainda não há um mapeamento real de nome de grupo -> id de
+        // WhatsApp na tabela comunidades (ver BUILD_NOTES.md - pendência
+        // documentada, depende da resposta da Ana sobre o modelo real de
+        // grupos). Omitir a chave (em vez de forçar null) evita
+        // sobrescrever um DEFAULT/derivação que a coluna possa ter no
+        // banco real, caso exista. `url_imagem` agora É enviado quando o
+        // comunicado é do tipo imagem - ver upload para o Storage abaixo.
+        //
+        // chave_unica e tentativas: incluídos agora porque o workflow n8n
+        // "Cadastro de Comunicados" (nó "Inserir Comunicação") sempre
+        // grava essas duas colunas - `chave_unica` inclusive é usada por
+        // esse mesmo workflow para detectar duplicidade antes de inserir
+        // ("Consultar Comunicação"). Sem o id real do grupo (mesma
+        // pendência do grupo_id acima), a chave é montada com o NOME do
+        // grupo em vez do id - aproximação documentada; alinhar para usar
+        // o id real assim que a aba Grupos expuser essa informação.
         const registerLink=event.currentTarget;
         registerLink.style.pointerEvents='none';
         scheduleError.style.color='var(--pv-muted)';
-        scheduleError.textContent='Enviando comunicado para aprovação...';
+        scheduleError.textContent=tipo==='imagem'?'Enviando imagem...':'Enviando comunicado para aprovação...';
         if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError);
+        // Upload da imagem para o Supabase Storage (bucket público
+        // "comunicados-imagens" - ver supabase_migration_storage.sql):
+        // a Z-API exige uma URL pública de verdade em `url_imagem`
+        // (confirmado no nó "Z-API | Enviar Imagem" do workflow de
+        // Disparo), então subimos o arquivo aqui e gravamos a URL
+        // definitiva ANTES do insert, em vez de depender de uma URL
+        // temporária de qualquer origem externa. Se o bucket ainda não
+        // existir no projeto (migração de Storage não rodada), o upload
+        // falha com um erro claro e o cadastro é interrompido antes de
+        // criar um comunicado do tipo imagem sem imagem de verdade.
+        let urlImagem=null;
+        if(tipo==='imagem'){
+          const arquivo=imageFile.files&&imageFile.files[0];
+          if(!arquivo){
+            registerLink.style.pointerEvents='';
+            scheduleError.style.color='#b42332';
+            scheduleError.textContent='Selecione o arquivo da imagem.';
+            if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError);
+            return;
+          }
+          const extensao=(arquivo.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'')||'jpg';
+          const caminho=codigo+'/'+Date.now()+'.'+extensao;
+          try{
+            const uploadResposta=await supaClient.storage.from('comunicados-imagens').upload(caminho,arquivo,{contentType:arquivo.type||undefined,upsert:false});
+            if(uploadResposta&&uploadResposta.error){
+              console.error('[Comunicados] erro ao subir imagem:',uploadResposta.error);
+              registerLink.style.pointerEvents='';
+              scheduleError.style.color='#b42332';
+              scheduleError.textContent='Não foi possível enviar a imagem: '+(uploadResposta.error.message||'tente novamente.');
+              if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError);
+              return;
+            }
+            const publicUrlResposta=supaClient.storage.from('comunicados-imagens').getPublicUrl(caminho);
+            urlImagem=publicUrlResposta&&publicUrlResposta.data&&publicUrlResposta.data.publicUrl||null;
+          }catch(err){
+            console.error('[Comunicados] falha inesperada ao subir imagem:',err);
+            registerLink.style.pointerEvents='';
+            scheduleError.style.color='#b42332';
+            scheduleError.textContent='Não foi possível enviar a imagem. Tente novamente.';
+            if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError);
+            return;
+          }
+          scheduleError.style.color='var(--pv-muted)';
+          scheduleError.textContent='Enviando comunicado para aprovação...';
+          if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError);
+        }
+        const linhas=grupos.map(function(grupo){
+          // grupoIdPorNome só tem entradas se a tabela real de grupos
+          // (comunidades.grupos_whatsapp) existir e estiver populada -
+          // ver tentativaCarregarGruposReais() acima. Quando existe, a
+          // chave única passa a usar o id real do grupo (igual ao que o
+          // workflow n8n já faz); quando não, cai na mesma aproximação
+          // por nome de sempre.
+          const grupoId=grupoIdPorNome[grupo]||null;
+          const chaveUnica=(nome.toUpperCase()+'|'+dataDisparo.slice(0,10)+'|'+String(grupoId||grupo).toUpperCase());
+          const linha={codigo:codigo,nome:nome,tipo:tipo,mensagem:message.value,grupos_destino:grupos,data_disparo:dataDisparo,status:'AGUARDANDO_APROVACAO',tentativas:0,criado_por:usuarioId,observacao:observacao,grupo_nome:grupo,chave_unica:chaveUnica};
+          if(grupoId)linha.grupo_id=grupoId;
+          if(urlImagem)linha.url_imagem=urlImagem;
+          return linha;
+        });
+        // Detalhe do erro real do Postgres/Supabase: sem acesso direto ao
+        // banco neste ambiente de desenvolvimento (rede bloqueada até o
+        // Supabase), a única forma de diagnosticar por que um cadastro
+        // falha é expor aqui a mensagem que o próprio banco devolve
+        // (violação de NOT NULL, de chave estrangeira, de RLS, etc.) -
+        // são mensagens operacionais, não segredos. Isso substitui o
+        // texto genérico anterior, que escondia a causa real do erro.
+        function mensagemErro(error){
+          if(!error)return 'Não foi possível cadastrar o comunicado. Tente novamente.';
+          const partes=[error.message,error.details,error.hint].filter(Boolean);
+          return 'Não foi possível cadastrar o comunicado'+(partes.length?': '+partes.join(' — '):'. Tente novamente.');
+        }
         try{
           const resposta=await supaClient.from('comunicacoes').insert(linhas);
           registerLink.style.pointerEvents='';
           if(resposta&&resposta.error){
             console.error('[Comunicados] erro ao cadastrar:',resposta.error);
             scheduleError.style.color='#b42332';
-            scheduleError.textContent='Não foi possível cadastrar o comunicado. Tente novamente.';
+            scheduleError.textContent=mensagemErro(resposta.error);
             if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError);
-            showToast('Não foi possível cadastrar o comunicado agora. Tente novamente.');
+            showToast(mensagemErro(resposta.error));
             return;
           }
+          resetForm();
+          // resetForm() já chama validate() internamente (para o novo
+          // formulário em branco), o que sobrescreveria esta mensagem de
+          // sucesso se ela fosse definida antes - por isso vem depois.
           scheduleError.style.color='var(--pv-green)';
           scheduleError.textContent='Comunicado validado e pronto para encaminhamento à aprovação.';
           if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError);
@@ -2016,9 +2173,9 @@ html>body{padding:0}
           registerLink.style.pointerEvents='';
           console.error('[Comunicados] falha inesperada ao cadastrar:',err);
           scheduleError.style.color='#b42332';
-          scheduleError.textContent='Não foi possível cadastrar o comunicado. Tente novamente.';
+          scheduleError.textContent=mensagemErro(err);
           if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError);
-          showToast('Não foi possível cadastrar o comunicado agora. Tente novamente.');
+          showToast(mensagemErro(err));
         }
       });
       loadRecords();
@@ -2129,36 +2286,147 @@ html>body{padding:0}
       <section class="pv-native-panel" id="aprovacoes-pa-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar aprovações</h2><p>Os resultados respeitam as áreas e grupos autorizados para o seu acesso.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="aprovacoes-pa-filter-grid"><div class="pv-native-field"><label>Status</label><select id="aprovacoes-pa-filter-status"><option value="">Todos</option><option value="pending">Aguardando aprovação</option><option value="approved">Aprovado</option><option value="rejected">Reprovado</option></select></div><div class="pv-native-field"><label>Grupo</label><select id="aprovacoes-pa-filter-group"><option value="">Todos os grupos autorizados</option><option>Avisos</option><option>Financeiro</option><option>Departamento Pessoal</option><option>Tecnologia</option></select></div><div class="pv-native-field"><label>Campanha</label><select id="aprovacoes-pa-filter-campaign"><option value="">Todas</option><option>Integração Agosto 2026</option><option>Benefícios 2026</option><option>Sem campanha</option></select></div><div class="pv-native-field"><label>Criado por</label><input id="aprovacoes-pa-filter-author" placeholder="Digite o nome"></div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" id="aprovacoes-pa-clear" href="#">Limpar</a><a id="aprovacoes-pa-apply" href="#">Aplicar filtros</a></div></div></section>
       <section class="pv-native-panel" id="aprovacoes-pa-review"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Revisar comunicado</h2><p>Confira o conteúdo exatamente como será enviado antes de decidir.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pa-review-summary"><div class="pa-review-line"><div class="pa-review-item"><span>Comunicação</span><strong id="aprovacoes-pa-review-title"></strong></div><div class="pa-review-item"><span>Criado por</span><strong id="aprovacoes-pa-review-author"></strong></div></div><div class="pa-review-line"><div class="pa-review-item"><span>Grupo e campanha</span><strong id="aprovacoes-pa-review-context"></strong></div><div class="pa-review-item"><span>Disparo programado</span><strong id="aprovacoes-pa-review-schedule"></strong></div></div></div><div class="pa-preview-label"><strong>Prévia da mensagem</strong><span>Visualização no WhatsApp</span></div><div class="pv-whatsapp"><div class="pv-wa-body"><div class="pv-wa-bubble"><div id="aprovacoes-pa-review-message"></div><div class="pv-wa-time" id="aprovacoes-pa-review-time"></div></div></div></div><div class="aprovacoes-pa-audit" id="aprovacoes-pa-review-audit" hidden></div></div><div class="pa-decision-actions" id="aprovacoes-pa-review-actions"><button type="button" class="reject" id="aprovacoes-pa-reject-open">Reprovar</button><button type="button" class="approve" id="aprovacoes-pa-approve">Aprovar comunicado</button></div></div></section>
       <section class="pv-native-panel" id="aprovacoes-pa-reject"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Reprovar comunicado</h2><p>A justificativa será registrada e encaminhada ao responsável pela criação.</p></div><a class="pv-native-close" href="#aprovacoes-pa-review">×</a></div><div class="pv-native-body"><label style="font-size:9px;font-weight:500">Motivo da reprovação *</label><textarea class="pa-reason" id="aprovacoes-pa-reject-reason" placeholder="Explique objetivamente o que precisa ser revisto."></textarea><div class="pa-error" id="aprovacoes-pa-reject-error"></div></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#aprovacoes-pa-review">Voltar</a><a id="aprovacoes-pa-reject-confirm" href="#">Confirmar reprovação</a></div></div></section>
+      <div class="pv-toast" id="aprovacoes-pv-toast"><i data-lucide="info" aria-hidden="true"></i><span></span></div>
 </section>
 <script>
 (function(){
   window.AsserthViews = window.AsserthViews || {};
   window.AsserthViews['aprovacoes'] = {
     init: function() {
-      // Código original do último bloco <script> do mockup-fonte (o único que
-      // efetivamente implementa a tela de Aprovações: fila, filtro, revisão,
-      // aprovar/reprovar). Todos os ids desta tela vinham com o prefixo "pa-"
-      // no arquivo original e foram renomeados para "aprovacoes-pa-*" para
-      // ficar consistente com o padrão de prefixo usado nas outras 8 telas
-      // extraídas (ver aprovacoes.notes.md). As classes (.pv-comm-row,
-      // .pa-actions, .aprovacoes-pa-audit etc.) não foram alteradas. Lógica preservada
-      // tal como no original, apenas movida para dentro deste init().
-      const data=[
-        {id:1,title:'Boas-vindas aos novos membros',campaign:'Integração Agosto 2026',group:'Avisos',author:'Mariana Costa',date:'2026-08-20',time:'14:00',status:'pending',message:'Olá!\nSeja bem-vindo(a) à *Comunidade Asserth*.\n\nEste é o nosso grupo oficial de avisos.'},
-        {id:2,title:'Atualização de benefícios',campaign:'Benefícios 2026',group:'Avisos',author:'Carla Mendes',date:'2026-08-21',time:'10:30',status:'pending',message:'*Atualização de benefícios*\nConfira as novas orientações disponíveis.'},
-        {id:3,title:'Prazo para notas fiscais',campaign:'Sem campanha',group:'Financeiro',author:'Rafael Lima',date:'2026-08-24',time:'09:00',status:'pending',message:'📢 *ATENÇÃO!*\nO prazo para envio da nota fiscal termina hoje.'},
-        {id:4,title:'Fechamento da folha',campaign:'Sem campanha',group:'Departamento Pessoal',author:'Juliana Alves',date:'2026-08-25',time:'11:00',status:'approved',message:'O fechamento da folha foi confirmado.'},
-        {id:5,title:'Manutenção programada',campaign:'Sem campanha',group:'Tecnologia',author:'Pedro Souza',date:'2026-08-18',time:'18:00',status:'rejected',message:'A manutenção será realizada após o expediente.',decisionBy:'Ana Silva',decisionAt:'20/08/2026 09:18',reason:'Horário e impacto da indisponibilidade não foram informados.'},
-        {id:6,title:'Pesquisa de experiência',campaign:'Sem campanha',group:'Avisos',author:'Mariana Costa',date:'2026-08-26',time:'15:00',status:'approved',message:'Sua opinião é importante. Participe da pesquisa.'},
-        {id:7,title:'Orientações comerciais',campaign:'Sem campanha',group:'Avisos',author:'Carla Mendes',date:'2026-08-27',time:'08:30',status:'rejected',message:'Confira as orientações desta semana.',decisionBy:'Ana Silva',decisionAt:'19/08/2026 16:40',reason:'O grupo de destino precisa ser corrigido.'}
-      ];
-      const labels={pending:['Aguardando aprovação','pending'],approved:['Aprovado','approved'],rejected:['Reprovado','rejected']};let filtered=data.slice(),page=1,selected=null;const size=4,list=document.getElementById('aprovacoes-pa-list'),pages=document.getElementById('aprovacoes-pa-pages');
-      function esc(v){return String(v||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}function fmt(v){return esc(v).replace(/\*([^*\n]+)\*/g,'<strong>$1</strong>').replace(/_([^_\n]+)_/g,'<em>$1</em>').replace(/~([^~\n]+)~/g,'<s>$1</s>').replace(/\n/g,'<br>')}function date(v){const p=v.split('-');return p[2]+'/'+p[1]+'/'+p[0]}
-      function render(){const total=Math.max(1,Math.ceil(filtered.length/size));if(page>total)page=total;const start=(page-1)*size,rows=filtered.slice(start,start+size);list.innerHTML=rows.length?rows.map(r=>{const s=labels[r.status],stateClass=r.status==='pending'?'is-pending':r.status==='approved'?'is-sent':'is-error';return '<div class="pv-comm-row"><div><strong>'+esc(r.title)+'</strong><span>'+esc(r.campaign)+' · criado por '+esc(r.author)+'</span></div><div class="pv-comm-cell">'+esc(r.group)+'</div><div class="pv-comm-cell">'+date(r.date)+' · '+r.time+'</div><div class="pv-comm-state"><span class="pv-comm-status '+stateClass+'">'+s[0]+'</span></div><a class="pv-comm-view" href="#aprovacoes-pa-review" data-review="'+r.id+'">'+(r.status==='pending'?'Analisar':'Visualizar')+' →</a></div>'}).join(''):'<div style="padding:30px;text-align:center;color:var(--pv-muted);font-size:9px">Nenhum comunicado encontrado.</div>';document.getElementById('aprovacoes-pa-result-label').textContent=filtered.length+' registros';document.getElementById('aprovacoes-pa-page-summary').textContent=filtered.length?(start+1)+'–'+(start+rows.length)+' de '+filtered.length:'0 registros';['pending','approved','rejected'].forEach(s=>document.getElementById('aprovacoes-pa-count-'+s).textContent=filtered.filter(r=>r.status===s).length);const next=filtered.filter(r=>r.status==='pending').sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time))[0];document.getElementById('aprovacoes-pa-next-time').textContent=next?next.time:'—';const nextDateEl=document.getElementById('aprovacoes-pa-next-date');nextDateEl.textContent=next?date(next.date)+' · '+next.group:'sem pendências';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(nextDateEl);pages.innerHTML='';for(let p=1;p<=total;p++){const b=document.createElement('button');b.textContent=p;if(p===page)b.className='is-current';b.onclick=()=>{page=p;render()};pages.appendChild(b)}}
-      function openReview(r){selected=r;document.getElementById('aprovacoes-pa-review-title').textContent=r.title;document.getElementById('aprovacoes-pa-review-author').textContent=r.author;document.getElementById('aprovacoes-pa-review-context').textContent=r.group+' · '+r.campaign;document.getElementById('aprovacoes-pa-review-schedule').textContent=date(r.date)+' às '+r.time;document.getElementById('aprovacoes-pa-review-message').innerHTML=fmt(r.message);document.getElementById('aprovacoes-pa-review-time').textContent=r.time+' ✓✓';const actions=document.getElementById('aprovacoes-pa-review-actions'),audit=document.getElementById('aprovacoes-pa-review-audit');actions.hidden=r.status!=='pending';audit.hidden=r.status==='pending';if(r.status!=='pending')audit.innerHTML='<strong>Decisão registrada:</strong> '+labels[r.status][0]+' por '+esc(r.decisionBy||'Ana Silva')+' em '+esc(r.decisionAt||'agora')+(r.reason?'<br><strong>Justificativa:</strong> '+esc(r.reason):'');location.hash='aprovacoes-pa-review'}
-      list.addEventListener('click',e=>{const b=e.target.closest('[data-review]');if(b)openReview(data.find(r=>r.id===Number(b.dataset.review)))});
-      document.getElementById('aprovacoes-pa-approve').onclick=()=>{if(!selected||selected.status!=='pending')return;selected.status='approved';selected.decisionBy='Ana Silva';selected.decisionAt=new Date().toLocaleString('pt-BR');render();openReview(selected)};document.getElementById('aprovacoes-pa-reject-open').onclick=()=>{document.getElementById('aprovacoes-pa-reject-reason').value='';document.getElementById('aprovacoes-pa-reject-error').textContent='';location.hash='aprovacoes-pa-reject'};document.getElementById('aprovacoes-pa-reject-confirm').onclick=e=>{e.preventDefault();const reason=document.getElementById('aprovacoes-pa-reject-reason').value.trim();if(!reason){const rejectError=document.getElementById('aprovacoes-pa-reject-error');rejectError.textContent='Informe o motivo da reprovação.';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(rejectError);return}selected.status='rejected';selected.reason=reason;selected.decisionBy='Ana Silva';selected.decisionAt=new Date().toLocaleString('pt-BR');render();openReview(selected)};
-      document.getElementById('aprovacoes-pa-apply').onclick=e=>{e.preventDefault();const s=document.getElementById('aprovacoes-pa-filter-status').value,g=document.getElementById('aprovacoes-pa-filter-group').value,c=document.getElementById('aprovacoes-pa-filter-campaign').value,a=document.getElementById('aprovacoes-pa-filter-author').value.toLowerCase();filtered=data.filter(r=>(!s||r.status===s)&&(!g||r.group===g)&&(!c||r.campaign===c)&&(!a||r.author.toLowerCase().includes(a)));page=1;render();location.hash=''};document.getElementById('aprovacoes-pa-clear').onclick=e=>{e.preventDefault();['aprovacoes-pa-filter-status','aprovacoes-pa-filter-group','aprovacoes-pa-filter-campaign','aprovacoes-pa-filter-author'].forEach(id=>document.getElementById(id).value='');filtered=data.slice();page=1;render();location.hash=''};render();
+      // Dados reais (Supabase, tabela comunidades.comunicacoes) - mesma
+      // tabela que a aba Comunicados lê/grava. Cada linha aqui é 1 grupo
+      // de 1 comunicado (mesmo modelo 1:1 já usado em Comunicados) - uma
+      // aprovação/reprovação decide 1 linha por vez, não o comunicado
+      // inteiro de uma vez quando ele tem múltiplos grupos. Ver
+      // BUILD_NOTES.md item 15 para a decisão completa.
+      let data=[];
+      const labels={pending:['Aguardando aprovação','pending'],approved:['Aprovado','approved'],rejected:['Reprovado','rejected']};
+      let filtered=data.slice(),page=1,selected=null;
+      const size=4,list=document.getElementById('aprovacoes-pa-list'),pages=document.getElementById('aprovacoes-pa-pages');
+      const toastEl=document.getElementById('aprovacoes-pv-toast')||null,toastText=toastEl?toastEl.querySelector('span'):null;
+      function showToast(msg){if(!toastEl||!toastText)return;toastText.textContent=msg;toastEl.classList.add('is-visible');setTimeout(()=>toastEl.classList.remove('is-visible'),5000)}
+      function esc(v){return String(v||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}function fmt(v){return esc(v).replace(/\*([^*\n]+)\*/g,'<strong>$1</strong>').replace(/_([^_\n]+)_/g,'<em>$1</em>').replace(/~([^~\n]+)~/g,'<s>$1</s>').replace(/\n/g,'<br>')}function date(v){if(!v)return '—';const p=v.split('-');return p[2]+'/'+p[1]+'/'+p[0]}
+      function pad(n){return String(n).padStart(2,'0')}
+      // Mapeamento de status real -> os 3 estados visuais que esta tela já
+      // tinha (pending/approved/rejected). Tudo que já passou da
+      // aprovação (PENDENTE/PROCESSANDO/ENVIADO/ERRO) conta como
+      // "aprovado" aqui - a decisão de aprovar já foi tomada, o que
+      // acontece depois (disparo, erro de envio) é acompanhado na aba
+      // Comunicados, não aqui.
+      function mapStatus(dbStatus){
+        switch(String(dbStatus||'').toUpperCase()){
+          case 'AGUARDANDO_APROVACAO': return 'pending';
+          case 'REJEITADO': case 'CANCELADO': return 'rejected';
+          default: return 'approved';
+        }
+      }
+      function splitDisparo(value){
+        if(!value)return{date:'',time:''};
+        const parsed=new Date(value);
+        if(!isNaN(parsed.getTime()))return{date:parsed.getFullYear()+'-'+pad(parsed.getMonth()+1)+'-'+pad(parsed.getDate()),time:pad(parsed.getHours())+':'+pad(parsed.getMinutes())};
+        const raw=String(value).split(/[T ]/);
+        return{date:raw[0]||'',time:(raw[1]||'').slice(0,5)};
+      }
+      function mapRow(row){
+        const parts=splitDisparo(row.data_disparo);
+        const decisionAt=row.aprovado_em||row.rejeitado_em;
+        return{
+          id:row.id,
+          title:row.nome||'(sem nome)',
+          campaign:'Código '+(row.codigo||'—'),
+          group:row.grupo_nome||'—',
+          author:row.criado_por||'—',
+          date:parts.date,
+          time:parts.time,
+          status:mapStatus(row.status),
+          rawStatus:row.status,
+          message:row.mensagem||'',
+          reason:row.motivo_rejeicao||'',
+          decisionAt:decisionAt?new Date(decisionAt).toLocaleString('pt-BR'):''
+        };
+      }
+      function loadRecords(){
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient){showToast('Não foi possível conectar ao serviço de aprovações.');data=[];filtered=[];page=1;render();return Promise.resolve()}
+        return supaClient.from('comunicacoes').select('*').order('data_disparo',{ascending:true}).then(function(resposta){
+          if(resposta&&resposta.error){
+            console.error('[Aprovações] erro ao carregar:',resposta.error);
+            showToast('Não foi possível carregar as aprovações agora. Tente novamente em instantes.');
+            data=[];filtered=[];page=1;render();
+            return;
+          }
+          data=(resposta&&resposta.data||[]).map(mapRow);
+          filtered=data.slice();page=1;render();
+        }).catch(function(err){
+          console.error('[Aprovações] falha inesperada ao carregar:',err);
+          showToast('Não foi possível carregar as aprovações agora. Tente novamente em instantes.');
+          data=[];filtered=[];page=1;render();
+        });
+      }
+      function render(){const total=Math.max(1,Math.ceil(filtered.length/size));if(page>total)page=total;const start=(page-1)*size,rows=filtered.slice(start,start+size);list.innerHTML=rows.length?rows.map(r=>{const s=labels[r.status],stateClass=r.status==='pending'?'is-pending':r.status==='approved'?'is-sent':'is-error';return '<div class="pv-comm-row"><div><strong>'+esc(r.title)+'</strong><span>'+esc(r.campaign)+'</span></div><div class="pv-comm-cell">'+esc(r.group)+'</div><div class="pv-comm-cell">'+date(r.date)+' · '+r.time+'</div><div class="pv-comm-state"><span class="pv-comm-status '+stateClass+'">'+s[0]+'</span></div><a class="pv-comm-view" href="#aprovacoes-pa-review" data-review="'+r.id+'">'+(r.status==='pending'?'Analisar':'Visualizar')+' →</a></div>'}).join(''):'<div style="padding:30px;text-align:center;color:var(--pv-muted);font-size:9px">Nenhum comunicado encontrado.</div>';document.getElementById('aprovacoes-pa-result-label').textContent=filtered.length+' registros';document.getElementById('aprovacoes-pa-page-summary').textContent=filtered.length?(start+1)+'–'+(start+rows.length)+' de '+filtered.length:'0 registros';['pending','approved','rejected'].forEach(s=>document.getElementById('aprovacoes-pa-count-'+s).textContent=filtered.filter(r=>r.status===s).length);const next=filtered.filter(r=>r.status==='pending').sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time))[0];document.getElementById('aprovacoes-pa-next-time').textContent=next?next.time:'—';const nextDateEl=document.getElementById('aprovacoes-pa-next-date');nextDateEl.textContent=next?date(next.date)+' · '+next.group:'sem pendências';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(nextDateEl);pages.innerHTML='';for(let p=1;p<=total;p++){const b=document.createElement('button');b.textContent=p;if(p===page)b.className='is-current';b.onclick=()=>{page=p;render()};pages.appendChild(b)}}
+      function openReview(r){selected=r;document.getElementById('aprovacoes-pa-review-title').textContent=r.title;document.getElementById('aprovacoes-pa-review-author').textContent=r.author;document.getElementById('aprovacoes-pa-review-context').textContent=r.group+' · '+r.campaign;document.getElementById('aprovacoes-pa-review-schedule').textContent=date(r.date)+' às '+r.time;document.getElementById('aprovacoes-pa-review-message').innerHTML=fmt(r.message);document.getElementById('aprovacoes-pa-review-time').textContent=r.time+' ✓✓';const actions=document.getElementById('aprovacoes-pa-review-actions'),audit=document.getElementById('aprovacoes-pa-review-audit');actions.hidden=r.status!=='pending';audit.hidden=r.status==='pending';if(r.status!=='pending')audit.innerHTML='<strong>Decisão registrada:</strong> '+labels[r.status][0]+(r.decisionAt?' em '+esc(r.decisionAt):'')+(r.reason?'<br><strong>Justificativa:</strong> '+esc(r.reason):'');location.hash='aprovacoes-pa-review'}
+      list.addEventListener('click',e=>{const b=e.target.closest('[data-review]');if(b)openReview(data.find(r=>r.id===b.dataset.review||String(r.id)===b.dataset.review))});
+      // Aprovar: AGUARDANDO_APROVACAO -> PENDENTE (o único status que o
+      // workflow n8n "Disparo de Comunicados da Comunidade" busca). É
+      // este UPDATE que efetivamente libera o disparo - sem ele, o
+      // comunicado nunca sai de AGUARDANDO_APROVACAO e o n8n nunca o
+      // encontra na consulta que faz a cada execução.
+      document.getElementById('aprovacoes-pa-approve').onclick=async function(){
+        if(!selected||selected.status!=='pending')return;
+        const supaClient=window.AsserthSupabase;
+        const usuarioId=(window.AsserthSession&&window.AsserthSession.user&&window.AsserthSession.user.id)||null;
+        if(!supaClient){showToast('Não foi possível conectar ao serviço.');return}
+        try{
+          const resposta=await supaClient.from('comunicacoes').update({status:'PENDENTE',aprovado_por:usuarioId,aprovado_em:new Date().toISOString()}).eq('id',selected.id);
+          if(resposta&&resposta.error){
+            console.error('[Aprovações] erro ao aprovar:',resposta.error);
+            showToast('Não foi possível aprovar agora: '+(resposta.error.message||'tente novamente.'));
+            return;
+          }
+          showToast('Comunicado aprovado e liberado para disparo.');
+          await loadRecords();
+          const updated=data.find(r=>r.id===selected.id);
+          if(updated)openReview(updated);
+        }catch(err){
+          console.error('[Aprovações] falha inesperada ao aprovar:',err);
+          showToast('Não foi possível aprovar agora. Tente novamente.');
+        }
+      };
+      document.getElementById('aprovacoes-pa-reject-open').onclick=()=>{document.getElementById('aprovacoes-pa-reject-reason').value='';document.getElementById('aprovacoes-pa-reject-error').textContent='';location.hash='aprovacoes-pa-reject'};
+      // Reprovar: AGUARDANDO_APROVACAO -> REJEITADO. O workflow de Disparo
+      // só busca status=PENDENTE, então um comunicado REJEITADO nunca é
+      // encontrado por ele - o envio não acontece, como pedido.
+      document.getElementById('aprovacoes-pa-reject-confirm').onclick=async function(e){
+        e.preventDefault();
+        const reason=document.getElementById('aprovacoes-pa-reject-reason').value.trim();
+        const rejectError=document.getElementById('aprovacoes-pa-reject-error');
+        if(!reason){rejectError.textContent='Informe o motivo da reprovação.';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(rejectError);return}
+        if(!selected)return;
+        const supaClient=window.AsserthSupabase;
+        const usuarioId=(window.AsserthSession&&window.AsserthSession.user&&window.AsserthSession.user.id)||null;
+        if(!supaClient){rejectError.textContent='Não foi possível conectar ao serviço.';return}
+        try{
+          const resposta=await supaClient.from('comunicacoes').update({status:'REJEITADO',rejeitado_por:usuarioId,rejeitado_em:new Date().toISOString(),motivo_rejeicao:reason}).eq('id',selected.id);
+          if(resposta&&resposta.error){
+            console.error('[Aprovações] erro ao reprovar:',resposta.error);
+            rejectError.textContent='Não foi possível reprovar agora: '+(resposta.error.message||'tente novamente.');
+            if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(rejectError);
+            return;
+          }
+          showToast('Comunicado reprovado.');
+          await loadRecords();
+          const updated=data.find(r=>r.id===selected.id);
+          location.hash='aprovacoes-pa-review';
+          if(updated)openReview(updated);
+        }catch(err){
+          console.error('[Aprovações] falha inesperada ao reprovar:',err);
+          rejectError.textContent='Não foi possível reprovar agora. Tente novamente.';
+          if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(rejectError);
+        }
+      };
+      document.getElementById('aprovacoes-pa-apply').onclick=e=>{e.preventDefault();const s=document.getElementById('aprovacoes-pa-filter-status').value,g=document.getElementById('aprovacoes-pa-filter-group').value,a=document.getElementById('aprovacoes-pa-filter-author').value.toLowerCase();filtered=data.filter(r=>(!s||r.status===s)&&(!g||r.group===g)&&(!a||String(r.author).toLowerCase().includes(a)));page=1;render();location.hash=''};document.getElementById('aprovacoes-pa-clear').onclick=e=>{e.preventDefault();['aprovacoes-pa-filter-status','aprovacoes-pa-filter-group','aprovacoes-pa-filter-campaign','aprovacoes-pa-filter-author'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});filtered=data.slice();page=1;render();location.hash=''};
+      loadRecords();
+      if(window.lucide && typeof window.lucide.createIcons==='function'){window.lucide.createIcons({ attrs: { width: 16, height: 16 } });}
     }
   };
 })();
