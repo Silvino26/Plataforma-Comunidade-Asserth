@@ -1678,7 +1678,7 @@ html>body{padding:0}
 <section id="view-visao-geral" class="view pv-main" data-view="visao-geral" hidden>
       <div class="pv-page-head"><div><span class="pv-kicker">Visão geral</span><h1>Bom dia, Ana.</h1><p>Acompanhe o que precisa de atenção e conduza as próximas ações da comunidade.</p></div><div class="pv-profile"><input class="pv-profile-toggle" id="pv-profile-toggle-visao-geral" type="checkbox"><label class="pv-profile-btn" for="pv-profile-toggle-visao-geral" aria-label="Abrir opções do usuário"><span class="pv-avatar">AS</span></label><div class="pv-profile-menu" id="pv-profile-menu-visao-geral"><div class="pv-profile-summary"><strong>Ana Silva</strong><span>Administradora · Tecnologia</span></div><a href="#pv-native-profile"><i data-lucide="user-round" aria-hidden="true"></i> Meu perfil</a><a href="#pv-native-preferences"><i data-lucide="palette" aria-hidden="true"></i> Aparência e preferências</a><a href="#pv-native-notifications"><i data-lucide="bell" aria-hidden="true"></i> Notificações</a><a href="#pv-native-logout"><i data-lucide="log-out" aria-hidden="true"></i> Sair</a></div></div></div>
       <div class="pv-statusbar" aria-label="Status geral da comunidade"><div class="pv-status-main"><span class="pv-live"></span><div><strong>Comunidade disponível</strong><span> · Todos os serviços estão operando normalmente</span></div></div><time>Atualizado hoje, 09:42</time></div>
-      <div class="pv-metrics" aria-label="Indicadores principais"><div class="pv-metric"><span>Membros confirmados</span><strong>226</strong><small>215 colaboradores · 11 gestores</small></div><div class="pv-metric"><span>Comunicados neste mês</span><strong>18</strong><small>4 próximos agendamentos</small></div><div class="pv-metric is-attention"><span>Aguardando aprovação</span><strong>3</strong><small>requerem decisão</small></div><div class="pv-metric"><span>Convites pendentes</span><strong>7</strong><small>sem reenvio automático</small></div></div>
+      <div class="pv-metrics" aria-label="Indicadores principais"><div class="pv-metric"><span>Membros confirmados</span><strong id="visao-geral-membros-total">226</strong><small id="visao-geral-membros-detalhe">215 colaboradores · 11 gestores</small></div><div class="pv-metric"><span>Comunicados neste mês</span><strong>18</strong><small>4 próximos agendamentos</small></div><div class="pv-metric is-attention"><span>Aguardando aprovação</span><strong>3</strong><small>requerem decisão</small></div><div class="pv-metric"><span>Convites pendentes</span><strong>7</strong><small>sem reenvio automático</small></div></div>
       <div class="pv-grid"><section class="pv-section"><div class="pv-section-head"><div><h2>Fila de trabalho</h2><p>Prioridades organizadas para o seu perfil de acesso.</p></div></div><div class="pv-worklist"><article class="pv-work"><span class="pv-work-icon"><i data-lucide="badge-check" aria-hidden="true"></i></span><div><strong>3 comunicados aguardam aprovação</strong><span>O mais próximo está agendado para hoje, às 14:00.</span></div><a href="#" data-view-link="aprovacoes" class="pv-tag"  data-roles="admin approver">Decidir agora</a></article><article class="pv-work"><span class="pv-work-icon"><i data-lucide="user-round-x" aria-hidden="true"></i></span><div><strong>4 membros precisam de tratamento</strong><span>Telefone ausente ou número sem WhatsApp identificado na última carga.</span></div><a href="#" data-view-link="membros" class="pv-tag"  data-roles="admin operator">Revisar dados</a></article><article class="pv-work"><span class="pv-work-icon"><i data-lucide="file-check-2" aria-hidden="true"></i></span><div><strong>Processamento de colaboradores concluído</strong><span>218 registros válidos · 5 remoções · 9 novas inclusões.</span></div><a href="#" data-view-link="processamentos" class="pv-tag is-green"  data-roles="admin">Ver resultado</a></article></div></section>
         <section class="pv-section"><div class="pv-section-head"><div><h2>Próximos envios</h2><p>Agenda do Grupo de Avisos.</p></div><a href="#" data-view-link="comunicados" class="pv-link" >Abrir em Comunicados</a></div><div class="pv-agenda"><article class="pv-event"><div class="pv-date"><strong>20</strong><span>ago</span></div><div><h3>Boas-vindas aos novos membros</h3><p>Hoje, 14:00 · Pendente de aprovação</p></div></article><article class="pv-event"><div class="pv-date"><strong>21</strong><span>ago</span></div><div><h3>Pesquisa de experiência</h3><p>Amanhã, 10:30 · Agendado</p></div></article><article class="pv-event"><div class="pv-date"><strong>24</strong><span>ago</span></div><div><h3>Comunicado institucional</h3><p>Segunda-feira, 09:00 · Rascunho</p></div></article></div></section></div>
 </section>
@@ -1696,6 +1696,39 @@ html>body{padding:0}
       // sem gatilho visível no HTML (ver visao-geral.notes.md, seção
       // "Coisas quebradas/incompletas"). Nada foi inventado aqui além deste
       // ponto de extensão, mantido por segurança para futura lógica desta view.
+      //
+      // Único ponto real de dados hoje: o card "Membros confirmados" vinha
+      // 100% fixo do mockup (226 / 215 colaboradores · 11 gestores). Como a
+      // aba Membros passou a consultar as tabelas reais `participantes` e
+      // `participantes_permanentes`, este card teria ficado incoerente com o
+      // que a Ana vê lá dentro. O reforço abaixo busca as contagens reais e
+      // substitui o texto estático só se a consulta funcionar; se falhar por
+      // qualquer motivo (RLS, schema cache, offline), o valor do mockup
+      // permanece exatamente como estava antes — nunca quebra a tela.
+      (function tentativaCarregarContagemRealDeMembros(){
+        try{
+          var supaClient=window.AsserthSupabase;
+          if(!supaClient)return;
+          Promise.all([
+            supaClient.from('participantes').select('id',{count:'exact',head:true}).in('status_inclusao',['INCLUIDO','PROTEGIDO']),
+            supaClient.from('participantes_permanentes').select('id',{count:'exact',head:true}).eq('ativo',true).in('status_inclusao',['INCLUIDO'])
+          ]).then(function(resultados){
+            var respColaboradores=resultados[0],respGestores=resultados[1];
+            if(respColaboradores&&respColaboradores.error)throw respColaboradores.error;
+            if(respGestores&&respGestores.error)throw respGestores.error;
+            var colaboradores=respColaboradores&&typeof respColaboradores.count==='number'?respColaboradores.count:null;
+            var gestores=respGestores&&typeof respGestores.count==='number'?respGestores.count:null;
+            if(colaboradores===null||gestores===null)return;
+            var totalEl=document.getElementById('visao-geral-membros-total'),detalheEl=document.getElementById('visao-geral-membros-detalhe');
+            if(totalEl)totalEl.textContent=String(colaboradores+gestores);
+            if(detalheEl)detalheEl.textContent=colaboradores+' colaboradores · '+gestores+' gestores';
+          }).catch(function(err){
+            console.error('[VisaoGeral] não foi possível carregar a contagem real de membros (mantendo valor padrão):',err);
+          });
+        }catch(err){
+          console.error('[VisaoGeral] falha inesperada ao tentar carregar a contagem real de membros:',err);
+        }
+      })();
     }
   };
 })();
@@ -1703,46 +1736,172 @@ html>body{padding:0}
 
 <section id="view-membros" class="view pv-main" data-view="membros" hidden>
 <div class="pv-page-head"><div><span class="pv-kicker">Comunidade</span><h1>Membros</h1><p>Consulte e gerencie as pessoas registradas na comunidade conforme o seu acesso.</p></div><div class="pv-comm-head-side"><div class="pv-profile"><input class="pv-profile-toggle" id="pv-profile-toggle-membros" type="checkbox"><label class="pv-profile-btn" for="pv-profile-toggle-membros" aria-label="Abrir opções do usuário"><span class="pv-avatar">AS</span></label><div class="pv-profile-menu" id="pv-profile-menu-membros"><div class="pv-profile-summary"><strong>Ana Silva</strong><span>Administradora · Tecnologia</span></div><a href="#pv-native-profile"><i data-lucide="user-round" aria-hidden="true"></i> Meu perfil</a><a href="#pv-native-preferences"><i data-lucide="palette" aria-hidden="true"></i> Aparência e preferências</a><a href="#pv-native-notifications"><i data-lucide="bell" aria-hidden="true"></i> Notificações</a><a href="#pv-native-logout"><i data-lucide="log-out" aria-hidden="true"></i> Sair</a></div></div><div class="pm-actions"><a class="pv-comm-button" href="#membros-pm-filter"><i data-lucide="sliders-horizontal"></i>Filtrar</a><button class="pv-comm-button" id="membros-pm-export"><i data-lucide="download"></i>Exportar</button></div></div></div><div class="pv-metrics"><div class="pv-metric"><span>Relação atual</span><strong id="membros-pm-total">0</strong><small>registros visíveis</small></div><div class="pv-metric"><span>Na comunidade</span><strong id="membros-pm-included">0</strong><small>presença confirmada</small></div><div class="pv-metric"><span>Convites enviados</span><strong id="membros-pm-invited">0</strong><small>aguardando entrada</small></div><div class="pv-metric"><span>Com divergência</span><strong id="membros-pm-errors">0</strong><small>precisam de tratamento</small></div></div><section class="pv-section"><div class="pv-comm-toolbar"><div><h2>Relação atual de membros</h2><p>A relação inclui pessoas confirmadas, convidadas e registros com divergência.</p></div><span class="pv-comm-cell" id="membros-pm-label"></span></div><div class="pm-list" id="membros-pm-list"></div><div class="pv-pagination"><span id="membros-pm-summary"></span><div class="pv-page-buttons" id="membros-pm-pages"></div></div></section>
-<section class="pv-native-panel" id="membros-pm-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar membros</h2><p>Localize apenas os registros necessários.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-filter-grid"><div class="pv-native-field"><label>Nome</label><input id="membros-pm-q" placeholder="Digite para pesquisar"></div><div class="pv-native-field"><label>Tipo de membro</label><select id="membros-pm-type"><option value="">Todos</option><option>Colaborador</option><option>Gestor</option><option>Prestador</option></select></div><div class="pv-native-field"><label>Status</label><select id="membros-pm-status"><option value="">Todos</option><option value="included">Incluído</option><option value="invited">Convite enviado</option><option value="error">Com divergência</option></select></div><div class="pv-native-field"><label>Grupo</label><select id="membros-pm-group"><option value="">Todos</option><option>Avisos</option><option>Financeiro</option><option>Departamento Pessoal</option></select></div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" id="membros-pm-clear" href="#">Limpar</a><a id="membros-pm-apply" href="#">Aplicar filtros</a></div></div></section><section class="pv-native-panel" id="membros-pm-detail"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Detalhes do membro</h2><p>Consulte o cadastro e gerencie grupos autorizados.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-detail-grid" id="membros-pm-detail-data"></div><h3 style="font-size:10px">Grupos vinculados</h3><div class="pm-groups-picker" id="membros-pm-groups-picker"><button class="pm-groups-trigger" id="membros-pm-groups-trigger" type="button"><span class="chips" id="membros-pm-group-chips"></span><span>⌄</span></button><div class="pm-group-list" id="membros-pm-group-list"></div></div><p class="pm-note">Avisos é obrigatório e não pode ser removido. As alterações nos demais grupos serão enviadas para execução e acompanhamento em Processamentos; elas não retiram a pessoa da comunidade.</p></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Fechar</a><a id="membros-pm-save" href="#">Salvar</a></div></div></section>
+<section class="pv-native-panel" id="membros-pm-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar membros</h2><p>Localize apenas os registros necessários.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-filter-grid"><div class="pv-native-field"><label>Nome</label><input id="membros-pm-q" placeholder="Digite para pesquisar"></div><div class="pv-native-field"><label>Tipo de membro</label><select id="membros-pm-type"><option value="">Todos</option><option>Colaborador</option><option>Gestor</option><option>Prestador</option></select></div><div class="pv-native-field"><label>Status</label><select id="membros-pm-status"><option value="">Todos</option><option value="included">Incluído</option><option value="invited">Convite enviado</option><option value="error">Com divergência</option></select></div><div class="pv-native-field"><label>Grupo</label><select id="membros-pm-group"><option value="">Todos</option><option>Avisos</option><option>Financeiro</option><option>Departamento Pessoal</option></select></div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" id="membros-pm-clear" href="#">Limpar</a><a id="membros-pm-apply" href="#">Aplicar filtros</a></div></div></section><section class="pv-native-panel" id="membros-pm-detail"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Detalhes do membro</h2><p>Consulte o cadastro e gerencie grupos autorizados.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-detail-grid" id="membros-pm-detail-data"></div><h3 style="font-size:10px">Grupos vinculados</h3><div class="pm-groups-picker" id="membros-pm-groups-picker"><button class="pm-groups-trigger" id="membros-pm-groups-trigger" type="button"><span class="chips" id="membros-pm-group-chips"></span><span>⌄</span></button><div class="pm-group-list" id="membros-pm-group-list"></div></div><p class="pm-note">Avisos é obrigatório e não pode ser removido. As alterações nos demais grupos serão enviadas para execução e acompanhamento em Processamentos; elas não retiram a pessoa da comunidade.</p></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Fechar</a><a id="membros-pm-save" href="#">Salvar</a></div></div></section><div class="pv-toast" id="membros-pm-toast"><i data-lucide="info" aria-hidden="true"></i><span></span></div>
 </section>
 <script>
 (function(){
   window.AsserthViews = window.AsserthViews || {};
   window.AsserthViews['membros'] = {
     init: function() {
-      const data=[['Ana Carolina','5511943458171','Gestor','included',['Avisos','Financeiro'],'Hoje, 09:42'],['Carlos Trucolo','5511984935025','Colaborador','included',['Avisos'],'Hoje, 09:42'],['Majory Bizzo','5511997962671','Colaborador','included',['Avisos','Departamento Pessoal'],'Hoje, 09:42'],['Alan Landim','5511995588812','Colaborador','invited',['Avisos'],'Hoje, 09:42'],['Sidney Queiroz','5511982959968','Gestor','invited',['Avisos'],'Ontem, 16:20'],['Alexandra Nappi','5511976058945','Gestor','included',['Avisos'],'Ontem, 16:20'],['Pessoa sem telefone','—','Colaborador','error',[],'20/08/2026'],['Número sem WhatsApp','5511900000000','Prestador','error',[],'20/08/2026']].map((x,i)=>({id:i+1,name:x[0],phone:x[1],type:x[2],status:x[3],groups:x[4],updated:x[5]}));
-      let filtered=[...data],page=1,selected;
-      const size=4,labels={included:'Incluído',invited:'Convite enviado',error:'Com divergência'};
+      // Fase 3 (dado real): esta aba consultava só uma lista mockada de 8
+      // pessoas (nunca ligada ao banco). Os números de "confirmados" e a
+      // relação inteira eram fixos, por isso ficaram incoerentes assim que
+      // os fluxos n8n de conciliação passaram a rodar de verdade. Agora ela
+      // busca direto de `participantes` (colaboradores/prestadores CLT,
+      // fluxo "CLT Importar e conciliar") e `participantes_permanentes`
+      // (gestores fixos, fluxo "Incluir Prestadores"), na mesma leitura
+      // direta via anon key já usada em Comunicados/Aprovações.
+      //
+      // Limitação conhecida, deixada explícita em vez de fingida: não existe
+      // hoje uma tabela real de vínculo pessoa↔grupo do WhatsApp. O filtro
+      // "Grupo" e a lista de grupos no painel de detalhes continuam na tela
+      // (para não tirar nada que já existia), mas não filtram/gravam nada de
+      // verdade ainda — "Salvar" nesse painel segue sendo só o aviso local
+      // de sempre, sem alterar o banco.
+      const STATUS_MAP={
+        INCLUIDO:{label:'Incluído',bucket:'included'},
+        PROTEGIDO:{label:'Protegido',bucket:'included'},
+        CONVITE_ENVIADO:{label:'Convite enviado',bucket:'invited'},
+        CONVITE_ENVIADO_OU_PENDENTE:{label:'Convite enviado',bucket:'invited'},
+        PENDENTE:{label:'Pendente',bucket:'invited'},
+        PENDENTE_SEM_LID:{label:'Pendente (sem WhatsApp confirmado)',bucket:'invited'},
+        ERRO:{label:'Erro de telefone',bucket:'error'},
+        ERRO_API:{label:'Erro de inclusão (API)',bucket:'error'},
+        ERRO_REMOCAO:{label:'Erro na remoção',bucket:'error'},
+        ERRO_NAO_LOCALIZADO:{label:'Não localizado',bucket:'error'},
+        NAO_CLASSIFICADO:{label:'Não classificado',bucket:'error'},
+        REMOVIDO:{label:'Removido da comunidade',bucket:'error'}
+      };
+      function escapeHtml(value){return String(value==null?'':value).replace(/[&<>]/g,function(char){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[char]})}
+      function statusInfo(raw){const key=String(raw||'').toUpperCase();return STATUS_MAP[key]||{label:raw||'Status desconhecido',bucket:'error'}}
+      function fmtDate(v){
+        if(!v)return '—';
+        const d=new Date(v);
+        if(isNaN(d.getTime()))return String(v);
+        const pad=function(n){return String(n).padStart(2,'0')};
+        return pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
+      }
+      function mapParticipante(row){
+        const info=statusInfo(row.status_inclusao);
+        return {id:'p-'+row.id,name:row.nome||'(sem nome)',phone:row.telefone||'—',type:'Colaborador',extra:row.empresa||'',statusRaw:row.status_inclusao,statusLabel:info.label,statusBucket:info.bucket,groups:[],updated:fmtDate(row.ultima_tentativa),observacao:row.observacao||'',cargo:row.cargo||'',centroCusto:row.centro_custo||''};
+      }
+      function mapPermanente(row){
+        const info=statusInfo(row.status_inclusao),tipo=row.categoria?String(row.categoria):'Gestor';
+        return {id:'g-'+row.id,name:row.nome||'(sem nome)',phone:row.telefone||'—',type:tipo,extra:tipo,statusRaw:row.status_inclusao,statusLabel:info.label,statusBucket:info.bucket,groups:[],updated:fmtDate(row.ultima_tentativa),observacao:row.observacao||'',cargo:'',centroCusto:''};
+      }
+      function toCsvValue(v){const s=v==null?'':String(v);return /[",\n;]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s}
+      function exportCsv(rows){
+        const headers=['Nome','Telefone','Tipo','Status','Empresa/Categoria','Última atualização','Observação'];
+        const lines=[headers.join(';')];
+        rows.forEach(function(m){lines.push([m.name,m.phone,m.type,m.statusLabel,m.extra||'',m.updated,m.observacao||''].map(toCsvValue).join(';'))});
+        const csv='﻿'+lines.join('\n'),blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob);
+        const pad=function(n){return String(n).padStart(2,'0')},hoje=new Date();
+        const a=document.createElement('a');
+        a.href=url;a.download='membros_comunidade_asserth_'+hoje.getFullYear()+'-'+pad(hoje.getMonth()+1)+'-'+pad(hoje.getDate())+'.csv';
+        document.body.appendChild(a);a.click();document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+      const toastEl=document.getElementById('membros-pm-toast'),toastText=toastEl?toastEl.querySelector('span'):null;
+      let toastTimer=null;
+      function showToast(msg){
+        if(!toastEl||!toastText)return;
+        toastText.textContent=msg;
+        if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(toastText);
+        toastEl.classList.add('is-visible');
+        if(toastTimer)clearTimeout(toastTimer);
+        toastTimer=setTimeout(function(){toastEl.classList.remove('is-visible')},5000);
+      }
+      let data=[],filtered=[],page=1,selected=null;
+      const size=10;
+      function popularTipos(){
+        const select=document.getElementById('membros-pm-type');
+        if(!select)return;
+        const atual=select.value;
+        const tipos=Array.from(new Set(data.map(function(m){return m.type}).filter(Boolean))).sort();
+        select.innerHTML='<option value="">Todos</option>'+tipos.map(function(t){return '<option'+(t===atual?' selected':'')+'>'+escapeHtml(t)+'</option>'}).join('');
+      }
+      function loadData(){
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient){
+          showToast('Não foi possível conectar ao serviço de membros.');
+          data=[];filtered=[];page=1;render();
+          return Promise.resolve();
+        }
+        const pParticipantes=supaClient.from('participantes').select('id,nome,cpf,empresa,cargo,centro_custo,telefone,status_inclusao,ultima_tentativa,observacao').order('nome',{ascending:true});
+        const pPermanentes=supaClient.from('participantes_permanentes').select('id,nome,telefone,categoria,ativo,status_inclusao,ultima_tentativa,observacao').eq('ativo',true).order('nome',{ascending:true});
+        return Promise.all([pParticipantes,pPermanentes]).then(function(resultados){
+          const respParticipantes=resultados[0],respPermanentes=resultados[1];
+          const linhas=[];
+          let algumErro=false;
+          if(respParticipantes&&respParticipantes.error){console.error('[Membros] erro ao carregar participantes:',respParticipantes.error);algumErro=true}
+          else if(respParticipantes&&Array.isArray(respParticipantes.data)){respParticipantes.data.forEach(function(row){linhas.push(mapParticipante(row))})}
+          if(respPermanentes&&respPermanentes.error){console.error('[Membros] erro ao carregar participantes permanentes:',respPermanentes.error);algumErro=true}
+          else if(respPermanentes&&Array.isArray(respPermanentes.data)){respPermanentes.data.forEach(function(row){linhas.push(mapPermanente(row))})}
+          if(algumErro)showToast('Alguns registros não puderam ser carregados agora. A relação pode estar incompleta.');
+          data=linhas;
+          popularTipos();
+          filtered=data.slice();
+          page=1;
+          render();
+        }).catch(function(err){
+          console.error('[Membros] falha inesperada ao carregar membros:',err);
+          showToast('Não foi possível carregar a relação de membros agora. Tente novamente em instantes.');
+          data=[];filtered=[];page=1;render();
+        });
+      }
       function render(){
-        let rows=filtered.slice((page-1)*size,page*size);
-        document.getElementById('membros-pm-list').innerHTML=rows.map(m=>`<div class="pm-row"><div><strong>${m.name}</strong></div><div class="pm-cell">${m.type}</div><div class="pm-cell">${m.groups.join(', ')||'Sem vínculo'}</div><div><span class="pm-status ${m.status}">${labels[m.status]}</span></div><a class="pm-link" href="#membros-pm-detail" data-id="${m.id}">Visualizar →</a></div>`).join('');
+        const total=Math.max(1,Math.ceil(filtered.length/size));
+        if(page>total)page=total;
+        const rows=filtered.slice((page-1)*size,page*size);
+        document.getElementById('membros-pm-list').innerHTML=rows.length?rows.map(function(m){return '<div class="pm-row"><div><strong>'+escapeHtml(m.name)+'</strong></div><div class="pm-cell">'+escapeHtml(m.type)+'</div><div class="pm-cell">'+escapeHtml(m.extra||'—')+'</div><div><span class="pm-status '+m.statusBucket+'">'+escapeHtml(m.statusLabel)+'</span></div><a class="pm-link" href="#membros-pm-detail" data-id="'+m.id+'">Visualizar →</a></div>'}).join(''):'<div style="padding:30px 0;text-align:center;color:var(--pv-muted);font-size:9px">Nenhum membro encontrado para os filtros aplicados.</div>';
         document.getElementById('membros-pm-total').textContent=filtered.length;
-        document.getElementById('membros-pm-included').textContent=filtered.filter(x=>x.status==='included').length;
-        document.getElementById('membros-pm-invited').textContent=filtered.filter(x=>x.status==='invited').length;
-        document.getElementById('membros-pm-errors').textContent=filtered.filter(x=>x.status==='error').length;
+        document.getElementById('membros-pm-included').textContent=filtered.filter(function(x){return x.statusBucket==='included'}).length;
+        document.getElementById('membros-pm-invited').textContent=filtered.filter(function(x){return x.statusBucket==='invited'}).length;
+        document.getElementById('membros-pm-errors').textContent=filtered.filter(function(x){return x.statusBucket==='error'}).length;
         document.getElementById('membros-pm-label').textContent=filtered.length+' registros';
-        document.getElementById('membros-pm-summary').textContent=filtered.length?`${(page-1)*size+1}–${(page-1)*size+rows.length} de ${filtered.length}`:'0 registros';
-        let total=Math.max(1,Math.ceil(filtered.length/size)),p=document.getElementById('membros-pm-pages');
+        document.getElementById('membros-pm-summary').textContent=filtered.length?((page-1)*size+1)+'–'+((page-1)*size+rows.length)+' de '+filtered.length:'0 registros';
+        const p=document.getElementById('membros-pm-pages');
         window.AsserthPaginacao.render(p,{page:page,total:total,onSelect:function(i){page=i;render()}});
       }
       function detail(m){
         selected=m;
-        document.getElementById('membros-pm-detail-data').innerHTML=`<div><span>Nome</span><strong>${m.name}</strong></div><div><span>Telefone</span><strong>${m.phone}</strong></div><div><span>Tipo</span><strong>${m.type}</strong></div><div><span>Status</span><strong>${labels[m.status]}</strong></div><div><span>Última atualização</span><strong>${m.updated}</strong></div>`;
-        document.getElementById('membros-pm-group-chips').innerHTML=m.groups.map(g=>'<span>'+g+'</span>').join('');
-        document.getElementById('membros-pm-group-list').innerHTML=['Avisos','Departamento Pessoal','Recrutamento e Seleção','Financeiro','Comercial','Tecnologia','Diretoria','Gerência','Colaboradores','Prestadores'].map(g=>`<label><input type="checkbox" value="${g}" ${m.groups.includes(g)?'checked':''} ${g==='Avisos'?'disabled':''}>${g}</label>`).join('');
+        document.getElementById('membros-pm-detail-data').innerHTML=
+          '<div><span>Nome</span><strong>'+escapeHtml(m.name)+'</strong></div>'+
+          '<div><span>Telefone</span><strong>'+escapeHtml(m.phone)+'</strong></div>'+
+          '<div><span>Tipo</span><strong>'+escapeHtml(m.type)+'</strong></div>'+
+          (m.cargo?'<div><span>Cargo</span><strong>'+escapeHtml(m.cargo)+'</strong></div>':'')+
+          (m.centroCusto?'<div><span>Centro de custo</span><strong>'+escapeHtml(m.centroCusto)+'</strong></div>':'')+
+          '<div><span>Status</span><strong>'+escapeHtml(m.statusLabel)+'</strong></div>'+
+          '<div><span>Última atualização</span><strong>'+escapeHtml(m.updated)+'</strong></div>'+
+          (m.observacao?'<div><span>Observação</span><strong>'+escapeHtml(m.observacao)+'</strong></div>':'');
+        document.getElementById('membros-pm-group-chips').innerHTML=(m.groups||[]).map(function(g){return '<span>'+escapeHtml(g)+'</span>'}).join('');
+        document.getElementById('membros-pm-group-list').innerHTML=['Avisos','Departamento Pessoal','Recrutamento e Seleção','Financeiro','Comercial','Tecnologia','Diretoria','Gerência','Colaboradores','Prestadores'].map(function(g){return '<label><input type="checkbox" value="'+g+'" '+((m.groups||[]).indexOf(g)!==-1?'checked':'')+' '+(g==='Avisos'?'disabled':'')+'>'+g+'</label>'}).join('');
       }
-      document.getElementById('membros-pm-list').onclick=e=>{let a=e.target.closest('[data-id]');if(a)detail(data.find(x=>x.id==a.dataset.id))};
-      document.getElementById('membros-pm-apply').onclick=e=>{e.preventDefault();let q=document.getElementById('membros-pm-q').value.toLowerCase(),t=document.getElementById('membros-pm-type').value,s=document.getElementById('membros-pm-status').value,g=document.getElementById('membros-pm-group').value;filtered=data.filter(x=>(!q||(x.name+x.phone).toLowerCase().includes(q))&&(!t||x.type===t)&&(!s||x.status===s)&&(!g||x.groups.includes(g)));page=1;render();location.hash=''};
-      document.getElementById('membros-pm-clear').onclick=e=>{e.preventDefault();['membros-pm-q','membros-pm-type','membros-pm-status','membros-pm-group'].forEach(x=>document.getElementById(x).value='');filtered=[...data];page=1;render();location.hash=''};
-      document.getElementById('membros-pm-save').onclick=e=>{e.preventDefault();if(selected)selected.groups=[...document.querySelectorAll('#membros-pm-group-list input:checked')].map(x=>x.value);render();alert('Solicitação registrada em Processamentos. As alterações serão aplicadas na comunidade pela automação.');location.hash=''};
+      document.getElementById('membros-pm-list').onclick=function(e){const a=e.target.closest('[data-id]');if(a){const m=data.find(function(x){return x.id===a.dataset.id});if(m)detail(m)}};
+      document.getElementById('membros-pm-apply').onclick=function(e){
+        e.preventDefault();
+        const q=document.getElementById('membros-pm-q').value.toLowerCase(),t=document.getElementById('membros-pm-type').value,s=document.getElementById('membros-pm-status').value;
+        filtered=data.filter(function(x){return (!q||(x.name+' '+x.phone).toLowerCase().indexOf(q)!==-1)&&(!t||x.type===t)&&(!s||x.statusBucket===s)});
+        page=1;render();location.hash='';
+      };
+      document.getElementById('membros-pm-clear').onclick=function(e){
+        e.preventDefault();
+        ['membros-pm-q','membros-pm-type','membros-pm-status','membros-pm-group'].forEach(function(id){document.getElementById(id).value=''});
+        filtered=data.slice();page=1;render();location.hash='';
+      };
+      document.getElementById('membros-pm-save').onclick=function(e){e.preventDefault();if(selected)selected.groups=Array.from(document.querySelectorAll('#membros-pm-group-list input:checked')).map(function(x){return x.value});render();alert('Solicitação registrada em Processamentos. As alterações serão aplicadas na comunidade pela automação.');location.hash=''};
       const pmPicker=document.getElementById('membros-pm-groups-picker'),pmTrigger=document.getElementById('membros-pm-groups-trigger'),pmGroupList=document.getElementById('membros-pm-group-list');
-      const syncGroupChips=()=>{const groups=[...pmGroupList.querySelectorAll('input:checked')].map(input=>input.value);document.getElementById('membros-pm-group-chips').innerHTML=groups.map(group=>'<span>'+group+'</span>').join('')};
-      pmTrigger.onclick=event=>{event.stopPropagation();pmPicker.classList.toggle('open')};
-      pmGroupList.onclick=event=>event.stopPropagation();
+      const syncGroupChips=function(){const groups=Array.from(pmGroupList.querySelectorAll('input:checked')).map(function(input){return input.value});document.getElementById('membros-pm-group-chips').innerHTML=groups.map(function(group){return '<span>'+group+'</span>'}).join('')};
+      pmTrigger.onclick=function(event){event.stopPropagation();pmPicker.classList.toggle('open')};
+      pmGroupList.onclick=function(event){event.stopPropagation()};
       pmGroupList.onchange=syncGroupChips;
-      document.addEventListener('click',event=>{if(!pmPicker.contains(event.target))pmPicker.classList.remove('open')});
-      document.getElementById('membros-pm-export').onclick=()=>alert('Relatório preparado para exportação com os filtros atuais.');
-      render();
+      document.addEventListener('click',function(event){if(!pmPicker.contains(event.target))pmPicker.classList.remove('open')});
+      document.getElementById('membros-pm-export').onclick=function(){
+        if(!filtered.length){showToast('Não há registros para exportar com os filtros atuais.');return}
+        exportCsv(filtered);
+        showToast('Exportação gerada com '+filtered.length+' registro(s).');
+      };
+      loadData();
     }
   };
 })();
