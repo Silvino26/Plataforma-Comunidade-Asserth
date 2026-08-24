@@ -905,7 +905,14 @@ html>body{padding:0}
 /* ---------- (b) chrome canônico: biblioteca pv-native-panel ---------- */
     #asserth-platform-overview .pv-profile-toggle { position:absolute; opacity:0; pointer-events:none; }
     #asserth-platform-overview .pv-profile-toggle:checked ~ .pv-profile-menu { display:grid; }
-    #asserth-platform-overview .pv-native-panel { display:none; position:absolute; inset:8px 0 0 238px; z-index:50; background:color-mix(in srgb,#07100c 34%,transparent); backdrop-filter:blur(2px); }
+    /* position:fixed (era absolute) - o painel/drawer (usado em TODAS as
+       telas: Novo comunicado, detalhes de Grupos/Membros, novo usuário em
+       Administração, etc.) precisa cobrir sempre a janela inteira, mesmo
+       quando a página por trás dele rola ou cresce mais que uma tela. Com
+       "absolute" sem nenhum ancestral com position definida, o painel ficava
+       do tamanho da 1ª tela vista e, ao rolar a página, sobrava um vão em
+       branco/cinza abaixo dele - reportado pela Ana em várias telas. */
+    #asserth-platform-overview .pv-native-panel { display:none; position:fixed; inset:8px 0 0 238px; z-index:50; background:color-mix(in srgb,#07100c 34%,transparent); backdrop-filter:blur(2px); }
     #asserth-platform-overview .pv-native-panel:target { display:block; }
     #asserth-platform-overview .pv-native-drawer { position:absolute; inset:0 0 0 auto; width:min(480px,92%); display:flex; flex-direction:column; background:var(--pv-surface); box-shadow:-18px 0 55px color-mix(in srgb,#000 17%,transparent); }
     #asserth-platform-overview .pv-native-head { display:flex; align-items:flex-start; justify-content:space-between; gap:18px; padding:24px; border-bottom:1px solid var(--pv-line); }
@@ -1485,9 +1492,29 @@ html>body{padding:0}
       <footer class="al-footer"><span>© 2026 Asserth Consultoria Empresarial</span><span><a href="#">Privacidade</a> · <a href="#">Segurança</a></span></footer>
     </section>
   </main>
-  
+
 </div>
 </section>
+<script>
+  // Evita o "flash" da tela de login ao recarregar a página quando já existe
+  // uma sessão Supabase salva no navegador (localStorage). tentarRetomarSessao()
+  // (mais abaixo) ainda faz a validação de verdade de forma assíncrona e decide
+  // se libera a plataforma ou mostra o login - isto aqui só evita que o login
+  // apareça por uma fração de segundo antes disso, escondendo-o cedo (script
+  // síncrono, roda antes da 1ª pintura) sempre que houver QUALQUER chave de
+  // sessão do Supabase salva, sem depender do project ref específico.
+  (function () {
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var chave = localStorage.key(i);
+        if (chave && chave.indexOf('sb-') === 0 && chave.indexOf('-auth-token') !== -1) {
+          document.getElementById('view-login').hidden = true;
+          break;
+        }
+      }
+    } catch (err) {}
+  })();
+</script>
 <script>
 (function(){
   window.AsserthViews = window.AsserthViews || {};
@@ -1696,8 +1723,7 @@ html>body{padding:0}
         document.getElementById('membros-pm-label').textContent=filtered.length+' registros';
         document.getElementById('membros-pm-summary').textContent=filtered.length?`${(page-1)*size+1}–${(page-1)*size+rows.length} de ${filtered.length}`:'0 registros';
         let total=Math.max(1,Math.ceil(filtered.length/size)),p=document.getElementById('membros-pm-pages');
-        p.innerHTML='';
-        for(let i=1;i<=total;i++){let b=document.createElement('button');b.textContent=i;b.className=i===page?'is-current':'';b.onclick=()=>{page=i;render()};p.appendChild(b)}
+        window.AsserthPaginacao.render(p,{page:page,total:total,onSelect:function(i){page=i;render()}});
       }
       function detail(m){
         selected=m;
@@ -1792,11 +1818,11 @@ html>body{padding:0}
 
   <section class="pv-native-panel" id="comunicados-pv-comm-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar comunicados</h2><p>Combine os critérios necessários e aplique à listagem.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><form class="pv-native-form"><div class="pv-filter-grid"><div class="pv-native-field"><label>Mês</label><select id="comunicados-pv-filter-month"><option value="">Todos</option><option value="2026-08">Agosto 2026</option><option value="2026-07">Julho 2026</option></select></div><div class="pv-native-field"><label>Status</label><select id="comunicados-pv-filter-status"><option value="">Todos</option><option value="pending">Aguardando aprovação</option><option value="approved">Aprovado</option><option value="scheduled">Agendado</option><option value="sent">Enviado</option><option value="rejected">Reprovado</option></select></div><div class="pv-native-field"><label>Campanha</label><select id="comunicados-pv-filter-campaign"><option value="">Todas</option><option>Integração Agosto 2026</option><option>Benefícios 2026</option><option>Sem campanha</option></select></div><div class="pv-native-field"><label>Grupo</label><select id="comunicados-pv-filter-group"><option value="">Todos os grupos autorizados</option><option>Avisos</option><option>Financeiro</option><option>Departamento Pessoal</option></select></div><div class="pv-native-field"><label>Data inicial</label><input id="comunicados-pv-filter-start" type="date"></div><div class="pv-native-field"><label>Data final</label><input id="comunicados-pv-filter-end" type="date"></div></div></form></div><div class="pv-native-actions"><a class="pv-native-secondary" id="comunicados-pv-clear-filters" href="#">Limpar</a><a id="comunicados-pv-apply-filters" href="#">Aplicar filtros</a></div></div></section>
 
-  <section class="pv-native-panel" id="comunicados-pv-comm-new"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Novo comunicado</h2><p>Cadastre o conteúdo e encaminhe para aprovação.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><form class="pv-comm-form" id="comunicados-pv-comm-form"><div class="pv-native-field is-full"><label>Nome da comunicação *</label><input id="comunicados-pv-comm-name" placeholder="Ex.: Boas-vindas · Agosto"></div><div class="pv-native-field"><label>Tipo *</label><select id="comunicados-pv-comm-type"><option value="text">Texto</option><option value="image">Imagem</option></select></div><div class="pv-native-field"><label>Campanha</label><select id="comunicados-pv-comm-campaign"><option>Sem campanha</option><option>Integração Agosto 2026</option><option>Benefícios 2026</option></select></div>
+  <section class="pv-native-panel" id="comunicados-pv-comm-new"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Novo comunicado</h2><p>Cadastre o conteúdo e encaminhe para aprovação.</p></div><a class="pv-native-close" id="comunicados-pv-comm-close" href="#">×</a></div><div class="pv-native-body"><form class="pv-comm-form" id="comunicados-pv-comm-form"><div class="pv-native-field is-full"><label>Nome da comunicação *</label><input id="comunicados-pv-comm-name" placeholder="Ex.: Boas-vindas · Agosto"></div><div class="pv-native-field"><label>Tipo *</label><select id="comunicados-pv-comm-type"><option value="text">Texto</option><option value="image">Imagem</option></select></div><div class="pv-native-field"><label>Campanha</label><select id="comunicados-pv-comm-campaign"><option>Sem campanha</option><option>Integração Agosto 2026</option><option>Benefícios 2026</option></select></div>
 <div class="pv-native-field is-full pv-image-fields" id="comunicados-pv-image-fields" hidden><label>Imagem do comunicado *</label><div class="pv-upload"><input id="comunicados-pv-image-file" type="file" accept="image/png,image/jpeg,image/webp"><label class="pv-upload-label" for="comunicados-pv-image-file">Selecionar imagem</label><span class="pv-upload-name" id="comunicados-pv-upload-name">Nenhum arquivo selecionado</span></div><p class="pv-help-text">PNG, JPG ou WEBP. O arquivo será tratado, hospedado e vinculado automaticamente.</p></div>
 <div class="pv-native-field is-full"><label id="comunicados-pv-message-label">Mensagem *</label><div class="pv-editor"><div class="pv-editor-toolbar"><button type="button" data-format="bold"><b>B</b></button><button type="button" data-format="italic"><i>I</i></button><button type="button" data-format="strike"><s>S</s></button><button type="button" data-format="list">• Lista</button><button type="button" id="comunicados-pv-emoji" aria-label="Selecionar emoji">😊</button><div class="pv-emoji-menu" id="comunicados-pv-emoji-menu"></div></div><textarea id="comunicados-pv-message" placeholder="Digite a mensagem que será enviada aos grupos selecionados..."></textarea><div class="pv-editor-meta"><span id="comunicados-pv-message-rule">Obrigatória · máximo de 4.096 caracteres</span><span id="comunicados-pv-char-count">0 / 4096</span></div></div></div>
 <div class="pv-native-field"><label>Data do disparo *</label><div class="pv-date-picker" id="comunicados-pv-send-picker"><input id="comunicados-pv-send-date" type="hidden"><button class="pv-date-trigger" id="comunicados-pv-send-date-trigger" type="button"><span>Selecione uma data</span><i data-lucide="calendar-days"></i></button><div class="pv-calendar" id="comunicados-pv-send-calendar"></div></div></div><div class="pv-native-field"><label>Hora do disparo *</label><input id="comunicados-pv-send-time" type="time"></div><div class="pv-native-field"><label>Recorrência</label><select id="comunicados-pv-recurrence"><option value="once">Envio único</option><option value="daily">Todos os dias · segunda a sexta</option><option value="weekly">Uma vez por semana · mesmo dia</option><option value="biweekly">A cada 15 dias · mesmo dia da semana</option><option value="monthly">Primeiro dia útil do mês</option><option value="lastBusiness">Último dia útil do mês</option></select></div><div class="pv-native-field pv-recurrence-end" id="comunicados-pv-recurrence-end" hidden><label>Repetir até *</label><div class="pv-date-picker" id="comunicados-pv-until-picker"><input id="comunicados-pv-recurrence-until" type="hidden"><button class="pv-date-trigger" id="comunicados-pv-until-date-trigger" type="button"><span>Selecione uma data</span><i data-lucide="calendar-days"></i></button><div class="pv-calendar" id="comunicados-pv-until-calendar"></div></div></div><p class="pv-recurrence-note" id="comunicados-pv-recurrence-note">Este comunicado será enviado uma única vez.</p><div class="pv-form-error is-full" id="comunicados-pv-schedule-error"></div>
-<div class="pv-native-field is-full"><label>Grupos de destino *</label><div class="pv-group-picker" id="comunicados-pv-group-picker"><div class="pv-group-control" id="comunicados-pv-group-control"></div><div class="pv-group-menu" id="comunicados-pv-group-menu"><label><input type="checkbox" value="Avisos" checked>Avisos</label><label><input type="checkbox" value="Departamento Pessoal">Departamento Pessoal</label><label><input type="checkbox" value="Recrutamento e Seleção">Recrutamento e Seleção</label><label><input type="checkbox" value="Financeiro">Financeiro</label><label><input type="checkbox" value="Comercial">Comercial</label><label><input type="checkbox" value="Tecnologia">Tecnologia</label><label><input type="checkbox" value="Diretoria">Diretoria</label><label><input type="checkbox" value="Gerência">Gerência</label><label><input type="checkbox" value="Colaboradores">Colaboradores</label><label><input type="checkbox" value="Prestadores">Prestadores</label></div></div></div><div class="pv-native-field is-full"><label>Observação</label><textarea class="pv-message-box" style="min-height:70px" placeholder="Informação interna opcional. Não será enviada no WhatsApp."></textarea></div></form></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Cancelar</a><a class="pv-native-secondary" id="comunicados-pv-preview-action" href="#comunicados-pv-comm-preview">Visualizar</a><a id="comunicados-pv-register-action" href="#">Cadastrar comunicado</a></div></div></section>
+<div class="pv-native-field is-full"><label>Grupos de destino *</label><div class="pv-group-picker" id="comunicados-pv-group-picker"><div class="pv-group-control" id="comunicados-pv-group-control"></div><div class="pv-group-menu" id="comunicados-pv-group-menu"><label><input type="checkbox" value="Avisos" checked>Avisos</label><label><input type="checkbox" value="Departamento Pessoal">Departamento Pessoal</label><label><input type="checkbox" value="Recrutamento e Seleção">Recrutamento e Seleção</label><label><input type="checkbox" value="Financeiro">Financeiro</label><label><input type="checkbox" value="Comercial">Comercial</label><label><input type="checkbox" value="Tecnologia">Tecnologia</label><label><input type="checkbox" value="Diretoria">Diretoria</label><label><input type="checkbox" value="Gerência">Gerência</label><label><input type="checkbox" value="Colaboradores">Colaboradores</label><label><input type="checkbox" value="Prestadores">Prestadores</label></div></div></div><div class="pv-native-field is-full"><label>Observação</label><textarea class="pv-message-box" style="min-height:70px" placeholder="Informação interna opcional. Não será enviada no WhatsApp."></textarea></div></form></div><div class="pv-native-actions"><a class="pv-native-secondary" id="comunicados-pv-comm-cancel" href="#">Cancelar</a><a class="pv-native-secondary" id="comunicados-pv-preview-action" href="#comunicados-pv-comm-preview">Visualizar</a><a id="comunicados-pv-register-action" href="#">Cadastrar comunicado</a></div></div></section>
 
   <section class="pv-native-panel" id="comunicados-pv-comm-preview"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Prévia no WhatsApp</h2></div><a class="pv-native-close" id="comunicados-pv-preview-close" href="#">×</a></div><div class="pv-native-body"><div class="pv-whatsapp"><div class="pv-wa-body"><div class="pv-wa-bubble"><img class="pv-wa-image" id="comunicados-pv-wa-image" alt="Imagem do comunicado"><div id="comunicados-pv-wa-message"></div><div class="pv-wa-time" id="comunicados-pv-wa-time">09:00 ✓✓</div></div></div></div></div><div class="pv-native-actions"><a id="comunicados-pv-preview-back" href="#">Fechar</a></div></div></section>
 </section>
@@ -2008,6 +2034,14 @@ html>body{padding:0}
         recurrenceUntil.value='';
         validate();
       }
+      // Fechar sem cadastrar (X ou "Cancelar") deve limpar o formulário -
+      // sem isso, reabrir "Novo comunicado" mostrava os dados da tentativa
+      // anterior, como se um cadastro só pudesse existir se a pessoa
+      // clicasse em "Cadastrar". Não mexe no botão "Visualizar" (também
+      // dentro do drawer), que precisa manter o preenchimento ao voltar.
+      var commCloseBtn=document.getElementById('comunicados-pv-comm-close'),commCancelBtn=document.getElementById('comunicados-pv-comm-cancel');
+      if(commCloseBtn)commCloseBtn.addEventListener('click',resetForm);
+      if(commCancelBtn)commCancelBtn.addEventListener('click',resetForm);
       // Cadastro real: insere 1 linha por grupo selecionado na tabela
       // comunicacoes, sempre com status AGUARDANDO_APROVACAO (a aprovação
       // em si é feita na aba Aprovações, não aqui). Mesmo `codigo` em
@@ -2225,8 +2259,7 @@ html>body{padding:0}
         document.getElementById('campanhas-pc-count-completed').textContent=filtered.filter(c=>c.status==='completed').length;
         document.getElementById('campanhas-pc-count-messages').textContent=filtered.reduce((n,c)=>n+c.messages.length,0);
         document.getElementById('campanhas-pc-count-scheduled').textContent=filtered.reduce((n,c)=>n+c.messages.filter(m=>/Agendado|Aguardando/.test(m[2])).length,0);
-        pages.innerHTML='';
-        for(let p=1;p<=total;p++){const b=document.createElement('button');b.textContent=p;if(p===page)b.className='is-current';b.onclick=()=>{page=p;render()};pages.appendChild(b)}
+        window.AsserthPaginacao.render(pages,{page:page,total:total,onSelect:function(p){page=p;render()}});
       }
       function setStatusPicker(value){
         const trigger=document.getElementById('campanhas-pc-status-trigger'),picker=document.getElementById('campanhas-pc-status-picker');
@@ -2360,7 +2393,7 @@ html>body{padding:0}
           data=[];filtered=[];page=1;render();
         });
       }
-      function render(){const total=Math.max(1,Math.ceil(filtered.length/size));if(page>total)page=total;const start=(page-1)*size,rows=filtered.slice(start,start+size);list.innerHTML=rows.length?rows.map(r=>{const s=labels[r.status],stateClass=r.status==='pending'?'is-pending':r.status==='approved'?'is-sent':'is-error';return '<div class="pv-comm-row"><div><strong>'+esc(r.title)+'</strong><span>'+esc(r.campaign)+'</span></div><div class="pv-comm-cell">'+esc(r.group)+'</div><div class="pv-comm-cell">'+date(r.date)+' · '+r.time+'</div><div class="pv-comm-state"><span class="pv-comm-status '+stateClass+'">'+s[0]+'</span></div><a class="pv-comm-view" href="#aprovacoes-pa-review" data-review="'+r.id+'">'+(r.status==='pending'?'Analisar':'Visualizar')+' →</a></div>'}).join(''):'<div style="padding:30px;text-align:center;color:var(--pv-muted);font-size:9px">Nenhum comunicado encontrado.</div>';document.getElementById('aprovacoes-pa-result-label').textContent=filtered.length+' registros';document.getElementById('aprovacoes-pa-page-summary').textContent=filtered.length?(start+1)+'–'+(start+rows.length)+' de '+filtered.length:'0 registros';['pending','approved','rejected'].forEach(s=>document.getElementById('aprovacoes-pa-count-'+s).textContent=filtered.filter(r=>r.status===s).length);const next=filtered.filter(r=>r.status==='pending').sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time))[0];document.getElementById('aprovacoes-pa-next-time').textContent=next?next.time:'—';const nextDateEl=document.getElementById('aprovacoes-pa-next-date');nextDateEl.textContent=next?date(next.date)+' · '+next.group:'sem pendências';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(nextDateEl);pages.innerHTML='';for(let p=1;p<=total;p++){const b=document.createElement('button');b.textContent=p;if(p===page)b.className='is-current';b.onclick=()=>{page=p;render()};pages.appendChild(b)}}
+      function render(){const total=Math.max(1,Math.ceil(filtered.length/size));if(page>total)page=total;const start=(page-1)*size,rows=filtered.slice(start,start+size);list.innerHTML=rows.length?rows.map(r=>{const s=labels[r.status],stateClass=r.status==='pending'?'is-pending':r.status==='approved'?'is-sent':'is-error';return '<div class="pv-comm-row"><div><strong>'+esc(r.title)+'</strong><span>'+esc(r.campaign)+'</span></div><div class="pv-comm-cell">'+esc(r.group)+'</div><div class="pv-comm-cell">'+date(r.date)+' · '+r.time+'</div><div class="pv-comm-state"><span class="pv-comm-status '+stateClass+'">'+s[0]+'</span></div><a class="pv-comm-view" href="#aprovacoes-pa-review" data-review="'+r.id+'">'+(r.status==='pending'?'Analisar':'Visualizar')+' →</a></div>'}).join(''):'<div style="padding:30px;text-align:center;color:var(--pv-muted);font-size:9px">Nenhum comunicado encontrado.</div>';document.getElementById('aprovacoes-pa-result-label').textContent=filtered.length+' registros';document.getElementById('aprovacoes-pa-page-summary').textContent=filtered.length?(start+1)+'–'+(start+rows.length)+' de '+filtered.length:'0 registros';['pending','approved','rejected'].forEach(s=>document.getElementById('aprovacoes-pa-count-'+s).textContent=filtered.filter(r=>r.status===s).length);const next=filtered.filter(r=>r.status==='pending').sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time))[0];document.getElementById('aprovacoes-pa-next-time').textContent=next?next.time:'—';const nextDateEl=document.getElementById('aprovacoes-pa-next-date');nextDateEl.textContent=next?date(next.date)+' · '+next.group:'sem pendências';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(nextDateEl);window.AsserthPaginacao.render(pages,{page:page,total:total,onSelect:function(p){page=p;render()}});}
       function openReview(r){selected=r;document.getElementById('aprovacoes-pa-review-title').textContent=r.title;document.getElementById('aprovacoes-pa-review-author').textContent=r.author;document.getElementById('aprovacoes-pa-review-context').textContent=r.group+' · '+r.campaign;document.getElementById('aprovacoes-pa-review-schedule').textContent=date(r.date)+' às '+r.time;document.getElementById('aprovacoes-pa-review-message').innerHTML=fmt(r.message);document.getElementById('aprovacoes-pa-review-time').textContent=r.time+' ✓✓';const actions=document.getElementById('aprovacoes-pa-review-actions'),audit=document.getElementById('aprovacoes-pa-review-audit');actions.hidden=r.status!=='pending';audit.hidden=r.status==='pending';if(r.status!=='pending')audit.innerHTML='<strong>Decisão registrada:</strong> '+labels[r.status][0]+(r.decisionAt?' em '+esc(r.decisionAt):'')+(r.reason?'<br><strong>Justificativa:</strong> '+esc(r.reason):'');location.hash='aprovacoes-pa-review'}
       list.addEventListener('click',e=>{const b=e.target.closest('[data-review]');if(b)openReview(data.find(r=>r.id===b.dataset.review||String(r.id)===b.dataset.review))});
       // Aprovar: AGUARDANDO_APROVACAO -> PENDENTE (o único status que o
@@ -2854,18 +2887,25 @@ errorExport.addEventListener('click',e=>{e.preventDefault();const p=meta[current
   // resolve sem mudar nada do fragmento de login em si.
   // -------------------------------------------------------------------
   async function tentarRetomarSessao() {
-    if (!supa) return;
+    // Se o script síncrono logo no início do <body> escondeu a tela de login
+    // (por achar uma chave "sb-...-auth-token" salva), mas a sessão de
+    // verdade não se confirmar aqui embaixo (expirada, perfil não encontrado
+    // ou inativo), precisamos reexibir o login - senão a pessoa fica presa
+    // numa tela em branco.
+    var loginSection = document.getElementById('view-login');
+    if (!supa) { if (loginSection) loginSection.hidden = false; return; }
     try {
       var sessaoResposta = await supa.auth.getSession();
       var sessao = sessaoResposta && sessaoResposta.data && sessaoResposta.data.session;
-      if (!sessao || !sessao.user) return;
+      if (!sessao || !sessao.user) { if (loginSection) loginSection.hidden = false; return; }
       var perfil = await carregarPerfil(sessao.user.id);
-      if (!perfil || !perfil.ativo) return;
+      if (!perfil || !perfil.ativo) { if (loginSection) loginSection.hidden = false; return; }
       window.AsserthSession = { user: sessao.user, perfil: perfil };
       aplicarRBAC(perfil);
       revealPlatform();
     } catch (err) {
       console.error('[AsserthAuth] falha ao retomar sessão existente:', err);
+      if (loginSection) loginSection.hidden = false;
     }
   }
 
