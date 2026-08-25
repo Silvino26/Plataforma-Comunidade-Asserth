@@ -2707,10 +2707,18 @@ html>body{padding:0}
       // supabase_fix_criar_usuario_administracao.sql) - ela é a única
       // parte que pode olhar `auth.users` (o front-end não pode).
       //
-      // "Área principal", "Grupos autorizados" e o detalhamento fino de
-      // "Permissões funcionais" continuam só na tela (cosmético) - não
-      // existe hoje coluna real pra isso em `usuarios_plataforma` (só
-      // existem `is_admin` e `modulos`). Perfil/permissões reais mapeiam
+      // "Área principal" e o detalhamento fino de "Permissões funcionais"
+      // continuam só na tela (cosmético/derivado) - não existe coluna
+      // separada pra "área principal" e permissões finas continuam
+      // mapeadas pela lista de módulos. "Áreas autorizadas" e "Grupos
+      // autorizados" (2026-08-25/26) AGORA SÃO REAIS: colunas
+      // `areas text[]`/`grupos text[]` em `usuarios_plataforma` (ver
+      // supabase_fix_areas_grupos_administracao.sql). Regra confirmada
+      // pela Ana: administrador (`is_admin=true`) sempre tem acesso a
+      // TODAS as áreas e TODOS os grupos, sem exceção - isso é derivado
+      // aqui mesmo (não depende do que foi marcado no formulário);
+      // usuário não-admin usa exatamente o que foi marcado nos
+      // checkboxes e gravado nas colunas. Perfil/permissões reais mapeiam
       // assim: Administrador/TI = is_admin true (ignora a lista de
       // módulos); Aprovador/Operacional = is_admin false + a lista de
       // módulos marcada em "Permissões funcionais" (a mesma lista de
@@ -2719,6 +2727,8 @@ html>body{padding:0}
       const permList=[['messages','Criar comunicados','comunicados'],['campaigns','Gerenciar campanhas','campanhas'],['members','Consultar membros','membros'],['groups','Gerenciar vínculos de grupos','grupos'],['processing','Executar processamentos','processamentos'],['approve','Aprovar comunicados','aprovacoes']];
       const permToModulo=Object.fromEntries(permList.map(([v,,m])=>[v,m])),moduloToPerm=Object.fromEntries(permList.map(([v,,m])=>[m,v]));
       const TODOS_MODULOS=['comunicados','aprovacoes','campanhas','membros','grupos','processamentos','administracao'];
+      const AREAS_LIST=['Tecnologia','Comunicação Interna','Departamento Pessoal','Recrutamento e Seleção','Financeiro','Comercial'];
+      const GROUPS_LIST=['Avisos','Departamento Pessoal','Recrutamento e Seleção','Financeiro','Comercial','Tecnologia','Diretoria','Gerência','Colaboradores','Prestadores'];
       let users=[],filtered=[],page=1,current=null,editing=null;
       const size=4,roleLabel={admin:'Administrador/TI',approver:'Aprovador',operator:'Operacional'},statusLabel={active:'Ativo',inactive:'Inativo'};
       const $=id=>document.getElementById(id);
@@ -2727,17 +2737,23 @@ html>body{padding:0}
       // resto desta tela (render/detail/fillForm) já sabe desenhar.
       function mapRow(row){
         const modulos=Array.isArray(row.modulos)?row.modulos:[];
+        const isAdmin=!!row.is_admin;
+        const areasReais=Array.isArray(row.areas)?row.areas:[];
+        const gruposReais=Array.isArray(row.grupos)?row.grupos:[];
         return{
           id:row.id,
           name:row.nome||'(sem nome)',
           email:row.email||'',
           area:'—',
-          role:row.is_admin?'admin':(modulos.includes('aprovacoes')?'approver':'operator'),
+          role:isAdmin?'admin':(modulos.includes('aprovacoes')?'approver':'operator'),
           status:row.ativo?'active':'inactive',
-          areas:[],
-          groups:[],
+          // Admin sempre enxerga tudo (regra confirmada pela Ana) -
+          // não depende do que está gravado nas colunas; não-admin usa
+          // exatamente o que foi marcado/gravado de verdade.
+          areas:isAdmin?AREAS_LIST.slice():areasReais,
+          groups:isAdmin?GROUPS_LIST.slice():gruposReais,
           permissions:modulos.map(m=>moduloToPerm[m]).filter(Boolean),
-          isAdmin:!!row.is_admin,
+          isAdmin:isAdmin,
           modulos:modulos,
           last:row.criado_em?new Date(row.criado_em).toLocaleDateString('pt-BR'):'—'
         };
@@ -2764,11 +2780,11 @@ html>body{padding:0}
       // Os pickers de área/grupo continuam desenhados (cosméticos, ver nota
       // acima) - só "Permissões funcionais" corresponde a algo real hoje.
       function checks(target,values,name){$(target).innerHTML=values.map(v=>`<label class="pa-picker-option"><input type="checkbox" name="${name}" value="${v}"><span>${v}</span></label>`).join('')}
-      checks('administracao-pa-areas',['Tecnologia','Comunicação Interna','Departamento Pessoal','Recrutamento e Seleção','Financeiro','Comercial'],'area');
-      checks('administracao-pa-groups',['Avisos','Departamento Pessoal','Recrutamento e Seleção','Financeiro','Comercial','Tecnologia','Diretoria','Gerência','Colaboradores','Prestadores'],'group');
+      checks('administracao-pa-areas',AREAS_LIST,'area');
+      checks('administracao-pa-groups',GROUPS_LIST,'group');
       $('administracao-pa-permissions').innerHTML=permList.map(([v,l])=>`<label class="pa-picker-option"><input type="checkbox" name="permission" value="${v}"><span>${l}</span></label>`).join('');
-      function fillForm(u=null){editing=u?.id||null;$('administracao-pa-form-title').textContent=u?'Editar usuário':'Novo usuário';$('administracao-pa-status-field').style.display=u?'block':'none';$('administracao-pa-save').textContent=u?'Salvar alterações':'Criar usuário';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh([$('administracao-pa-form-title'),$('administracao-pa-save')]);$('administracao-pa-name').value=u?.name||'';const emailField=$('administracao-pa-email');emailField.value=u?.email||'';emailField.readOnly=!!u;emailField.title=u?'O e-mail não pode ser alterado aqui porque é ele que liga este perfil ao login já criado em Authentication.':'';$('administracao-pa-main-area').value='';$('administracao-pa-form-status').value=u?.status==='inactive'?'inactive':'active';document.querySelector(`input[name="pa-role"][value="${u?.role||'operator'}"]`).checked=true;document.querySelectorAll('input[name="area"]').forEach(x=>x.checked=false);document.querySelectorAll('input[name="group"]').forEach(x=>x.checked=false);document.querySelectorAll('input[name="permission"]').forEach(x=>x.checked=!!u?.permissions.includes(x.value))}
-      function detail(u){current=u;window.__paCurrent=u;$('administracao-pa-detail-data').innerHTML=`<div><span>Nome</span><strong>${u.name}</strong></div><div><span>E-mail corporativo</span><strong>${u.email}</strong></div><div><span>Perfil</span><strong>${roleLabel[u.role]}</strong></div><div><span>Status</span><strong>${statusLabel[u.status]}</strong></div><div><span>Cadastrado em</span><strong>${u.last}</strong></div>`;$('administracao-pa-detail-areas').innerHTML='<span class="pa-chip" style="opacity:.6">Ainda não há esse dado no cadastro real</span>';$('administracao-pa-detail-groups').innerHTML='<span class="pa-chip" style="opacity:.6">Ainda não há esse dado no cadastro real</span>';$('administracao-pa-detail-permissions').innerHTML=u.isAdmin?'<span class="pa-chip">Acesso total (Administrador/TI)</span>':(u.permissions.length?u.permissions.map(x=>`<span class="pa-chip">${permList.find(p=>p[0]===x)?.[1]||x}</span>`).join(''):'<span class="pa-chip" style="opacity:.6">Nenhum módulo liberado</span>');$('administracao-pa-audit').innerHTML=`<div class="pa-audit-row"><i>✓</i><div><strong>Acesso ${u.status==='active'?'ativo':'bloqueado'}</strong><p>Status vigente do usuário (tabela usuarios_plataforma).</p></div><time>${u.last}</time></div>`;$('administracao-pa-toggle-status').textContent=u.status==='active'?'Desativar acesso':'Ativar acesso';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh($('administracao-pa-toggle-status'));$('administracao-pa-toggle-status').classList.toggle('pa-danger',u.status==='active')}
+      function fillForm(u=null){editing=u?.id||null;$('administracao-pa-form-title').textContent=u?'Editar usuário':'Novo usuário';$('administracao-pa-status-field').style.display=u?'block':'none';$('administracao-pa-save').textContent=u?'Salvar alterações':'Criar usuário';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh([$('administracao-pa-form-title'),$('administracao-pa-save')]);$('administracao-pa-name').value=u?.name||'';const emailField=$('administracao-pa-email');emailField.value=u?.email||'';emailField.readOnly=!!u;emailField.title=u?'O e-mail não pode ser alterado aqui porque é ele que liga este perfil ao login já criado em Authentication.':'';$('administracao-pa-main-area').value='';$('administracao-pa-form-status').value=u?.status==='inactive'?'inactive':'active';document.querySelector(`input[name="pa-role"][value="${u?.role||'operator'}"]`).checked=true;document.querySelectorAll('input[name="area"]').forEach(x=>x.checked=!!u?.areas?.includes(x.value));document.querySelectorAll('input[name="group"]').forEach(x=>x.checked=!!u?.groups?.includes(x.value));document.querySelectorAll('input[name="permission"]').forEach(x=>x.checked=!!u?.permissions.includes(x.value))}
+      function detail(u){current=u;window.__paCurrent=u;$('administracao-pa-detail-data').innerHTML=`<div><span>Nome</span><strong>${u.name}</strong></div><div><span>E-mail corporativo</span><strong>${u.email}</strong></div><div><span>Perfil</span><strong>${roleLabel[u.role]}</strong></div><div><span>Status</span><strong>${statusLabel[u.status]}</strong></div><div><span>Cadastrado em</span><strong>${u.last}</strong></div>`;$('administracao-pa-detail-areas').innerHTML=u.areas.length?u.areas.map(x=>`<span class="pa-chip">${x}</span>`).join(''):'<span class="pa-chip" style="opacity:.6">Nenhuma área vinculada</span>';$('administracao-pa-detail-groups').innerHTML=u.groups.length?u.groups.map(x=>`<span class="pa-chip">${x}</span>`).join(''):'<span class="pa-chip" style="opacity:.6">Nenhum grupo vinculado</span>';$('administracao-pa-detail-permissions').innerHTML=u.isAdmin?'<span class="pa-chip">Acesso total (Administrador/TI)</span>':(u.permissions.length?u.permissions.map(x=>`<span class="pa-chip">${permList.find(p=>p[0]===x)?.[1]||x}</span>`).join(''):'<span class="pa-chip" style="opacity:.6">Nenhum módulo liberado</span>');$('administracao-pa-audit').innerHTML=`<div class="pa-audit-row"><i>✓</i><div><strong>Acesso ${u.status==='active'?'ativo':'bloqueado'}</strong><p>Status vigente do usuário (tabela usuarios_plataforma).</p></div><time>${u.last}</time></div>`;$('administracao-pa-toggle-status').textContent=u.status==='active'?'Desativar acesso':'Ativar acesso';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh($('administracao-pa-toggle-status'));$('administracao-pa-toggle-status').classList.toggle('pa-danger',u.status==='active')}
       $('administracao-pa-list').onclick=e=>{const a=e.target.closest('[data-user]');if(a)detail(users.find(u=>String(u.id)===a.dataset.user))};
       document.querySelector('[href="#administracao-pa-new"]').addEventListener('click',()=>fillForm());
       $('administracao-pa-edit').onclick=()=>fillForm(current);
@@ -2788,17 +2804,24 @@ html>body{padding:0}
         if(role==='operator')selecionadas=selecionadas.filter(x=>x!=='approve');
         const isAdmin=role==='admin';
         const modulos=isAdmin?TODOS_MODULOS.slice():selecionadas.map(p=>permToModulo[p]).filter(Boolean);
+        // Admin sempre tem acesso a todas as áreas/grupos (regra
+        // confirmada pela Ana) - gravamos a lista completa direto, não só
+        // o que estiver marcado (a tela também já força os checkboxes
+        // marcados/travados nesse caso, mas isso garante o dado certo no
+        // banco mesmo que o formulário mude no futuro).
+        const areas=isAdmin?AREAS_LIST.slice():[...document.querySelectorAll('input[name="area"]:checked')].map(x=>x.value);
+        const grupos=isAdmin?GROUPS_LIST.slice():[...document.querySelectorAll('input[name="group"]:checked')].map(x=>x.value);
         const supaClient=window.AsserthSupabase;
         if(!supaClient){toast('Não foi possível conectar ao serviço.');return}
         const saveBtn=$('administracao-pa-save');saveBtn.style.pointerEvents='none';
         try{
           if(editing){
             const ativo=$('administracao-pa-form-status').value!=='inactive';
-            const resposta=await supaClient.from('usuarios_plataforma').update({nome:name,is_admin:isAdmin,modulos:modulos,ativo:ativo}).eq('id',editing);
+            const resposta=await supaClient.from('usuarios_plataforma').update({nome:name,is_admin:isAdmin,modulos:modulos,areas:areas,grupos:grupos,ativo:ativo}).eq('id',editing);
             if(resposta&&resposta.error){console.error('[Administração] erro ao salvar usuário:',resposta.error);toast('Não foi possível salvar: '+(resposta.error.message||'tente novamente.'));return}
             toast('Usuário atualizado com sucesso.');
           }else{
-            const resposta=await supaClient.rpc('criar_usuario_por_email',{p_email:email,p_nome:name,p_is_admin:isAdmin,p_modulos:modulos});
+            const resposta=await supaClient.rpc('criar_usuario_por_email',{p_email:email,p_nome:name,p_is_admin:isAdmin,p_modulos:modulos,p_areas:areas,p_grupos:grupos});
             if(resposta&&resposta.error){console.error('[Administração] erro ao criar usuário:',resposta.error);toast('Não foi possível criar: '+(resposta.error.message||'tente novamente.'));return}
             const linha=Array.isArray(resposta.data)?resposta.data[0]:resposta.data;
             if(!linha||!linha.criado){toast((linha&&linha.mensagem)||'Não existe login com este e-mail em Authentication ainda. Crie o login lá primeiro.');return}
