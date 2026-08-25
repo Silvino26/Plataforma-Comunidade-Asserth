@@ -2674,7 +2674,178 @@ html>body{padding:0}
   window.AsserthViews = window.AsserthViews || {};
   window.AsserthViews['administracao'] = {
     init: function() {
-      (()=>{const areas=['Tecnologia','Comunicação Interna','Departamento Pessoal','Recrutamento e Seleção','Financeiro','Comercial'];const groups=['Avisos','Departamento Pessoal','Recrutamento e Seleção','Financeiro','Comercial','Tecnologia','Diretoria','Gerência','Colaboradores','Prestadores'];const permList=[['messages','Criar comunicados'],['campaigns','Gerenciar campanhas'],['members','Consultar membros'],['groups','Gerenciar vínculos de grupos'],['processing','Executar processamentos'],['approve','Aprovar comunicados']];let users=[{id:1,name:'Ana Silva',email:'ana.silva@asserth.com.br',area:'Tecnologia',role:'admin',status:'active',areas:[...areas],groups:[...groups],permissions:permList.map(x=>x[0]),last:'Hoje, 09:42'},{id:2,name:'Mariana Costa',email:'mariana.costa@asserth.com.br',area:'Comunicação Interna',role:'approver',status:'active',areas:['Comunicação Interna'],groups:['Avisos','Diretoria'],permissions:['messages','campaigns','approve'],last:'Hoje, 08:51'},{id:3,name:'Carla Mendes',email:'carla.mendes@asserth.com.br',area:'Departamento Pessoal',role:'operator',status:'active',areas:['Departamento Pessoal'],groups:['Avisos','Departamento Pessoal','Colaboradores'],permissions:['messages','campaigns','members','groups'],last:'Ontem, 16:20'},{id:4,name:'Rafael Lima',email:'rafael.lima@asserth.com.br',area:'Financeiro',role:'approver',status:'active',areas:['Financeiro'],groups:['Avisos','Financeiro','Prestadores'],permissions:['messages','campaigns','approve'],last:'Ontem, 14:08'},{id:5,name:'Juliana Alves',email:'juliana.alves@asserth.com.br',area:'Recrutamento e Seleção',role:'operator',status:'active',areas:['Recrutamento e Seleção'],groups:['Avisos','Recrutamento e Seleção'],permissions:['messages','members','groups'],last:'19/08/2026'},{id:6,name:'Pedro Souza',email:'pedro.souza@asserth.com.br',area:'Tecnologia',role:'admin',status:'active',areas:[...areas],groups:[...groups],permissions:permList.map(x=>x[0]),last:'18/08/2026'},{id:7,name:'Fernanda Rocha',email:'fernanda.rocha@asserth.com.br',area:'Comercial',role:'approver',status:'inactive',areas:['Comercial'],groups:['Avisos','Comercial'],permissions:['messages','approve'],last:'12/08/2026'},{id:8,name:'Lucas Martins',email:'lucas.martins@asserth.com.br',area:'Departamento Pessoal',role:'operator',status:'inactive',areas:['Departamento Pessoal'],groups:['Avisos'],permissions:['members'],last:'05/08/2026'}];let filtered=[...users],page=1,current=null,editing=null;const size=4,roleLabel={admin:'Administrador/TI',approver:'Aprovador',operator:'Operacional'},statusLabel={active:'Ativo',inactive:'Inativo',pending:'Convite pendente'};const $=id=>document.getElementById(id);function toast(t){const el=$('administracao-pa-toast');el.textContent=t;el.classList.add('show');if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(el);setTimeout(()=>el.classList.remove('show'),2400)}function render(){const rows=filtered.slice((page-1)*size,page*size);$('administracao-pa-list').innerHTML=rows.map(u=>`<div class="pa-row"><div><strong>${u.name}</strong></div><div class="pa-cell">${u.area}</div><div class="pa-cell">${roleLabel[u.role]}</div><div><span class="pa-status ${u.status}">${statusLabel[u.status]}</span></div><a class="pa-link" href="#administracao-pa-detail" data-user="${u.id}">Visualizar →</a></div>`).join('');$('administracao-pa-total').textContent=filtered.length;$('administracao-pa-active').textContent=filtered.filter(u=>u.status==='active').length;$('administracao-pa-inactive').textContent=filtered.filter(u=>u.status==='inactive').length;$('administracao-pa-approvers').textContent=filtered.filter(u=>u.role==='approver'||u.role==='admin').length;$('administracao-pa-label').textContent=filtered.length+' registros';$('administracao-pa-summary').textContent=filtered.length?`${(page-1)*size+1}–${(page-1)*size+rows.length} de ${filtered.length}`:'0 registros';const pages=Math.max(1,Math.ceil(filtered.length/size));window.AsserthPaginacao.render($('administracao-pa-pages'),{page:page,total:pages,onSelect:function(p){page=p;render()}})}function checks(target,values,name){$(target).innerHTML=values.map(v=>`<label class="pa-picker-option"><input type="checkbox" name="${name}" value="${v}"><span>${v}</span></label>`).join('')}checks('administracao-pa-areas',areas,'area');checks('administracao-pa-groups',groups,'group');$('administracao-pa-permissions').innerHTML=permList.map(([v,l])=>`<label class="pa-picker-option"><input type="checkbox" name="permission" value="${v}"><span>${l}</span></label>`).join('');function fillForm(u=null){editing=u?.id||null;$('administracao-pa-form-title').textContent=u?'Editar usuário':'Novo usuário';$('administracao-pa-status-field').style.display=u?'block':'none';$('administracao-pa-save').textContent=u?'Salvar alterações':'Criar usuário';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh([$('administracao-pa-form-title'),$('administracao-pa-save')]);$('administracao-pa-name').value=u?.name||'';$('administracao-pa-email').value=u?.email||'';$('administracao-pa-main-area').value=u?.area||'';$('administracao-pa-form-status').value=u?.status==='inactive'?'inactive':'active';document.querySelector(`input[name="pa-role"][value="${u?.role||'operator'}"]`).checked=true;document.querySelectorAll('input[name="area"]').forEach(x=>x.checked=!!u?.areas.includes(x.value));document.querySelectorAll('input[name="group"]').forEach(x=>x.checked=!!u?.groups.includes(x.value));document.querySelectorAll('input[name="permission"]').forEach(x=>x.checked=!!u?.permissions.includes(x.value))}function detail(u){current=u;window.__paCurrent=u;$('administracao-pa-detail-data').innerHTML=`<div><span>Nome</span><strong>${u.name}</strong></div><div><span>E-mail corporativo</span><strong>${u.email}</strong></div><div><span>Área principal</span><strong>${u.area}</strong></div><div><span>Perfil</span><strong>${roleLabel[u.role]}</strong></div><div><span>Status</span><strong>${statusLabel[u.status]}</strong></div><div><span>Último acesso</span><strong>${u.last}</strong></div>`;$('administracao-pa-detail-areas').innerHTML=u.areas.map(x=>`<span class="pa-chip">${x}</span>`).join('');$('administracao-pa-detail-groups').innerHTML=u.groups.slice(0,4).map(x=>`<span class="pa-chip">${x}</span>`).join('')+(u.groups.length>4?`<span class="pa-chip">+${u.groups.length-4}</span>`:'');$('administracao-pa-detail-permissions').innerHTML=u.permissions.slice(0,4).map(x=>`<span class="pa-chip">${permList.find(p=>p[0]===x)?.[1]||x}</span>`).join('')+(u.permissions.length>4?`<span class="pa-chip">+${u.permissions.length-4}</span>`:'');$('administracao-pa-audit').innerHTML=`<div class="pa-audit-row"><i>✓</i><div><strong>Acesso ${u.status==='active'?'ativo':'bloqueado'}</strong><p>Status vigente do usuário.</p></div><time>${u.last}</time></div><div class="pa-audit-row"><i>↻</i><div><strong>Permissões revisadas</strong><p>Alteração registrada por Ana Silva.</p></div><time>14/08/2026</time></div>`;$('administracao-pa-toggle-status').textContent=u.status==='active'?'Desativar acesso':'Ativar acesso';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh($('administracao-pa-toggle-status'));$('administracao-pa-toggle-status').classList.toggle('pa-danger',u.status==='active')}$('administracao-pa-list').onclick=e=>{const a=e.target.closest('[data-user]');if(a)detail(users.find(u=>u.id==a.dataset.user))};document.querySelector('[href="#administracao-pa-new"]').addEventListener('click',()=>fillForm());$('administracao-pa-edit').onclick=()=>fillForm(current);$('administracao-pa-save').onclick=e=>{e.preventDefault();const name=$('administracao-pa-name').value.trim(),email=$('administracao-pa-email').value.trim(),area=$('administracao-pa-main-area').value;if(!name||!email||!area){toast('Preencha nome, e-mail e área principal.');return}const data={name,email,area,status:editing?$('administracao-pa-form-status').value:'pending',role:document.querySelector('input[name="pa-role"]:checked').value,areas:[...document.querySelectorAll('input[name="area"]:checked')].map(x=>x.value),groups:[...document.querySelectorAll('input[name="group"]:checked')].map(x=>x.value),permissions:[...document.querySelectorAll('input[name="permission"]:checked')].map(x=>x.value),last:'Ainda não acessou'};if(data.role==='admin'){data.areas=[...areas];data.groups=[...groups];data.permissions=permList.map(x=>x[0])}else if(data.role==='approver'){data.permissions=[...new Set([...data.permissions,'approve'])]}else{data.permissions=data.permissions.filter(x=>x!=='approve')}if(editing){Object.assign(users.find(u=>u.id===editing),data);toast('Usuário atualizado com sucesso.')}else{users.unshift({id:Date.now(),...data});toast('Usuário criado. Convite enviado ao e-mail cadastrado.')}filtered=[...users];page=1;render();location.hash=''};$('administracao-pa-toggle-status').onclick=e=>{e.preventDefault();if(!current)return;current.status=current.status==='active'?'inactive':'active';toast(current.status==='active'?'Acesso ativado.':'Acesso desativado.');filtered=[...users];render();detail(current)};$('administracao-pa-sessions').onclick=e=>{e.preventDefault();toast('Sessões ativas encerradas. O usuário precisará entrar novamente.')};$('administracao-pa-delete').onclick=e=>{e.preventDefault();if(current)location.hash='administracao-pa-delete-confirm'};$('administracao-pa-confirm-delete').onclick=e=>{e.preventDefault();if(!current)return;const remove=document.querySelector('input[name="pa-remove-community"]:checked')?.value==='yes';users=users.filter(u=>u.id!==current.id);filtered=filtered.filter(u=>u.id!==current.id);page=1;render();toast(remove?'Usuário excluído. Remoção individual registrada em Processamentos.':'Usuário excluído. O membro permanece na comunidade.');current=null;window.__paCurrent=null;location.hash=''};$('administracao-pa-apply').onclick=e=>{e.preventDefault();const q=$('administracao-pa-q').value.toLowerCase(),s=$('administracao-pa-status').value,a=$('administracao-pa-area').value,r=$('administracao-pa-role').value;filtered=users.filter(u=>(!q||u.name.toLowerCase().includes(q)||u.email.toLowerCase().includes(q))&&(!s||u.status===s)&&(!a||u.area===a)&&(!r||u.role===r));page=1;render();location.hash=''};$('administracao-pa-clear').onclick=e=>{e.preventDefault();['administracao-pa-q','administracao-pa-status','administracao-pa-area','administracao-pa-role'].forEach(id=>$(id).value='');filtered=[...users];page=1;render();location.hash=''};render()})();
+      (()=>{
+      // ===================================================================
+      // Administração - dados reais (2026-08-25, noite).
+      //
+      // Antes: `users` era um array de 8 pessoas fixas no código (nunca
+      // ligado ao banco) - por isso a tela mostrava "9 usuários" e um
+      // "Carlos Eduardo" que não existia de verdade em lugar nenhum, e
+      // "criar usuário" só empurrava um objeto na memória do navegador,
+      // sem gravar nada em `usuarios_plataforma`.
+      //
+      // Agora: a lista vem de `comunidades.usuarios_plataforma` de
+      // verdade. A parte que precisa de cuidado é "Criar usuário": o
+      // front-end (chave anon + RLS) não tem como criar um login novo em
+      // `auth.users` nem ler essa tabela diretamente - só um usuário
+      // ADMIN pode fazer isso, e só via Authentication > Add user no
+      // painel do Supabase (mesmo passo que já estava documentado em
+      // `supabase_criar_usuario.sql`). O que esta tela agora faz de
+      // verdade é o passo que faltava: ligar esse login já criado à
+      // linha de permissões em `usuarios_plataforma`, por e-mail, através
+      // de uma função SECURITY DEFINER nova
+      // (`comunidades.criar_usuario_por_email`, ver
+      // supabase_fix_criar_usuario_administracao.sql) - ela é a única
+      // parte que pode olhar `auth.users` (o front-end não pode).
+      //
+      // "Área principal", "Grupos autorizados" e o detalhamento fino de
+      // "Permissões funcionais" continuam só na tela (cosmético) - não
+      // existe hoje coluna real pra isso em `usuarios_plataforma` (só
+      // existem `is_admin` e `modulos`). Perfil/permissões reais mapeiam
+      // assim: Administrador/TI = is_admin true (ignora a lista de
+      // módulos); Aprovador/Operacional = is_admin false + a lista de
+      // módulos marcada em "Permissões funcionais" (a mesma lista de
+      // slugs usada pelo RBAC de todo o resto da plataforma).
+      // ===================================================================
+      const permList=[['messages','Criar comunicados','comunicados'],['campaigns','Gerenciar campanhas','campanhas'],['members','Consultar membros','membros'],['groups','Gerenciar vínculos de grupos','grupos'],['processing','Executar processamentos','processamentos'],['approve','Aprovar comunicados','aprovacoes']];
+      const permToModulo=Object.fromEntries(permList.map(([v,,m])=>[v,m])),moduloToPerm=Object.fromEntries(permList.map(([v,,m])=>[m,v]));
+      const TODOS_MODULOS=['comunicados','aprovacoes','campanhas','membros','grupos','processamentos','administracao'];
+      let users=[],filtered=[],page=1,current=null,editing=null;
+      const size=4,roleLabel={admin:'Administrador/TI',approver:'Aprovador',operator:'Operacional'},statusLabel={active:'Ativo',inactive:'Inativo'};
+      const $=id=>document.getElementById(id);
+      function toast(t){const el=$('administracao-pa-toast');el.textContent=t;el.classList.add('show');if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(el);setTimeout(()=>el.classList.remove('show'),3200)}
+      // Mapeia 1 linha real de usuarios_plataforma para o formato que o
+      // resto desta tela (render/detail/fillForm) já sabe desenhar.
+      function mapRow(row){
+        const modulos=Array.isArray(row.modulos)?row.modulos:[];
+        return{
+          id:row.id,
+          name:row.nome||'(sem nome)',
+          email:row.email||'',
+          area:'—',
+          role:row.is_admin?'admin':(modulos.includes('aprovacoes')?'approver':'operator'),
+          status:row.ativo?'active':'inactive',
+          areas:[],
+          groups:[],
+          permissions:modulos.map(m=>moduloToPerm[m]).filter(Boolean),
+          isAdmin:!!row.is_admin,
+          modulos:modulos,
+          last:row.criado_em?new Date(row.criado_em).toLocaleDateString('pt-BR'):'—'
+        };
+      }
+      function loadUsers(){
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient){toast('Não foi possível conectar ao serviço.');users=[];filtered=[];render();return Promise.resolve()}
+        return supaClient.from('usuarios_plataforma').select('*').order('criado_em',{ascending:true}).then(function(resposta){
+          if(resposta&&resposta.error){
+            console.error('[Administração] erro ao carregar usuários:',resposta.error);
+            toast('Não foi possível carregar os usuários agora.');
+            users=[];filtered=[];render();
+            return;
+          }
+          users=(resposta&&resposta.data||[]).map(mapRow);
+          filtered=[...users];page=1;render();
+        }).catch(function(err){
+          console.error('[Administração] falha inesperada ao carregar usuários:',err);
+          toast('Não foi possível carregar os usuários agora.');
+          users=[];filtered=[];render();
+        });
+      }
+      function render(){const rows=filtered.slice((page-1)*size,page*size);$('administracao-pa-list').innerHTML=rows.map(u=>`<div class="pa-row"><div><strong>${u.name}</strong></div><div class="pa-cell">${u.email}</div><div class="pa-cell">${roleLabel[u.role]}</div><div><span class="pa-status ${u.status}">${statusLabel[u.status]}</span></div><a class="pa-link" href="#administracao-pa-detail" data-user="${u.id}">Visualizar →</a></div>`).join('')||'<div style="padding:20px;text-align:center;color:var(--pv-muted);font-size:9px">Nenhum usuário encontrado.</div>';$('administracao-pa-total').textContent=filtered.length;$('administracao-pa-active').textContent=filtered.filter(u=>u.status==='active').length;$('administracao-pa-inactive').textContent=filtered.filter(u=>u.status==='inactive').length;$('administracao-pa-approvers').textContent=filtered.filter(u=>u.role==='approver'||u.role==='admin').length;$('administracao-pa-label').textContent=filtered.length+' registros';$('administracao-pa-summary').textContent=filtered.length?`${(page-1)*size+1}–${(page-1)*size+rows.length} de ${filtered.length}`:'0 registros';const pages=Math.max(1,Math.ceil(filtered.length/size));window.AsserthPaginacao.render($('administracao-pa-pages'),{page:page,total:pages,onSelect:function(p){page=p;render()}})}
+      // Os pickers de área/grupo continuam desenhados (cosméticos, ver nota
+      // acima) - só "Permissões funcionais" corresponde a algo real hoje.
+      function checks(target,values,name){$(target).innerHTML=values.map(v=>`<label class="pa-picker-option"><input type="checkbox" name="${name}" value="${v}"><span>${v}</span></label>`).join('')}
+      checks('administracao-pa-areas',['Tecnologia','Comunicação Interna','Departamento Pessoal','Recrutamento e Seleção','Financeiro','Comercial'],'area');
+      checks('administracao-pa-groups',['Avisos','Departamento Pessoal','Recrutamento e Seleção','Financeiro','Comercial','Tecnologia','Diretoria','Gerência','Colaboradores','Prestadores'],'group');
+      $('administracao-pa-permissions').innerHTML=permList.map(([v,l])=>`<label class="pa-picker-option"><input type="checkbox" name="permission" value="${v}"><span>${l}</span></label>`).join('');
+      function fillForm(u=null){editing=u?.id||null;$('administracao-pa-form-title').textContent=u?'Editar usuário':'Novo usuário';$('administracao-pa-status-field').style.display=u?'block':'none';$('administracao-pa-save').textContent=u?'Salvar alterações':'Criar usuário';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh([$('administracao-pa-form-title'),$('administracao-pa-save')]);$('administracao-pa-name').value=u?.name||'';const emailField=$('administracao-pa-email');emailField.value=u?.email||'';emailField.readOnly=!!u;emailField.title=u?'O e-mail não pode ser alterado aqui porque é ele que liga este perfil ao login já criado em Authentication.':'';$('administracao-pa-main-area').value='';$('administracao-pa-form-status').value=u?.status==='inactive'?'inactive':'active';document.querySelector(`input[name="pa-role"][value="${u?.role||'operator'}"]`).checked=true;document.querySelectorAll('input[name="area"]').forEach(x=>x.checked=false);document.querySelectorAll('input[name="group"]').forEach(x=>x.checked=false);document.querySelectorAll('input[name="permission"]').forEach(x=>x.checked=!!u?.permissions.includes(x.value))}
+      function detail(u){current=u;window.__paCurrent=u;$('administracao-pa-detail-data').innerHTML=`<div><span>Nome</span><strong>${u.name}</strong></div><div><span>E-mail corporativo</span><strong>${u.email}</strong></div><div><span>Perfil</span><strong>${roleLabel[u.role]}</strong></div><div><span>Status</span><strong>${statusLabel[u.status]}</strong></div><div><span>Cadastrado em</span><strong>${u.last}</strong></div>`;$('administracao-pa-detail-areas').innerHTML='<span class="pa-chip" style="opacity:.6">Ainda não há esse dado no cadastro real</span>';$('administracao-pa-detail-groups').innerHTML='<span class="pa-chip" style="opacity:.6">Ainda não há esse dado no cadastro real</span>';$('administracao-pa-detail-permissions').innerHTML=u.isAdmin?'<span class="pa-chip">Acesso total (Administrador/TI)</span>':(u.permissions.length?u.permissions.map(x=>`<span class="pa-chip">${permList.find(p=>p[0]===x)?.[1]||x}</span>`).join(''):'<span class="pa-chip" style="opacity:.6">Nenhum módulo liberado</span>');$('administracao-pa-audit').innerHTML=`<div class="pa-audit-row"><i>✓</i><div><strong>Acesso ${u.status==='active'?'ativo':'bloqueado'}</strong><p>Status vigente do usuário (tabela usuarios_plataforma).</p></div><time>${u.last}</time></div>`;$('administracao-pa-toggle-status').textContent=u.status==='active'?'Desativar acesso':'Ativar acesso';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh($('administracao-pa-toggle-status'));$('administracao-pa-toggle-status').classList.toggle('pa-danger',u.status==='active')}
+      $('administracao-pa-list').onclick=e=>{const a=e.target.closest('[data-user]');if(a)detail(users.find(u=>String(u.id)===a.dataset.user))};
+      document.querySelector('[href="#administracao-pa-new"]').addEventListener('click',()=>fillForm());
+      $('administracao-pa-edit').onclick=()=>fillForm(current);
+      // Criar/editar usuário - agora grava de verdade em usuarios_plataforma.
+      // Criação passa pela função `criar_usuario_por_email` (só ela pode
+      // olhar auth.users pra achar o id do login que a Ana já criou em
+      // Authentication); edição de um usuário já existente é um update
+      // direto, permitido pela policy "admin_gerencia_perfis" pra quem é
+      // is_admin.
+      $('administracao-pa-save').onclick=async e=>{
+        e.preventDefault();
+        const name=$('administracao-pa-name').value.trim(),email=$('administracao-pa-email').value.trim();
+        if(!name||!email){toast('Preencha nome e e-mail.');return}
+        const role=document.querySelector('input[name="pa-role"]:checked').value;
+        let selecionadas=[...document.querySelectorAll('input[name="permission"]:checked')].map(x=>x.value);
+        if(role==='approver')selecionadas=[...new Set([...selecionadas,'approve'])];
+        if(role==='operator')selecionadas=selecionadas.filter(x=>x!=='approve');
+        const isAdmin=role==='admin';
+        const modulos=isAdmin?TODOS_MODULOS.slice():selecionadas.map(p=>permToModulo[p]).filter(Boolean);
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient){toast('Não foi possível conectar ao serviço.');return}
+        const saveBtn=$('administracao-pa-save');saveBtn.style.pointerEvents='none';
+        try{
+          if(editing){
+            const ativo=$('administracao-pa-form-status').value!=='inactive';
+            const resposta=await supaClient.from('usuarios_plataforma').update({nome:name,is_admin:isAdmin,modulos:modulos,ativo:ativo}).eq('id',editing);
+            if(resposta&&resposta.error){console.error('[Administração] erro ao salvar usuário:',resposta.error);toast('Não foi possível salvar: '+(resposta.error.message||'tente novamente.'));return}
+            toast('Usuário atualizado com sucesso.');
+          }else{
+            const resposta=await supaClient.rpc('criar_usuario_por_email',{p_email:email,p_nome:name,p_is_admin:isAdmin,p_modulos:modulos});
+            if(resposta&&resposta.error){console.error('[Administração] erro ao criar usuário:',resposta.error);toast('Não foi possível criar: '+(resposta.error.message||'tente novamente.'));return}
+            const linha=Array.isArray(resposta.data)?resposta.data[0]:resposta.data;
+            if(!linha||!linha.criado){toast((linha&&linha.mensagem)||'Não existe login com este e-mail em Authentication ainda. Crie o login lá primeiro.');return}
+            toast('Usuário criado e vinculado ao login existente.');
+          }
+          await loadUsers();
+          location.hash='';
+        }catch(err){
+          console.error('[Administração] falha inesperada ao salvar usuário:',err);
+          toast('Não foi possível salvar agora. Tente novamente.');
+        }finally{
+          saveBtn.style.pointerEvents='';
+        }
+      };
+      $('administracao-pa-toggle-status').onclick=async e=>{
+        e.preventDefault();
+        if(!current)return;
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient){toast('Não foi possível conectar ao serviço.');return}
+        const novoAtivo=current.status!=='active';
+        try{
+          const resposta=await supaClient.from('usuarios_plataforma').update({ativo:novoAtivo}).eq('id',current.id);
+          if(resposta&&resposta.error){console.error('[Administração] erro ao alterar status:',resposta.error);toast('Não foi possível alterar o acesso agora.');return}
+          toast(novoAtivo?'Acesso ativado.':'Acesso desativado.');
+          await loadUsers();
+          const atualizado=users.find(u=>u.id===current.id);
+          if(atualizado)detail(atualizado);
+        }catch(err){console.error('[Administração] falha inesperada ao alterar status:',err);toast('Não foi possível alterar o acesso agora.')}
+      };
+      // "Encerrar sessões" continua sem efeito real: exige a API admin do
+      // Supabase Auth (chave service-role), que não pode ficar no
+      // front-end - ver restrição de segurança no topo do projeto.
+      $('administracao-pa-sessions').onclick=e=>{e.preventDefault();toast('Encerrar sessões à força ainda não está disponível aqui - exigiria a chave service-role no navegador, o que não é seguro.')};
+      $('administracao-pa-delete').onclick=e=>{e.preventDefault();if(current)location.hash='administracao-pa-delete-confirm'};
+      $('administracao-pa-confirm-delete').onclick=async e=>{
+        e.preventDefault();
+        if(!current)return;
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient){toast('Não foi possível conectar ao serviço.');return}
+        // "Retirar da comunidade" continua só uma escolha registrada no
+        // toast - a remoção de verdade da comunidade é um processo
+        // separado (Processamentos individuais), deliberadamente adiado.
+        const remove=document.querySelector('input[name="pa-remove-community"]:checked')?.value==='yes';
+        try{
+          const resposta=await supaClient.from('usuarios_plataforma').delete().eq('id',current.id);
+          if(resposta&&resposta.error){console.error('[Administração] erro ao excluir usuário:',resposta.error);toast('Não foi possível excluir agora: '+(resposta.error.message||'tente novamente.'));return}
+          toast(remove?'Usuário excluído. Remoção individual registrada em Processamentos.':'Usuário excluído. O login em Authentication não foi apagado.');
+          current=null;window.__paCurrent=null;
+          await loadUsers();
+          location.hash='';
+        }catch(err){console.error('[Administração] falha inesperada ao excluir usuário:',err);toast('Não foi possível excluir agora. Tente novamente.')}
+      };
+      $('administracao-pa-apply').onclick=e=>{e.preventDefault();const q=$('administracao-pa-q').value.toLowerCase(),s=$('administracao-pa-status').value,r=$('administracao-pa-role').value;filtered=users.filter(u=>(!q||u.name.toLowerCase().includes(q)||u.email.toLowerCase().includes(q))&&(!s||u.status===s)&&(!r||u.role===r));page=1;render();location.hash=''};
+      $('administracao-pa-clear').onclick=e=>{e.preventDefault();['administracao-pa-q','administracao-pa-status','administracao-pa-area','administracao-pa-role'].forEach(id=>$(id).value='');filtered=[...users];page=1;render();location.hash=''};
+      loadUsers();
+      })();
 
       (()=>{
       const kinds=['area','group','permission'];
