@@ -2549,10 +2549,19 @@ html>body{padding:0}
       // função ainda não existe no banco ou falhar por qualquer motivo, o
       // "Criado por" simplesmente continua mostrando o uuid (comportamento
       // atual), sem quebrar a tela.
+      // Só uuids de verdade vão pra função (que espera uuid[]) - algumas
+      // linhas antigas de `comunicacoes` têm `criado_por` gravado como o
+      // NOME em texto puro (ex.: "Ana Silvino"), de antes de existir
+      // login real/uuid. Mandar isso junto pra `nomes_usuarios` faria o
+      // Postgres tentar converter "Ana Silvino" pra uuid, dar erro de
+      // cast, e derrubar a resolução do LOTE INTEIRO - inclusive dos
+      // comunicados novos que têm um uuid real e válido. Por isso filtra
+      // aqui antes de chamar a função.
+      const UUID_RE=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
       function resolveAuthorNames(rows){
         const supaClient=window.AsserthSupabase;
         if(!supaClient)return Promise.resolve();
-        const ids=[...new Set(rows.map(r=>r.authorId).filter(id=>id&&!userNames[id]))];
+        const ids=[...new Set(rows.map(r=>r.authorId).filter(id=>id&&UUID_RE.test(id)&&!userNames[id]))];
         if(!ids.length)return Promise.resolve();
         return supaClient.rpc('nomes_usuarios',{p_ids:ids}).then(function(resposta){
           if(resposta&&resposta.error){
