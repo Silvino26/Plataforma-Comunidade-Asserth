@@ -2978,7 +2978,7 @@ html>body{padding:0}
 -->
 <section id="view-processamentos" class="view pv-main" data-view="processamentos" hidden>
 <div class="pv-page-head"><div><span class="pv-kicker">Comunidade</span><h1>Processamentos</h1><p>Importe bases e acompanhe as operações executadas na comunidade.</p></div><div class="pv-comm-head-side"><div class="pv-profile"><input class="pv-profile-toggle" id="pv-profile-toggle-processamentos" type="checkbox"><label class="pv-profile-btn" for="pv-profile-toggle-processamentos" aria-label="Abrir opções do usuário"><span class="pv-avatar">AS</span></label><div class="pv-profile-menu" id="pv-profile-menu-processamentos"><div class="pv-profile-summary"><strong>Ana Silva</strong><span>Administradora · Tecnologia</span></div><a href="#pv-native-profile"><i data-lucide="user-round" aria-hidden="true"></i> Meu perfil</a><a href="#pv-native-preferences"><i data-lucide="palette" aria-hidden="true"></i> Aparência e preferências</a><a href="#pv-native-notifications"><i data-lucide="bell" aria-hidden="true"></i> Notificações</a><a href="#pv-native-logout"><i data-lucide="log-out" aria-hidden="true"></i> Sair</a></div></div><div class="pp-actions"><a class="pv-comm-button" href="#processamentos-filter"><i data-lucide="sliders-horizontal"></i>Filtrar</a><a class="pv-comm-button is-primary" href="#processamentos-import"><i data-lucide="upload"></i>Importar base</a></div></div></div><div class="pv-metrics"><div class="pv-metric"><span>Em andamento</span><strong id="processamentos-running">1</strong><small>operação sendo executada</small></div><div class="pv-metric"><span>Aguardando execução</span><strong id="processamentos-pending">3</strong><small>ações na fila</small></div><div class="pv-metric"><span>Concluídos</span><strong id="processamentos-done">4</strong><small>no resultado filtrado</small></div><div class="pv-metric"><span>Com erro</span><strong id="processamentos-error">1</strong><small>requer tratamento</small></div><div class="pv-metric"><span>Cancelados</span><strong id="processamentos-cancelled">0</strong><small>execuções encerradas</small></div></div><section class="pv-section"><div class="pv-comm-toolbar"><div><h2>Histórico de processamentos</h2><p>Acompanhe cargas, vínculos, sincronizações e alterações operacionais.</p></div><span class="pv-comm-cell" id="processamentos-label"></span></div><div class="pp-list" id="processamentos-list"></div><div class="pv-pagination"><span id="processamentos-summary"></span><div class="pv-page-buttons" id="processamentos-pages"></div></div></section>
-<section class="pv-native-panel" id="processamentos-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar processamentos</h2><p>Consulte somente as operações necessárias.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pp-filter-grid"><div class="pv-native-field"><label>Tipo de operação</label><select id="processamentos-type"><option value="">Todos</option><option value="Carga de colaboradores">Carga de colaboradores</option><option value="Carga de prestadores">Carga de prestadores</option><option value="Vínculo em grupo">Vínculo em grupo</option><option value="Sincronização">Sincronização</option><option value="Alteração de grupo">Alteração de grupo</option></select></div><div class="pv-native-field"><label>Status</label><select id="processamentos-status"><option value="">Todos</option><option value="running">Em andamento</option><option value="pending">Aguardando execução</option><option value="done">Concluído</option><option value="error">Com erro</option><option value="cancelled">Cancelado</option></select></div><div class="pv-native-field"><label>Origem</label><select id="processamentos-origin"><option value="">Todas</option><option>Membros</option><option>Grupos</option><option>Importação</option></select></div><div class="pv-native-field"><label>Período</label><select id="processamentos-period"><option value="">Todo o período</option><option value="today">Hoje</option><option value="week">Últimos 7 dias</option></select></div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" id="processamentos-clear" href="#">Limpar</a><a id="processamentos-apply" href="#">Aplicar filtros</a></div></div></section><section class="pv-native-panel" id="processamentos-import"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Importar base</h2><p>Execute separadamente as cargas de colaboradores e prestadores.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pp-import-tabs"><button class="pp-import-tab active" data-pane="employees">Colaboradores</button><button class="pp-import-tab" data-pane="providers">Prestadores</button></div><div class="pp-import-pane active" id="processamentos-pane-employees"><div class="pp-upload"><strong>Arquivos de colaboradores</strong><span>Selecione os arquivos oficiais recebidos. XLSX ou CSV.</span><label>Selecionar arquivos<input id="processamentos-employees-file" type="file" multiple accept=".xlsx,.csv"></label></div><div class="pp-file" id="processamentos-employees-info"></div><div class="pp-rules">Os arquivos serão consolidados por CPF. Telefones serão normalizados, duplicidades removidas e divergências bloqueadas antes da conciliação com a comunidade.</div></div><div class="pp-import-pane" id="processamentos-pane-providers"><div class="pp-upload"><strong>Arquivo de prestadores</strong><span>Use o modelo com nome, telefone e status. XLSX ou CSV.</span><div class="pp-upload-actions"><label>Selecionar arquivo<input id="processamentos-providers-file" type="file" accept=".xlsx,.csv"></label><a class="pp-model" href="Modelo_Importacao_Prestadores.xlsx" download>Baixar arquivo-modelo</a></div></div><div class="pp-file" id="processamentos-providers-info"></div><div class="pp-rules">O status deve ser INCLUIR ou REMOVER. Prestadores já presentes não recebem novo convite; remoções somente seguem quando indicadas no arquivo.</div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Cancelar</a><a id="processamentos-start" href="#">Validar e processar</a></div></div></section><section class="pv-native-panel" id="processamentos-detail"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Detalhes do processamento</h2><p>Consulte a execução, o resultado e eventuais pendências.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pp-detail-head" id="processamentos-detail-head"></div><div class="pp-steps" id="processamentos-steps"></div><div id="processamentos-result"></div></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Fechar</a><a id="processamentos-action" href="#">Executar agora</a></div></div></section><div class="pp-toast" id="processamentos-toast"></div>
+<section class="pv-native-panel" id="processamentos-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar processamentos</h2><p>Consulte somente as operações necessárias.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pp-filter-grid"><div class="pv-native-field"><label>Tipo de operação</label><select id="processamentos-type"><option value="">Todos</option><option value="Carga de colaboradores">Carga de colaboradores</option><option value="Carga de prestadores">Carga de prestadores</option><option value="Vínculo em grupo">Vínculo em grupo</option><option value="Sincronização">Sincronização</option><option value="Alteração de grupo">Alteração de grupo</option></select></div><div class="pv-native-field"><label>Status</label><select id="processamentos-status"><option value="">Todos</option><option value="running">Em andamento</option><option value="pending">Aguardando execução</option><option value="done">Concluído</option><option value="error">Com erro</option><option value="cancelled">Cancelado</option></select></div><div class="pv-native-field"><label>Origem</label><select id="processamentos-origin"><option value="">Todas</option><option>Membros</option><option>Grupos</option><option>Importação</option></select></div><div class="pv-native-field"><label>Período</label><select id="processamentos-period"><option value="">Todo o período</option><option value="today">Hoje</option><option value="week">Últimos 7 dias</option></select></div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" id="processamentos-clear" href="#">Limpar</a><a id="processamentos-apply" href="#">Aplicar filtros</a></div></div></section><section class="pv-native-panel" id="processamentos-import"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Importar base</h2><p>Execute separadamente as cargas de colaboradores e prestadores.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pp-import-tabs"><button class="pp-import-tab active" data-pane="employees">Colaboradores</button><button class="pp-import-tab" data-pane="providers">Prestadores</button></div><div class="pp-import-pane active" id="processamentos-pane-employees"><div class="pp-upload"><strong>Arquivos de colaboradores</strong><span>Selecione um ou mais arquivos oficiais recebidos (um por empresa). XLSX ou CSV.</span><label>Selecionar arquivos<input id="processamentos-employees-file" type="file" multiple accept=".xlsx,.csv"></label></div><div class="pp-file" id="processamentos-employees-info"></div><div id="processamentos-employees-matches" style="display:flex;flex-direction:column;gap:12px;margin-top:12px"></div><div class="pp-rules">Cada arquivo é processado separadamente e afeta somente a empresa dele. A plataforma tenta reconhecer a empresa pelo nome do arquivo; quando não reconhece, você confirma ou cadastra a empresa antes de enviar. Arquivos serão consolidados por CPF, com telefones normalizados antes da conciliação com a comunidade.</div></div><div class="pp-import-pane" id="processamentos-pane-providers"><div class="pp-upload"><strong>Arquivo de prestadores</strong><span>Use o modelo com nome, telefone e status. XLSX ou CSV.</span><div class="pp-upload-actions"><label>Selecionar arquivo<input id="processamentos-providers-file" type="file" accept=".xlsx,.csv"></label><a class="pp-model" href="Modelo_Importacao_Prestadores.xlsx" download>Baixar arquivo-modelo</a></div></div><div class="pp-file" id="processamentos-providers-info"></div><div class="pp-rules">O status deve ser INCLUIR ou REMOVER. Prestadores já presentes não recebem novo convite; remoções somente seguem quando indicadas no arquivo.</div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Cancelar</a><a id="processamentos-start" href="#">Validar e processar</a></div></div></section><section class="pv-native-panel" id="processamentos-detail"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Detalhes do processamento</h2><p>Consulte a execução, o resultado e eventuais pendências.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pp-detail-head" id="processamentos-detail-head"></div><div class="pp-steps" id="processamentos-steps"></div><div id="processamentos-result"></div></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Fechar</a><a id="processamentos-action" href="#">Executar agora</a></div></div></section><div class="pp-toast" id="processamentos-toast"></div>
 </section>
 
 <script>
@@ -3006,30 +3006,153 @@ const items=[];
 let filtered=[...items],page=1,selected=null,activePane='employees';const size=4,statusLabel={done:'Concluído',running:'Em andamento',pending:'Aguardando execução',error:'Com erro',cancelled:'Cancelado'};
 function render(){const rows=filtered.slice((page-1)*size,page*size);document.getElementById('processamentos-list').innerHTML=rows.map(p=>`<div class="pp-row"><div><strong>${p.name}</strong><small>${p.origin}</small></div><div class="pp-cell">${p.type}</div><div class="pp-cell">${p.records} registro(s)</div><div><span class="pp-status ${p.status}">${statusLabel[p.status]}</span></div><a class="pp-link" href="#processamentos-detail" data-id="${p.id}">Visualizar →</a></div>`).join('');['running','pending','done','error'].forEach(s=>document.getElementById('processamentos-'+s).textContent=filtered.filter(p=>p.status===s).length);const cancelled=document.getElementById('processamentos-cancelled');if(cancelled)cancelled.textContent=filtered.filter(p=>p.status==='cancelled').length;document.getElementById('processamentos-label').textContent=filtered.length+' registros';document.getElementById('processamentos-summary').textContent=filtered.length?`${(page-1)*size+1}–${(page-1)*size+rows.length} de ${filtered.length}`:'0 registros';const pages=Math.max(1,Math.ceil(filtered.length/size)),target=document.getElementById('processamentos-pages');window.AsserthPaginacao.render(target,{page:page,total:pages,onSelect:function(p){page=p;render()}})}
 function detail(p){selected=p;document.getElementById('processamentos-detail-head').innerHTML=`<div><span>Processamento</span><strong>${p.name}</strong></div><div><span>Status</span><strong>${statusLabel[p.status]}</strong></div><div><span>Origem</span><strong>${p.origin}</strong></div><div><span>Atualização</span><strong>${p.date}</strong></div>`;const steps=p.status==='pending'?[['✓','Solicitação registrada','Ação recebida e validada pela plataforma.','10:18'],['·','Aguardando execução','A operação está disponível para execução nesta tela.','—']]:p.status==='error'?[['✓','Arquivo recebido','Layout e registros identificados.','09:01'],['!','Validação interrompida','Dois registros não possuem telefone válido.','09:02']]:p.status==='running'?[['✓','Solicitação registrada','Operação recebida pela plataforma.','10:21'],['↻','Execução em andamento','A integração está processando esta solicitação.','agora']]:[['✓','Solicitação registrada','Dados recebidos pela plataforma.','09:40'],['✓','Validação concluída','Estrutura e campos obrigatórios validados.','09:41'],['✓','Conciliação executada','Inclusões e remoções confirmadas na comunidade.','09:42']];document.getElementById('processamentos-steps').innerHTML=steps.map(s=>`<div class="pp-step"><span class="pp-step-icon">${s[0]}</span><div><strong>${s[1]}</strong><p>${s[2]}</p></div><time>${s[3]}</time></div>`).join('');const result=document.getElementById('processamentos-result');if(p.kind==='load'){result.className='pp-result';result.innerHTML=`<div><span>Recebidos</span><strong>${p.records}</strong></div><div><span>Incluídos</span><strong>${p.included}</strong></div><div><span>Removidos</span><strong>${p.removed}</strong></div><div><span>Mantidos (já estavam incluídos)</span><strong>${p.mantidos||0}</strong></div><div><span>Erros</span><strong>${p.errors}</strong></div>`}else{result.className='pp-context';result.innerHTML=`<div class="pp-context-row"><span>Descrição</span><strong>${p.description}</strong></div><div class="pp-context-row"><span>Situação atual</span><strong>${p.situation}</strong></div><div class="pp-context-row"><span>Próxima ação</span><strong>${p.next}</strong></div>`}const action=document.getElementById('processamentos-action');action.style.display='inline-flex';action.textContent=p.status==='pending'?'Executar agora':p.status==='error'?'Reprocessar':p.status==='running'?'Atualizar status':p.kind==='load'?'Exportar resultado':'Ver registro';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(action)}
-function toast(t){const e=document.getElementById('processamentos-toast');e.textContent=t;e.classList.add('show');if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(e);setTimeout(()=>e.classList.remove('show'),2600)}document.getElementById('processamentos-list').onclick=e=>{const a=e.target.closest('[data-id]');if(a)detail(items.find(p=>p.id==a.dataset.id))};document.querySelectorAll('.pp-import-tab').forEach(b=>b.onclick=()=>{activePane=b.dataset.pane;document.querySelectorAll('.pp-import-tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.pp-import-pane').forEach(x=>x.classList.toggle('active',x.id==='processamentos-pane-'+activePane))});function fileInfo(input,id){input.onchange=()=>{const box=document.getElementById(id),files=[...input.files];box.innerHTML=`<span>${files.map(f=>f.name).join(', ')}</span><strong>${files.length} arquivo(s)</strong>`;box.classList.toggle('show',files.length>0)}}fileInfo(document.getElementById('processamentos-employees-file'),'processamentos-employees-info');fileInfo(document.getElementById('processamentos-providers-file'),'processamentos-providers-info');// Importação de prestadores (2026-08-26): esta aba pedia arquivo mas
-// nunca gravava nada de verdade (só um toast). Agora, quando a aba
-// ativa é "Prestadores", o arquivo sobe pro Storage (bucket privado
-// `importacoes-prestadores`) e vira uma linha real em
-// `comunidades.importacoes_prestadores` - é essa fila que o workflow
-// novo do n8n processa sozinho, a cada poucos minutos, aplicando
-// INCLUIR/REMOVER contra `participantes_permanentes` (ver
+function toast(t){const e=document.getElementById('processamentos-toast');e.textContent=t;e.classList.add('show');if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(e);setTimeout(()=>e.classList.remove('show'),2600)}document.getElementById('processamentos-list').onclick=e=>{const a=e.target.closest('[data-id]');if(a)detail(items.find(p=>p.id==a.dataset.id))};document.querySelectorAll('.pp-import-tab').forEach(b=>b.onclick=()=>{activePane=b.dataset.pane;document.querySelectorAll('.pp-import-tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.pp-import-pane').forEach(x=>x.classList.toggle('active',x.id==='processamentos-pane-'+activePane))});function fileInfo(input,id){input.onchange=()=>{const box=document.getElementById(id),files=[...input.files];box.innerHTML=`<span>${files.map(f=>f.name).join(', ')}</span><strong>${files.length} arquivo(s)</strong>`;box.classList.toggle('show',files.length>0)}}fileInfo(document.getElementById('processamentos-providers-file'),'processamentos-providers-info');
+// Carga de colaboradores por empresa (2026-08-26): cada arquivo enviado
+// aqui é de UMA empresa (Quatro C, Asserth Consultoria, PL Temporários,
+// P&L Consultoria, ou outra cadastrada depois). Como os arquivos reais
+// não têm coluna "Empresa" dentro da planilha, a empresa é identificada
+// pelo NOME DO ARQUIVO, comparando (normalizado) contra os padrões
+// cadastrados em `comunidades.empresas_colaboradores`. Quando não
+// reconhece, a própria tela deixa escolher uma empresa existente ou
+// cadastrar uma nova ali mesmo, antes de enviar - por isso todo arquivo
+// que chega na fila (`importacoes_colaboradores`) já sai com empresa
+// resolvida. Cada arquivo processa de forma independente (ver
+// supabase_fix_importacao_colaboradores.sql) - essa é a trava de
+// segurança combinada com a Ana pra nunca penalizar quem é de uma
+// empresa cujo arquivo não chegou nesse ciclo.
+let empresasColaboradoresCache=null;
+const resolucoesEmpresaColaboradores={};
+function normalizarNomeArquivoColaborador(nome){return String(nome||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Z0-9]/g,'')}
+async function carregarEmpresasColaboradores(forcar){
+  if(empresasColaboradoresCache&&!forcar)return empresasColaboradoresCache;
+  const supaClient=window.AsserthSupabase;
+  if(!supaClient)return empresasColaboradoresCache=[];
+  const resposta=await supaClient.from('empresas_colaboradores').select('id,nome,padroes_arquivo').eq('ativo',true).order('nome',{ascending:true});
+  if(resposta&&resposta.error){console.error('[Processamentos] não foi possível carregar empresas de colaboradores:',resposta.error);return empresasColaboradoresCache=[]}
+  return empresasColaboradoresCache=resposta.data||[];
+}
+function detectarEmpresaColaborador(nomeArquivo,empresas){const normalizado=normalizarNomeArquivoColaborador(nomeArquivo);return (empresas||[]).find(emp=>(emp.padroes_arquivo||[]).some(p=>p&&normalizado.includes(p)))||null}
+async function renderMatchesEmpresaColaboradores(){
+  const input=document.getElementById('processamentos-employees-file'),box=document.getElementById('processamentos-employees-matches');
+  const files=[...input.files];
+  Object.keys(resolucoesEmpresaColaboradores).forEach(k=>delete resolucoesEmpresaColaboradores[k]);
+  if(!files.length){box.innerHTML='';return}
+  box.innerHTML='<span>Identificando empresas...</span>';
+  const empresas=await carregarEmpresasColaboradores();
+  box.innerHTML=files.map((file,idx)=>{
+    const match=detectarEmpresaColaborador(file.name,empresas);
+    if(match){
+      resolucoesEmpresaColaboradores[idx]={tipo:'existente',empresaId:match.id};
+      return `<div class="pv-native-field"><label>${file.name}</label><div>Empresa reconhecida: <strong>${match.nome}</strong></div></div>`;
+    }
+    resolucoesEmpresaColaboradores[idx]={tipo:'existente',empresaId:''};
+    const opcoes=empresas.map(e=>`<option value="${e.id}">${e.nome}</option>`).join('');
+    return `<div class="pv-native-field" data-empresa-row="${idx}"><label>${file.name} — empresa não reconhecida</label><select data-empresa-select="${idx}"><option value="">Selecione a empresa</option>${opcoes}<option value="__nova__">+ Cadastrar nova empresa</option></select><input type="text" data-empresa-novo="${idx}" placeholder="Nome da nova empresa" style="display:none;margin-top:6px"></div>`;
+  }).join('');
+  files.forEach((file,idx)=>{
+    const select=box.querySelector(`[data-empresa-select="${idx}"]`);
+    if(!select)return;
+    const novoInput=box.querySelector(`[data-empresa-novo="${idx}"]`);
+    select.onchange=()=>{
+      if(select.value==='__nova__'){novoInput.style.display='';resolucoesEmpresaColaboradores[idx]={tipo:'nova',nome:novoInput.value.trim()}}
+      else{novoInput.style.display='none';resolucoesEmpresaColaboradores[idx]={tipo:'existente',empresaId:select.value}}
+    };
+    novoInput.oninput=()=>{resolucoesEmpresaColaboradores[idx]={tipo:'nova',nome:novoInput.value.trim()}};
+  });
+}
+document.getElementById('processamentos-employees-file').onchange=()=>{
+  const box=document.getElementById('processamentos-employees-info'),files=[...document.getElementById('processamentos-employees-file').files];
+  box.innerHTML=`<span>${files.map(f=>f.name).join(', ')}</span><strong>${files.length} arquivo(s)</strong>`;
+  box.classList.toggle('show',files.length>0);
+  renderMatchesEmpresaColaboradores();
+};// Importação de prestadores (2026-08-26): o arquivo sobe pro Storage
+// (bucket privado `importacoes-prestadores`) e vira uma linha real em
+// `comunidades.importacoes_prestadores` - é essa fila que o workflow do
+// n8n processa sozinho, a cada poucos minutos, aplicando INCLUIR/REMOVER
+// contra `participantes_permanentes` (ver
 // supabase_fix_importacao_prestadores.sql e
-// Comunidade_Asserth_Importar_Prestadores.json). A aba "Colaboradores"
-// continua fora deste escopo por enquanto - aquela carga já vem direto
-// do SharePoint pelo workflow de conciliação, não por upload aqui.
+// Comunidade_Asserth_Importar_Prestadores.json).
+//
+// Importação de colaboradores por empresa (2026-08-26): cada arquivo
+// selecionado sobe pro Storage (bucket privado `importacoes-colaboradores`,
+// um por empresa) e vira uma linha em `comunidades.importacoes_colaboradores`
+// já com a empresa resolvida (reconhecida pelo nome do arquivo ou
+// escolhida/cadastrada em `renderMatchesEmpresaColaboradores` acima) - ver
+// supabase_fix_importacao_colaboradores.sql. Cada arquivo é independente:
+// subir só o de uma empresa nunca afeta as outras.
 document.getElementById('processamentos-start').onclick=async e=>{
   e.preventDefault();
   const input=document.getElementById(activePane==='employees'?'processamentos-employees-file':'processamentos-providers-file');
   if(!input.files.length){toast('Selecione pelo menos um arquivo para continuar.');return}
-  if(activePane!=='providers'){
-    toast('Arquivos validados. Processamento incluído na fila.');
-    location.hash='';
-    return;
-  }
   const supaClient=window.AsserthSupabase;
   if(!supaClient){toast('Não foi possível conectar ao serviço.');return}
-  const arquivo=input.files[0];
   const startBtn=e.currentTarget;startBtn.style.pointerEvents='none';
+  const usuarioId=(window.AsserthSession&&window.AsserthSession.user&&window.AsserthSession.user.id)||null;
+
+  if(activePane==='employees'){
+    const arquivos=[...input.files];
+    // Toda linha precisa ter uma empresa resolvida antes de qualquer
+    // upload - ou já reconhecida, ou escolhida numa lista existente, ou
+    // com um nome novo digitado pra cadastrar. Sem isso, aborta sem subir
+    // nada (evita fila com empresa incerta).
+    const pendentes=arquivos.map((f,idx)=>({file:f,idx,resolucao:resolucoesEmpresaColaboradores[idx]})).filter(x=>{
+      const r=x.resolucao;
+      return !r||(r.tipo==='existente'&&!r.empresaId)||(r.tipo==='nova'&&!r.nome);
+    });
+    if(pendentes.length){
+      toast('Identifique a empresa de todos os arquivos antes de continuar: '+pendentes.map(p=>p.file.name).join(', '));
+      startBtn.style.pointerEvents='';
+      return;
+    }
+    toast('Enviando arquivo(s) de colaboradores...');
+    try{
+      // Cadastra, de uma vez, cada empresa nova distinta pedida neste
+      // envio (evita inserir a mesma empresa nova duas vezes se dois
+      // arquivos do mesmo nome novo vierem juntos).
+      const novasPorNome=new Map();
+      arquivos.forEach((f,idx)=>{const r=resolucoesEmpresaColaboradores[idx];if(r&&r.tipo==='nova')novasPorNome.set(r.nome.trim().toUpperCase(),{nome:r.nome.trim(),arquivoExemplo:f.name})});
+      for(const [chave,info] of novasPorNome){
+        const padrao=normalizarNomeArquivoColaborador(info.arquivoExemplo);
+        const insertEmpresa=await supaClient.from('empresas_colaboradores').insert({nome:info.nome,padroes_arquivo:[padrao]}).select('id,nome').single();
+        if(insertEmpresa&&insertEmpresa.error){
+          console.error('[Processamentos] erro ao cadastrar nova empresa de colaboradores:',insertEmpresa.error);
+          toast('Não foi possível cadastrar a empresa "'+info.nome+'": '+(insertEmpresa.error.message||'tente novamente.'));
+          startBtn.style.pointerEvents='';
+          return;
+        }
+        novasPorNome.set(chave,{...info,id:insertEmpresa.data.id});
+      }
+      let sucesso=0;const falhas=[];
+      for(const [idx,file] of arquivos.entries()){
+        const r=resolucoesEmpresaColaboradores[idx];
+        const empresaId=r.tipo==='existente'?r.empresaId:novasPorNome.get(r.nome.trim().toUpperCase()).id;
+        const caminho=empresaId+'/'+Date.now()+'-'+file.name.replace(/[^a-zA-Z0-9._-]+/g,'_');
+        const uploadResposta=await supaClient.storage.from('importacoes-colaboradores').upload(caminho,file,{contentType:file.type||undefined,upsert:false});
+        if(uploadResposta&&uploadResposta.error){
+          console.error('[Processamentos] erro ao subir arquivo de colaboradores:',file.name,uploadResposta.error);
+          falhas.push(file.name);continue;
+        }
+        const insertResposta=await supaClient.from('importacoes_colaboradores').insert({empresa_id:empresaId,arquivo_nome:file.name,arquivo_path:caminho,enviado_por:usuarioId});
+        if(insertResposta&&insertResposta.error){
+          console.error('[Processamentos] erro ao registrar importação de colaboradores:',file.name,insertResposta.error);
+          falhas.push(file.name);continue;
+        }
+        sucesso++;
+      }
+      empresasColaboradoresCache=null; // força recarregar na próxima abertura (pode ter empresa nova)
+      if(falhas.length)toast(sucesso+' arquivo(s) recebido(s). Falha em: '+falhas.join(', '));
+      else toast(sucesso+' arquivo(s) recebido(s). Serão processados automaticamente em alguns minutos.');
+      if(!falhas.length)location.hash='';
+    }catch(err){
+      console.error('[Processamentos] falha inesperada ao enviar arquivos de colaboradores:',err);
+      toast('Não foi possível enviar os arquivos agora. Tente novamente.');
+    }finally{
+      startBtn.style.pointerEvents='';
+    }
+    return;
+  }
+
+  const arquivo=input.files[0];
   toast('Enviando arquivo...');
   try{
     const caminho=Date.now()+'-'+arquivo.name.replace(/[^a-zA-Z0-9._-]+/g,'_');
@@ -3039,7 +3162,6 @@ document.getElementById('processamentos-start').onclick=async e=>{
       toast('Não foi possível enviar o arquivo: '+(uploadResposta.error.message||'tente novamente.'));
       return;
     }
-    const usuarioId=(window.AsserthSession&&window.AsserthSession.user&&window.AsserthSession.user.id)||null;
     const insertResposta=await supaClient.from('importacoes_prestadores').insert({arquivo_nome:arquivo.name,arquivo_path:caminho,enviado_por:usuarioId});
     if(insertResposta&&insertResposta.error){
       console.error('[Processamentos] erro ao registrar importação de prestadores:',insertResposta.error);
