@@ -2314,6 +2314,23 @@ html>body{padding:0}
           scheduleError.textContent='Enviando comunicado para aprovação...';
           if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError);
         }
+        // Recorrência (2026-08-26): esta tela só cria a 1ª ocorrência da
+        // série, do mesmo jeito que já criava antes (1 linha por grupo,
+        // AGUARDANDO_APROVACAO). É essa 1ª decisão em Aprovações que abre
+        // ou encerra a série inteira - ver
+        // supabase_fix_recorrencia_comunicados.sql e o novo workflow de
+        // Disparo (v5): depois que ESTA linha for aprovada e disparada
+        // com sucesso (ou até mesmo terminar em erro), é o próprio n8n
+        // quem calcula a próxima data (regra em `recorrencia`) e insere a
+        // ocorrência seguinte direto como PENDENTE (sem passar de novo
+        // por Aprovações) - só repete enquanto a próxima data calculada
+        // não ultrapassar `recorrencia_fim`. `serie_id` só existe para
+        // ligar visualmente/tecnicamente todas as ocorrências da mesma
+        // série (não é usado ainda para nenhuma lógica de cancelamento -
+        // como a série só avança uma ocorrência de cada vez, reprovar a
+        // 1ª simplesmente significa que a 2ª nunca chega a ser criada).
+        const recorrencia=recurrence.value;
+        const serieId=(recorrencia!=='once'&&window.crypto&&typeof window.crypto.randomUUID==='function')?window.crypto.randomUUID():null;
         const linhas=grupos.map(function(grupo){
           // grupoIdPorNome só tem entradas se a tabela real de grupos
           // (comunidades.grupos_whatsapp) existir e estiver populada -
@@ -2323,9 +2340,10 @@ html>body{padding:0}
           // por nome de sempre.
           const grupoId=grupoIdPorNome[grupo]||null;
           const chaveUnica=(nome.toUpperCase()+'|'+dataDisparo.slice(0,10)+'|'+String(grupoId||grupo).toUpperCase());
-          const linha={codigo:codigo,nome:nome,tipo:tipo,mensagem:message.value,data_disparo:dataDisparo,status:'AGUARDANDO_APROVACAO',tentativas:0,criado_por:usuarioId,observacao:observacao,grupo_nome:grupo,chave_unica:chaveUnica};
+          const linha={codigo:codigo,nome:nome,tipo:tipo,mensagem:message.value,data_disparo:dataDisparo,status:'AGUARDANDO_APROVACAO',tentativas:0,criado_por:usuarioId,observacao:observacao,grupo_nome:grupo,chave_unica:chaveUnica,recorrencia:recorrencia};
           if(grupoId)linha.grupo_id=grupoId;
           if(urlImagem)linha.url_imagem=urlImagem;
+          if(recorrencia!=='once'){linha.recorrencia_fim=recurrenceUntil.value;if(serieId)linha.serie_id=serieId}
           return linha;
         });
         // Detalhe do erro real do Postgres/Supabase: sem acesso direto ao
@@ -2358,7 +2376,7 @@ html>body{padding:0}
           scheduleError.style.color='var(--pv-green)';
           scheduleError.textContent='Comunicado validado e pronto para encaminhamento à aprovação.';
           if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(scheduleError);
-          showToast('Comunicado cadastrado e enviado para aprovação.');
+          showToast(recorrencia==='once'?'Comunicado cadastrado e enviado para aprovação.':'Comunicado cadastrado e enviado para aprovação. Aprovando esta 1ª data, as próximas da recorrência seguem automaticamente até '+displayDate(recurrenceUntil.value)+'.');
           loadRecords();
         }catch(err){
           registerLink.style.pointerEvents='';
