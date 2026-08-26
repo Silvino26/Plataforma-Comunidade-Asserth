@@ -1805,9 +1805,14 @@ html>body{padding:0}
       }
       function toCsvValue(v){const s=v==null?'':String(v);return /[",\n;]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s}
       function exportCsv(rows){
-        const headers=['Nome','Telefone','Tipo','Status','Empresa/Categoria','Última atualização','Observação'];
+        // Centro de custo (2026-08-26, pedido da Ana): só existe de verdade
+        // pra colaboradores (`participantes.centro_custo`, via mapParticipante);
+        // prestadores não têm essa informação, então `m.centroCusto` já vem
+        // vazio pra eles (ver mapPermanente) - a coluna simplesmente fica em
+        // branco nessas linhas, sem precisar de nenhum tratamento especial.
+        const headers=['Nome','Telefone','Tipo','Status','Empresa/Categoria','Centro de custo','Última atualização','Observação'];
         const lines=[headers.join(';')];
-        rows.forEach(function(m){lines.push([m.name,m.phone,m.type,m.statusLabel,m.extra||'',m.updated,m.observacao||''].map(toCsvValue).join(';'))});
+        rows.forEach(function(m){lines.push([m.name,m.phone,m.type,m.statusLabel,m.extra||'',m.centroCusto||'',m.updated,m.observacao||''].map(toCsvValue).join(';'))});
         const csv='﻿'+lines.join('\n'),blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob);
         const pad=function(n){return String(n).padStart(2,'0')},hoje=new Date();
         const a=document.createElement('a');
