@@ -1773,6 +1773,19 @@ html>body{padding:0}
         REMOVIDO:{label:'Removido da comunidade',bucket:'error'},
         AUSENTE_DA_COMUNIDADE:{label:'Ausente da comunidade (verificação automática)',bucket:'error'}
       };
+      // A coluna `categoria` de participantes_permanentes guarda valor técnico
+      // em CAIXA ALTA (mesma convenção de status_inclusao) - GESTOR incluído
+      // aqui só como rede de segurança (nome antigo, sendo substituído por
+      // PRESTADOR na base) para nunca aparecer texto crú na tela caso ainda
+      // exista alguma linha não migrada no momento da consulta.
+      const CATEGORIA_MAP={
+        GESTOR:'Prestador',
+        PRESTADOR:'Prestador',
+        DIRETORIA:'Diretoria',
+        SOCIO:'Sócio',
+        PJ:'PJ',
+        CONVIDADO_PERMANENTE:'Convidado permanente'
+      };
       function escapeHtml(value){return String(value==null?'':value).replace(/[&<>]/g,function(char){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[char]})}
       function statusInfo(raw){const key=String(raw||'').toUpperCase();return STATUS_MAP[key]||{label:raw||'Status desconhecido',bucket:'error'}}
       function fmtDate(v){
@@ -1787,7 +1800,7 @@ html>body{padding:0}
         return {id:'p-'+row.id,name:row.nome||'(sem nome)',phone:row.telefone||'—',type:'Colaborador',extra:row.empresa||'',statusRaw:row.status_inclusao,statusLabel:info.label,statusBucket:info.bucket,groups:[],updated:fmtDate(row.ultima_tentativa),observacao:row.observacao||'',cargo:row.cargo||'',centroCusto:row.centro_custo||''};
       }
       function mapPermanente(row){
-        const info=statusInfo(row.status_inclusao),tipo=row.categoria?String(row.categoria):'Prestador';
+        const info=statusInfo(row.status_inclusao),catKey=String(row.categoria||'').toUpperCase(),tipo=CATEGORIA_MAP[catKey]||(row.categoria?String(row.categoria):'Prestador');
         return {id:'g-'+row.id,name:row.nome||'(sem nome)',phone:row.telefone||'—',type:tipo,extra:tipo,statusRaw:row.status_inclusao,statusLabel:info.label,statusBucket:info.bucket,groups:[],updated:fmtDate(row.ultima_tentativa),observacao:row.observacao||'',cargo:'',centroCusto:''};
       }
       function toCsvValue(v){const s=v==null?'':String(v);return /[",\n;]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s}
