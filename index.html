@@ -1105,8 +1105,10 @@ html>body{padding:0}
 
 /* Barra de status geral da comunidade */
 #asserth-platform-overview .pv-statusbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:24px;padding:13px 16px;border-left:3px solid var(--pv-green);background:var(--pv-surface)}
+#asserth-platform-overview .pv-statusbar.is-offline{border-left-color:var(--pv-red)}
 .pv-status-main{display:flex;align-items:center;gap:10px}
 .pv-live{width:8px;height:8px;border-radius:50%;background:var(--pv-green);box-shadow:0 0 0 4px color-mix(in srgb,var(--pv-green) 12%,transparent)}
+.pv-live.is-offline{background:var(--pv-red);box-shadow:0 0 0 4px color-mix(in srgb,var(--pv-red) 12%,transparent)}
 .pv-status-main strong{font-size:12px;font-weight:500}
 .pv-status-main span,.pv-statusbar time{color:var(--pv-muted);font-size:11px}
 
@@ -1677,38 +1679,128 @@ html>body{padding:0}
 
 <section id="view-visao-geral" class="view pv-main" data-view="visao-geral" hidden>
       <div class="pv-page-head"><div><span class="pv-kicker">Visão geral</span><h1>Bom dia, Ana.</h1><p>Acompanhe o que precisa de atenção e conduza as próximas ações da comunidade.</p></div><div class="pv-profile"><input class="pv-profile-toggle" id="pv-profile-toggle-visao-geral" type="checkbox"><label class="pv-profile-btn" for="pv-profile-toggle-visao-geral" aria-label="Abrir opções do usuário"><span class="pv-avatar">AS</span></label><div class="pv-profile-menu" id="pv-profile-menu-visao-geral"><div class="pv-profile-summary"><strong>Ana Silva</strong><span>Administradora · Tecnologia</span></div><a href="#pv-native-profile"><i data-lucide="user-round" aria-hidden="true"></i> Meu perfil</a><a href="#pv-native-preferences"><i data-lucide="palette" aria-hidden="true"></i> Aparência e preferências</a><a href="#pv-native-notifications"><i data-lucide="bell" aria-hidden="true"></i> Notificações</a><a href="#pv-native-logout"><i data-lucide="log-out" aria-hidden="true"></i> Sair</a></div></div></div>
-      <div class="pv-statusbar" aria-label="Status geral da comunidade"><div class="pv-status-main"><span class="pv-live"></span><div><strong>Comunidade disponível</strong><span> · Todos os serviços estão operando normalmente</span></div></div><time>Atualizado hoje, 09:42</time></div>
-      <div class="pv-metrics" aria-label="Indicadores principais"><div class="pv-metric"><span>Membros confirmados</span><strong id="visao-geral-membros-total">226</strong><small id="visao-geral-membros-detalhe">215 colaboradores · 11 prestadores</small></div><div class="pv-metric"><span>Comunicados neste mês</span><strong>18</strong><small>4 próximos agendamentos</small></div><div class="pv-metric is-attention"><span>Aguardando aprovação</span><strong>3</strong><small>requerem decisão</small></div><div class="pv-metric"><span>Convites pendentes</span><strong>7</strong><small>sem reenvio automático</small></div></div>
-      <div class="pv-grid"><section class="pv-section"><div class="pv-section-head"><div><h2>Fila de trabalho</h2><p>Prioridades organizadas para o seu perfil de acesso.</p></div></div><div class="pv-worklist"><article class="pv-work"><span class="pv-work-icon"><i data-lucide="badge-check" aria-hidden="true"></i></span><div><strong>3 comunicados aguardam aprovação</strong><span>O mais próximo está agendado para hoje, às 14:00.</span></div><a href="#" data-view-link="aprovacoes" class="pv-tag"  data-roles="admin approver">Decidir agora</a></article><article class="pv-work"><span class="pv-work-icon"><i data-lucide="user-round-x" aria-hidden="true"></i></span><div><strong>4 membros precisam de tratamento</strong><span>Telefone ausente ou número sem WhatsApp identificado na última carga.</span></div><a href="#" data-view-link="membros" class="pv-tag"  data-roles="admin operator">Revisar dados</a></article><article class="pv-work"><span class="pv-work-icon"><i data-lucide="file-check-2" aria-hidden="true"></i></span><div><strong>Processamento de colaboradores concluído</strong><span>218 registros válidos · 5 remoções · 9 novas inclusões.</span></div><a href="#" data-view-link="processamentos" class="pv-tag is-green"  data-roles="admin">Ver resultado</a></article></div></section>
-        <section class="pv-section"><div class="pv-section-head"><div><h2>Próximos envios</h2><p>Agenda do Grupo de Avisos.</p></div><a href="#" data-view-link="comunicados" class="pv-link" >Abrir em Comunicados</a></div><div class="pv-agenda"><article class="pv-event"><div class="pv-date"><strong>20</strong><span>ago</span></div><div><h3>Boas-vindas aos novos membros</h3><p>Hoje, 14:00 · Pendente de aprovação</p></div></article><article class="pv-event"><div class="pv-date"><strong>21</strong><span>ago</span></div><div><h3>Pesquisa de experiência</h3><p>Amanhã, 10:30 · Agendado</p></div></article><article class="pv-event"><div class="pv-date"><strong>24</strong><span>ago</span></div><div><h3>Comunicado institucional</h3><p>Segunda-feira, 09:00 · Rascunho</p></div></article></div></section></div>
+      <div class="pv-statusbar" id="visao-geral-statusbar" aria-label="Status geral da comunidade"><div class="pv-status-main"><span class="pv-live" id="visao-geral-conexao-dot"></span><div><strong id="visao-geral-conexao-titulo">Verificando conexão…</strong><span id="visao-geral-conexao-detalhe"> · Consultando o status mais recente da integração</span></div></div><time id="visao-geral-conexao-hora">—</time></div>
+      <div class="pv-metrics" aria-label="Indicadores principais"><div class="pv-metric"><span>Membros confirmados</span><strong id="visao-geral-membros-total">—</strong><small id="visao-geral-membros-detalhe">Carregando…</small></div><div class="pv-metric"><span>Comunicados neste mês</span><strong id="visao-geral-comunicados-total">—</strong><small id="visao-geral-comunicados-detalhe">Carregando…</small></div><div class="pv-metric is-attention"><span>Aguardando aprovação</span><strong id="visao-geral-aprovacao-total">—</strong><small id="visao-geral-aprovacao-detalhe">requerem decisão</small></div><div class="pv-metric"><span>Convites pendentes</span><strong id="visao-geral-convites-total">—</strong><small id="visao-geral-convites-detalhe">convite enviado, aguardando confirmação</small></div></div>
+      <div class="pv-grid"><section class="pv-section"><div class="pv-section-head"><div><h2>Fila de trabalho</h2><p>Prioridades organizadas para o seu perfil de acesso.</p></div></div><div class="pv-worklist" id="visao-geral-fila-lista"><article class="pv-work" id="visao-geral-fila-aprovacoes"><span class="pv-work-icon"><i data-lucide="badge-check" aria-hidden="true"></i></span><div><strong id="visao-geral-fila-aprovacoes-titulo">Carregando…</strong><span id="visao-geral-fila-aprovacoes-detalhe"></span></div><a href="#" data-view-link="aprovacoes" class="pv-tag"  data-roles="admin approver">Decidir agora</a></article><article class="pv-work" id="visao-geral-fila-membros"><span class="pv-work-icon"><i data-lucide="user-round-x" aria-hidden="true"></i></span><div><strong id="visao-geral-fila-membros-titulo">Carregando…</strong><span id="visao-geral-fila-membros-detalhe"></span></div><a href="#" data-view-link="membros" class="pv-tag"  data-roles="admin operator">Revisar dados</a></article><article class="pv-work" id="visao-geral-fila-processamentos"><span class="pv-work-icon"><i data-lucide="file-check-2" aria-hidden="true"></i></span><div><strong id="visao-geral-fila-processamentos-titulo">Carregando…</strong><span id="visao-geral-fila-processamentos-detalhe"></span></div><a href="#" data-view-link="processamentos" class="pv-tag is-green"  data-roles="admin">Ver resultado</a></article></div></section>
+        <section class="pv-section"><div class="pv-section-head"><div><h2>Próximos envios</h2><p>Agenda do Grupo de Avisos.</p></div><a href="#" data-view-link="comunicados" class="pv-link" >Abrir em Comunicados</a></div><div class="pv-agenda" id="visao-geral-agenda-lista"><div id="visao-geral-agenda-vazio" style="padding:20px 0;color:var(--pv-muted);font-size:10px">Carregando…</div></div></section></div>
 </section>
 <script>
 (function(){
+  // ---------------------------------------------------------------------
+  // Classificação única de status de participante (2026-08-27, pedido da
+  // Ana: "os status precisam ser bem categorizados", sem misturar coisas
+  // diferentes em filtros/exportação/relatórios). Antes, Membros tinha seu
+  // próprio STATUS_MAP local, e a Visão Geral não tinha nenhum. Ficando os
+  // dois lendo ESTE MESMO objeto global, os dois lugares sempre concordam
+  // sobre o que cada status técnico do banco significa - não tem mais
+  // como um lugar contar "convite pendente" de um jeito e outro lugar de
+  // outro. `categoria` é a granularidade fina (8 categorias reais,
+  // distinguindo convite enviado de pendente sem confirmação, erro de
+  // telefone de erro de processamento etc.) usada em filtros/exportação/
+  // contagens precisas; `visual` é só o agrupamento em 3 cores que a
+  // Membros já usava para o selo colorido (included/invited/error),
+  // mantido para não precisar mexer no CSS existente.
+  window.AsserthStatusParticipante = {
+    map: {
+      INCLUIDO:{label:'Incluído',categoria:'incluido',visual:'included',atencao:false},
+      PROTEGIDO:{label:'Protegido',categoria:'incluido',visual:'included',atencao:false},
+      CONVITE_ENVIADO:{label:'Convite enviado (aguardando confirmação)',categoria:'convite_pendente',visual:'invited',atencao:false},
+      CONVITE_ENVIADO_OU_PENDENTE:{label:'Convite enviado (aguardando confirmação)',categoria:'convite_pendente',visual:'invited',atencao:false},
+      PENDENTE:{label:'Pendente (ainda não processado)',categoria:'pendente_sem_convite',visual:'invited',atencao:false},
+      PENDENTE_SEM_LID:{label:'Pendente (sem WhatsApp confirmado)',categoria:'pendente_sem_convite',visual:'invited',atencao:false},
+      ERRO:{label:'Telefone com divergência',categoria:'telefone_divergente',visual:'error',atencao:true},
+      ERRO_NAO_LOCALIZADO:{label:'Telefone não localizado',categoria:'telefone_divergente',visual:'error',atencao:true},
+      ERRO_API:{label:'Erro de processamento (API)',categoria:'erro_processamento',visual:'error',atencao:true},
+      ERRO_REMOCAO:{label:'Erro ao remover',categoria:'erro_processamento',visual:'error',atencao:true},
+      NAO_CLASSIFICADO:{label:'Não classificado',categoria:'erro_processamento',visual:'error',atencao:true},
+      NAO_IDENTIFICADO:{label:'Não identificado (fora de qualquer base)',categoria:'nao_identificado',visual:'error',atencao:true},
+      REMOVIDO:{label:'Removido da comunidade',categoria:'removido',visual:'error',atencao:false},
+      AUSENTE_DA_COMUNIDADE:{label:'Ausente (saiu após confirmação)',categoria:'ausente',visual:'error',atencao:false}
+    },
+    categorias:[
+      {value:'incluido',label:'Incluído'},
+      {value:'convite_pendente',label:'Convite enviado (aguardando confirmação)'},
+      {value:'pendente_sem_convite',label:'Pendente (sem confirmação)'},
+      {value:'telefone_divergente',label:'Telefone com divergência'},
+      {value:'erro_processamento',label:'Erro de processamento'},
+      {value:'nao_identificado',label:'Não identificado'},
+      {value:'removido',label:'Removido da comunidade'},
+      {value:'ausente',label:'Ausente (saiu após confirmação)'}
+    ],
+    info:function(raw){
+      var key=String(raw||'').toUpperCase();
+      return this.map[key]||{label:raw||'Status desconhecido',categoria:'desconhecido',visual:'error',atencao:true};
+    }
+  };
+
   window.AsserthViews = window.AsserthViews || {};
   window.AsserthViews['visao-geral'] = {
     init: function() {
-      // No mockup original desta aba não foi encontrado nenhum JavaScript
-      // exclusivo de comportamento de dados/filtro/gráfico para a Visão Geral.
-      // Toda a lógica presente no arquivo de origem que tocava elementos desta
-      // tela (saudação por horário do dia, tradução de textos, tema, densidade,
-      // som de notificação, menu de perfil, drawer genérico e "troca de papel")
-      // pertence ao chrome compartilhado (idioma/tema/perfil) ou é código órfão
-      // sem gatilho visível no HTML (ver visao-geral.notes.md, seção
-      // "Coisas quebradas/incompletas"). Nada foi inventado aqui além deste
-      // ponto de extensão, mantido por segurança para futura lógica desta view.
-      //
-      // Único ponto real de dados hoje: o card "Membros confirmados" vinha
-      // 100% fixo do mockup (226 / 215 colaboradores · 11 prestadores). Como a
-      // aba Membros passou a consultar as tabelas reais `participantes` e
-      // `participantes_permanentes`, este card teria ficado incoerente com o
-      // que a Ana vê lá dentro. O reforço abaixo busca as contagens reais e
-      // substitui o texto estático só se a consulta funcionar; se falhar por
-      // qualquer motivo (RLS, schema cache, offline), o valor do mockup
-      // permanece exatamente como estava antes — nunca quebra a tela.
-      (function tentativaCarregarContagemRealDeMembros(){
+      // Reescrito em 2026-08-27: até aqui, só o card "Membros confirmados"
+      // era dado real (busca best-effort abaixo, preservada) - todo o
+      // resto (conexão, comunicados do mês, aguardando aprovação, convites
+      // pendentes, fila de trabalho, próximos envios) era texto fixo do
+      // mockup original, nunca ligado ao banco. A Ana apontou, com vídeo,
+      // dois efeitos reais disso: (1) o número fixo de membros aparecia por
+      // um instante antes do valor real chegar (a troca abaixo é
+      // assíncrona) e (2) os outros cards mostravam números que não batiam
+      // com a tabela real (18 comunicados vs. 2 reais, etc.) porque nunca
+      // existiu consulta nenhuma por trás. Pedido dela: nenhum número fixo
+      // deve sobrar - tudo tem que refletir a ÚLTIMA consulta real ao
+      // banco, e se algo ainda não puder ser carregado, mostrar um estado
+      // de carregamento/indisponível honesto em vez de um valor inventado.
+      var supaClient=window.AsserthSupabase;
+
+      function setText(id,texto){var el=document.getElementById(id);if(el)el.textContent=texto}
+      function retag(id){var el=document.getElementById(id);if(el&&window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(el)}
+
+      // ----- Conexão com a comunidade (comunidades.status_comunidade) -----
+      // Já existe um fluxo n8n ("Comunidade Asserth | Atualizar Status
+      // (Automático)") que grava aqui a cada poucos minutos se a
+      // integração com a Z-API está respondendo ou não. Até esta entrega,
+      // nada no front lia essa tabela - o card "Comunidade disponível" era
+      // 100% decorativo. Renomeado a pedido da Ana: uma desconexão da
+      // integração não significa que a comunidade em si desapareceu.
+      (function carregarStatusConexao(){
+        var barra=document.getElementById('visao-geral-statusbar'),dot=document.getElementById('visao-geral-conexao-dot'),titulo=document.getElementById('visao-geral-conexao-titulo'),detalhe=document.getElementById('visao-geral-conexao-detalhe'),hora=document.getElementById('visao-geral-conexao-hora');
+        function aplicarOffline(mensagemDetalhe){
+          if(barra)barra.classList.add('is-offline');
+          if(dot)dot.classList.add('is-offline');
+          if(titulo)titulo.textContent='Conexão indisponível';
+          if(detalhe)detalhe.textContent=' · '+mensagemDetalhe;
+        }
+        function aplicarOnline(){
+          if(barra)barra.classList.remove('is-offline');
+          if(dot)dot.classList.remove('is-offline');
+          if(titulo)titulo.textContent='Conexão disponível';
+          if(detalhe)detalhe.textContent=' · Integração com a comunidade operando normalmente';
+        }
         try{
-          var supaClient=window.AsserthSupabase;
-          if(!supaClient)return;
+          if(!supaClient){if(titulo)titulo.textContent='Conexão desconhecida';if(detalhe)detalhe.textContent=' · Não foi possível consultar o status agora';return}
+          supaClient.from('status_comunidade').select('conectado,ultima_verificacao,ultimo_erro').order('ultima_verificacao',{ascending:false}).limit(1).then(function(resposta){
+            if(resposta&&resposta.error)throw resposta.error;
+            var linha=resposta&&Array.isArray(resposta.data)?resposta.data[0]:null;
+            if(!linha){if(titulo)titulo.textContent='Conexão desconhecida';if(detalhe)detalhe.textContent=' · Ainda não há nenhuma verificação registrada';return}
+            if(linha.conectado===true)aplicarOnline();
+            else aplicarOffline(linha.ultimo_erro?('Falha na integração: '+linha.ultimo_erro):'Falha na integração com a comunidade — equipe já notificada');
+            if(hora&&linha.ultima_verificacao)hora.dataset.iso=linha.ultima_verificacao;
+            if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh([titulo,hora].filter(Boolean));
+          }).catch(function(err){
+            console.error('[VisaoGeral] não foi possível carregar o status de conexão:',err);
+            if(titulo)titulo.textContent='Conexão desconhecida';
+            if(detalhe)detalhe.textContent=' · Não foi possível consultar o status agora';
+          });
+        }catch(err){
+          console.error('[VisaoGeral] falha inesperada ao carregar status de conexão:',err);
+        }
+      })();
+
+      // ----- Membros confirmados (mantido, mesmo padrão best-effort já
+      // usado antes - só muda o texto de carregamento inicial, que agora
+      // é honesto ("—"/"Carregando…") em vez de um número de mockup). -----
+      (function carregarContagemRealDeMembros(){
+        try{
+          if(!supaClient){setText('visao-geral-membros-detalhe','Não foi possível conectar ao serviço.');retag('visao-geral-membros-detalhe');return}
           Promise.all([
             supaClient.from('participantes').select('id',{count:'exact',head:true}).in('status_inclusao',['INCLUIDO','PROTEGIDO']),
             supaClient.from('participantes_permanentes').select('id',{count:'exact',head:true}).eq('ativo',true).in('status_inclusao',['INCLUIDO'])
@@ -1719,16 +1811,146 @@ html>body{padding:0}
             var colaboradores=respColaboradores&&typeof respColaboradores.count==='number'?respColaboradores.count:null;
             var prestadores=respPrestadores&&typeof respPrestadores.count==='number'?respPrestadores.count:null;
             if(colaboradores===null||prestadores===null)return;
-            var totalEl=document.getElementById('visao-geral-membros-total'),detalheEl=document.getElementById('visao-geral-membros-detalhe');
-            if(totalEl)totalEl.textContent=String(colaboradores+prestadores);
-            if(detalheEl)detalheEl.textContent=colaboradores+' colaboradores · '+prestadores+' prestadores';
+            setText('visao-geral-membros-total',String(colaboradores+prestadores));
+            setText('visao-geral-membros-detalhe',colaboradores+' colaboradores · '+prestadores+' prestadores');
           }).catch(function(err){
-            console.error('[VisaoGeral] não foi possível carregar a contagem real de membros (mantendo valor padrão):',err);
+            console.error('[VisaoGeral] não foi possível carregar a contagem real de membros:',err);
+            setText('visao-geral-membros-detalhe','Não foi possível carregar agora.');
+            retag('visao-geral-membros-detalhe');
           });
         }catch(err){
           console.error('[VisaoGeral] falha inesperada ao tentar carregar a contagem real de membros:',err);
         }
       })();
+
+      // ----- Convites pendentes + fila "membros precisam de tratamento" -----
+      // Usa a classificação única (window.AsserthStatusParticipante) para
+      // nunca divergir do que a aba Membros mostra nos mesmos filtros.
+      (function carregarStatusParticipantes(){
+        try{
+          if(!supaClient)return;
+          Promise.all([
+            supaClient.from('participantes').select('status_inclusao'),
+            supaClient.from('participantes_permanentes').select('status_inclusao').eq('ativo',true)
+          ]).then(function(resultados){
+            var respParticipantes=resultados[0],respPermanentes=resultados[1];
+            if(respParticipantes&&respParticipantes.error)throw respParticipantes.error;
+            if(respPermanentes&&respPermanentes.error)throw respPermanentes.error;
+            var linhas=[].concat(respParticipantes&&respParticipantes.data||[],respPermanentes&&respPermanentes.data||[]);
+            var classificacao=window.AsserthStatusParticipante;
+            var convitePendente=0,atencao=0;
+            linhas.forEach(function(row){
+              var info=classificacao.info(row.status_inclusao);
+              if(info.categoria==='convite_pendente')convitePendente++;
+              if(info.atencao)atencao++;
+            });
+            setText('visao-geral-convites-total',String(convitePendente));
+            var fMembrosTitulo=document.getElementById('visao-geral-fila-membros-titulo'),fMembrosDetalhe=document.getElementById('visao-geral-fila-membros-detalhe'),fMembrosArtigo=document.getElementById('visao-geral-fila-membros');
+            if(fMembrosArtigo&&fMembrosArtigo.style.display==='none')return; // já escondido pelo RBAC (perfil sem acesso a Membros) - não reaparece por conta de dado
+            if(atencao>0){
+              if(fMembrosTitulo)fMembrosTitulo.textContent=atencao+(atencao===1?' membro precisa':' membros precisam')+' de tratamento';
+              if(fMembrosDetalhe)fMembrosDetalhe.textContent='Telefone com divergência, erro de processamento ou registro não identificado.';
+              retag('visao-geral-fila-membros-detalhe');
+            }else if(fMembrosArtigo){
+              fMembrosArtigo.style.display='none';
+            }
+          }).catch(function(err){
+            console.error('[VisaoGeral] não foi possível carregar status dos participantes:',err);
+          });
+        }catch(err){
+          console.error('[VisaoGeral] falha inesperada ao carregar status dos participantes:',err);
+        }
+      })();
+
+      // ----- Comunicados neste mês + Aguardando aprovação + fila de
+      // aprovações + próximos envios (comunidades.comunicacoes) -----
+      (function carregarComunicados(){
+        try{
+          if(!supaClient)return;
+          supaClient.from('comunicacoes').select('status,data_disparo,nome').then(function(resposta){
+            if(resposta&&resposta.error)throw resposta.error;
+            var linhas=resposta&&Array.isArray(resposta.data)?resposta.data:[];
+            var agora=new Date(),anoMes=agora.getFullYear()+'-'+String(agora.getMonth()+1).padStart(2,'0');
+            var esteMes=0,aguardandoAprovacao=[],proximos=[];
+            linhas.forEach(function(row){
+              var status=String(row.status||'').toUpperCase();
+              if(row.data_disparo&&String(row.data_disparo).slice(0,7)===anoMes)esteMes++;
+              if(status==='AGUARDANDO_APROVACAO')aguardandoAprovacao.push(row);
+              if((status==='PENDENTE'||status==='AGUARDANDO_APROVACAO')&&row.data_disparo){
+                var quando=new Date(row.data_disparo);
+                if(!isNaN(quando.getTime())&&quando.getTime()>=agora.getTime())proximos.push({nome:row.nome,quando:quando,status:status});
+              }
+            });
+            setText('visao-geral-comunicados-total',String(esteMes));
+            setText('visao-geral-comunicados-detalhe',esteMes===1?'1 comunicado neste mês':esteMes+' comunicados neste mês');
+            setText('visao-geral-aprovacao-total',String(aguardandoAprovacao.length));
+
+            var fAprovacoesArtigo=document.getElementById('visao-geral-fila-aprovacoes'),fAprovacoesTitulo=document.getElementById('visao-geral-fila-aprovacoes-titulo'),fAprovacoesDetalhe=document.getElementById('visao-geral-fila-aprovacoes-detalhe');
+            if(fAprovacoesArtigo&&fAprovacoesArtigo.style.display==='none'){/* RBAC já escondeu - não mexe */}
+            else if(aguardandoAprovacao.length>0){
+              aguardandoAprovacao.sort(function(a,b){return new Date(a.data_disparo)-new Date(b.data_disparo)});
+              var proximo=aguardandoAprovacao[0],dataProx=proximo.data_disparo?new Date(proximo.data_disparo):null,dataTxt=dataProx&&!isNaN(dataProx.getTime())?formatarDataHora(dataProx):'data a confirmar';
+              if(fAprovacoesTitulo)fAprovacoesTitulo.textContent=aguardandoAprovacao.length+(aguardandoAprovacao.length===1?' comunicado aguarda':' comunicados aguardam')+' aprovação';
+              if(fAprovacoesDetalhe)fAprovacoesDetalhe.textContent='O mais próximo está agendado para '+dataTxt+'.';
+            }else if(fAprovacoesArtigo){
+              fAprovacoesArtigo.style.display='none';
+            }
+
+            var agendaLista=document.getElementById('visao-geral-agenda-lista'),agendaVazio=document.getElementById('visao-geral-agenda-vazio');
+            if(agendaLista){
+              proximos.sort(function(a,b){return a.quando-b.quando});
+              proximos=proximos.slice(0,3);
+              if(!proximos.length){
+                if(agendaVazio){agendaVazio.textContent='Nenhum envio agendado no momento.';retag('visao-geral-agenda-vazio')}
+              }else{
+                if(agendaVazio)agendaVazio.remove();
+                agendaLista.innerHTML=proximos.map(function(item){
+                  var dia=String(item.quando.getDate()).padStart(2,'0'),mes=MESES_ABREV[item.quando.getMonth()];
+                  var statusTxt=item.status==='AGUARDANDO_APROVACAO'?'Pendente de aprovação':'Agendado';
+                  return '<article class="pv-event"><div class="pv-date"><strong>'+dia+'</strong><span>'+mes+'</span></div><div><h3>'+escapeHtmlVG(item.nome||'(sem nome)')+'</h3><p>'+formatarDataHora(item.quando)+' · '+statusTxt+'</p></div></article>';
+                }).join('');
+              }
+            }
+          }).catch(function(err){
+            console.error('[VisaoGeral] não foi possível carregar comunicados:',err);
+          });
+        }catch(err){
+          console.error('[VisaoGeral] falha inesperada ao carregar comunicados:',err);
+        }
+      })();
+
+      // ----- Fila "processamento concluído" (comunidades.processamentos) -----
+      (function carregarUltimoProcessamento(){
+        try{
+          if(!supaClient)return;
+          var artigo=document.getElementById('visao-geral-fila-processamentos');
+          if(artigo&&artigo.style.display==='none')return; // RBAC já escondeu
+          supaClient.from('processamentos').select('tipo,titulo,registros,incluidos,removidos,mantidos,finalizado_em').eq('status','CONCLUIDO').order('finalizado_em',{ascending:false}).limit(1).then(function(resposta){
+            if(resposta&&resposta.error)throw resposta.error;
+            var linha=resposta&&Array.isArray(resposta.data)?resposta.data[0]:null;
+            var titulo=document.getElementById('visao-geral-fila-processamentos-titulo'),detalhe=document.getElementById('visao-geral-fila-processamentos-detalhe');
+            if(!linha){if(artigo)artigo.style.display='none';return}
+            if(titulo)titulo.textContent=(linha.titulo||linha.tipo||'Processamento')+' concluído';
+            var partes=[];
+            if(typeof linha.registros==='number')partes.push(linha.registros+' registros válidos');
+            if(typeof linha.removidos==='number')partes.push(linha.removidos+' remoções');
+            if(typeof linha.incluidos==='number')partes.push(linha.incluidos+' novas inclusões');
+            if(detalhe)detalhe.textContent=partes.join(' · ')||'Concluído sem detalhes adicionais.';
+          }).catch(function(err){
+            console.error('[VisaoGeral] não foi possível carregar o último processamento:',err);
+            if(artigo)artigo.style.display='none';
+          });
+        }catch(err){
+          console.error('[VisaoGeral] falha inesperada ao carregar o último processamento:',err);
+        }
+      })();
+
+      var MESES_ABREV=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+      function escapeHtmlVG(value){return String(value==null?'':value).replace(/[&<>]/g,function(char){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[char]})}
+      function formatarDataHora(data){
+        var pad=function(n){return String(n).padStart(2,'0')};
+        return pad(data.getDate())+'/'+pad(data.getMonth()+1)+', às '+pad(data.getHours())+':'+pad(data.getMinutes());
+      }
     }
   };
 })();
@@ -1736,7 +1958,7 @@ html>body{padding:0}
 
 <section id="view-membros" class="view pv-main" data-view="membros" hidden>
 <div class="pv-page-head"><div><span class="pv-kicker">Comunidade</span><h1>Membros</h1><p>Consulte e gerencie as pessoas registradas na comunidade conforme o seu acesso.</p></div><div class="pv-comm-head-side"><div class="pv-profile"><input class="pv-profile-toggle" id="pv-profile-toggle-membros" type="checkbox"><label class="pv-profile-btn" for="pv-profile-toggle-membros" aria-label="Abrir opções do usuário"><span class="pv-avatar">AS</span></label><div class="pv-profile-menu" id="pv-profile-menu-membros"><div class="pv-profile-summary"><strong>Ana Silva</strong><span>Administradora · Tecnologia</span></div><a href="#pv-native-profile"><i data-lucide="user-round" aria-hidden="true"></i> Meu perfil</a><a href="#pv-native-preferences"><i data-lucide="palette" aria-hidden="true"></i> Aparência e preferências</a><a href="#pv-native-notifications"><i data-lucide="bell" aria-hidden="true"></i> Notificações</a><a href="#pv-native-logout"><i data-lucide="log-out" aria-hidden="true"></i> Sair</a></div></div><div class="pm-actions"><a class="pv-comm-button" href="#membros-pm-filter"><i data-lucide="sliders-horizontal"></i>Filtrar</a><button class="pv-comm-button" id="membros-pm-export"><i data-lucide="download"></i>Exportar</button></div></div></div><div class="pv-metrics"><div class="pv-metric"><span>Relação atual</span><strong id="membros-pm-total">0</strong><small>registros visíveis</small></div><div class="pv-metric"><span>Na comunidade</span><strong id="membros-pm-included">0</strong><small>presença confirmada</small></div><div class="pv-metric"><span>Convites enviados</span><strong id="membros-pm-invited">0</strong><small>aguardando entrada</small></div><div class="pv-metric"><span>Com divergência</span><strong id="membros-pm-errors">0</strong><small>precisam de tratamento</small></div></div><section class="pv-section"><div class="pv-comm-toolbar"><div><h2>Relação atual de membros</h2><p>A relação inclui pessoas confirmadas, convidadas e registros com divergência.</p></div><span class="pv-comm-cell" id="membros-pm-label"></span></div><div class="pm-list" id="membros-pm-list"></div><div class="pv-pagination"><span id="membros-pm-summary"></span><div class="pv-page-buttons" id="membros-pm-pages"></div></div></section>
-<section class="pv-native-panel" id="membros-pm-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar membros</h2><p>Localize apenas os registros necessários.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-filter-grid"><div class="pv-native-field"><label>Nome</label><input id="membros-pm-q" placeholder="Digite para pesquisar"></div><div class="pv-native-field"><label>Tipo de membro</label><select id="membros-pm-type"><option value="">Todos</option><option>Colaborador</option><option>Prestador</option></select></div><div class="pv-native-field"><label>Status</label><select id="membros-pm-status"><option value="">Todos</option><option value="included">Incluído</option><option value="invited">Convite enviado</option><option value="error">Com divergência</option></select></div><div class="pv-native-field"><label>Grupo</label><select id="membros-pm-group"><option value="">Todos</option><option>Avisos</option><option>Financeiro</option><option>Departamento Pessoal</option></select></div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" id="membros-pm-clear" href="#">Limpar</a><a id="membros-pm-apply" href="#">Aplicar filtros</a></div></div></section><section class="pv-native-panel" id="membros-pm-detail"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Detalhes do membro</h2><p>Consulte o cadastro e gerencie grupos autorizados.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-detail-grid" id="membros-pm-detail-data"></div><h3 style="font-size:10px">Grupos vinculados</h3><div class="pm-groups-picker" id="membros-pm-groups-picker"><button class="pm-groups-trigger" id="membros-pm-groups-trigger" type="button"><span class="chips" id="membros-pm-group-chips"></span><span>⌄</span></button><div class="pm-group-list" id="membros-pm-group-list"></div></div><p class="pm-note">Avisos é obrigatório e não pode ser removido. As alterações nos demais grupos serão enviadas para execução e acompanhamento em Processamentos; elas não retiram a pessoa da comunidade.</p></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Fechar</a><a id="membros-pm-save" href="#">Salvar</a></div></div></section><div class="pv-toast" id="membros-pm-toast"><i data-lucide="info" aria-hidden="true"></i><span></span></div>
+<section class="pv-native-panel" id="membros-pm-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar membros</h2><p>Localize apenas os registros necessários.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-filter-grid"><div class="pv-native-field"><label>Nome</label><input id="membros-pm-q" placeholder="Digite para pesquisar"></div><div class="pv-native-field"><label>Tipo de membro</label><select id="membros-pm-type"><option value="">Todos</option><option>Colaborador</option><option>Prestador</option></select></div><div class="pv-native-field"><label>Status</label><select id="membros-pm-status"><option value="">Todos</option><option value="incluido">Incluído</option><option value="convite_pendente">Convite enviado (aguardando confirmação)</option><option value="pendente_sem_convite">Pendente (sem confirmação)</option><option value="telefone_divergente">Telefone com divergência</option><option value="erro_processamento">Erro de processamento</option><option value="nao_identificado">Não identificado</option><option value="removido">Removido da comunidade</option><option value="ausente">Ausente (saiu após confirmação)</option></select></div><div class="pv-native-field"><label>Grupo</label><select id="membros-pm-group"><option value="">Todos</option><option>Avisos</option><option>Financeiro</option><option>Departamento Pessoal</option></select></div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" id="membros-pm-clear" href="#">Limpar</a><a id="membros-pm-apply" href="#">Aplicar filtros</a></div></div></section><section class="pv-native-panel" id="membros-pm-detail"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Detalhes do membro</h2><p>Consulte o cadastro e gerencie grupos autorizados.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-detail-grid" id="membros-pm-detail-data"></div><h3 style="font-size:10px">Grupos vinculados</h3><div class="pm-groups-picker" id="membros-pm-groups-picker"><button class="pm-groups-trigger" id="membros-pm-groups-trigger" type="button"><span class="chips" id="membros-pm-group-chips"></span><span>⌄</span></button><div class="pm-group-list" id="membros-pm-group-list"></div></div><p class="pm-note">Avisos é obrigatório e não pode ser removido. As alterações nos demais grupos serão enviadas para execução e acompanhamento em Processamentos; elas não retiram a pessoa da comunidade.</p></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Fechar</a><a id="membros-pm-save" href="#">Salvar</a></div></div></section><div class="pv-toast" id="membros-pm-toast"><i data-lucide="info" aria-hidden="true"></i><span></span></div>
 </section>
 <script>
 (function(){
@@ -1758,21 +1980,14 @@ html>body{padding:0}
       // (para não tirar nada que já existia), mas não filtram/gravam nada de
       // verdade ainda — "Salvar" nesse painel segue sendo só o aviso local
       // de sempre, sem alterar o banco.
-      const STATUS_MAP={
-        INCLUIDO:{label:'Incluído',bucket:'included'},
-        PROTEGIDO:{label:'Protegido',bucket:'included'},
-        CONVITE_ENVIADO:{label:'Convite enviado',bucket:'invited'},
-        CONVITE_ENVIADO_OU_PENDENTE:{label:'Convite enviado',bucket:'invited'},
-        PENDENTE:{label:'Pendente',bucket:'invited'},
-        PENDENTE_SEM_LID:{label:'Pendente (sem WhatsApp confirmado)',bucket:'invited'},
-        ERRO:{label:'Erro de telefone',bucket:'error'},
-        ERRO_API:{label:'Erro de inclusão (API)',bucket:'error'},
-        ERRO_REMOCAO:{label:'Erro na remoção',bucket:'error'},
-        ERRO_NAO_LOCALIZADO:{label:'Não localizado',bucket:'error'},
-        NAO_CLASSIFICADO:{label:'Não classificado',bucket:'error'},
-        REMOVIDO:{label:'Removido da comunidade',bucket:'error'},
-        AUSENTE_DA_COMUNIDADE:{label:'Ausente da comunidade (verificação automática)',bucket:'error'}
-      };
+      // 2026-08-27: o STATUS_MAP local que existia aqui foi substituído pela
+      // classificação única window.AsserthStatusParticipante (definida no
+      // script da Visão Geral, que carrega antes deste). Antes, cada tela
+      // tinha sua própria ideia do que "convite enviado" ou "com
+      // divergência" significava - a Ana apontou que isso deixava o filtro
+      // de Membros e o card de "Convites pendentes" da Visão Geral
+      // contando coisas diferentes com o mesmo nome. Agora as duas telas
+      // leem exatamente a mesma fonte, então nunca mais podem divergir.
       // A coluna `categoria` de participantes_permanentes guarda valor técnico
       // em CAIXA ALTA (mesma convenção de status_inclusao) - GESTOR incluído
       // aqui só como rede de segurança (nome antigo, sendo substituído por
@@ -1787,7 +2002,11 @@ html>body{padding:0}
         CONVIDADO_PERMANENTE:'Convidado permanente'
       };
       function escapeHtml(value){return String(value==null?'':value).replace(/[&<>]/g,function(char){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[char]})}
-      function statusInfo(raw){const key=String(raw||'').toUpperCase();return STATUS_MAP[key]||{label:raw||'Status desconhecido',bucket:'error'}}
+      function statusInfo(raw){
+        var classificacao=window.AsserthStatusParticipante;
+        var info=classificacao?classificacao.info(raw):{label:raw||'Status desconhecido',categoria:'desconhecido',visual:'error'};
+        return {label:info.label,bucket:info.visual,categoria:info.categoria};
+      }
       function fmtDate(v){
         if(!v)return '—';
         const d=new Date(v);
@@ -1797,11 +2016,11 @@ html>body{padding:0}
       }
       function mapParticipante(row){
         const info=statusInfo(row.status_inclusao);
-        return {id:'p-'+row.id,name:row.nome||'(sem nome)',phone:row.telefone||'—',type:'Colaborador',extra:row.empresa||'',statusRaw:row.status_inclusao,statusLabel:info.label,statusBucket:info.bucket,groups:[],updated:fmtDate(row.ultima_tentativa),observacao:row.observacao||'',cargo:row.cargo||'',centroCusto:row.centro_custo||''};
+        return {id:'p-'+row.id,name:row.nome||'(sem nome)',phone:row.telefone||'—',type:'Colaborador',extra:row.empresa||'',statusRaw:row.status_inclusao,statusLabel:info.label,statusBucket:info.bucket,statusCategoria:info.categoria,groups:[],updated:fmtDate(row.ultima_tentativa),observacao:row.observacao||'',cargo:row.cargo||'',centroCusto:row.centro_custo||''};
       }
       function mapPermanente(row){
         const info=statusInfo(row.status_inclusao),catKey=String(row.categoria||'').toUpperCase(),tipo=CATEGORIA_MAP[catKey]||(row.categoria?String(row.categoria):'Prestador');
-        return {id:'g-'+row.id,name:row.nome||'(sem nome)',phone:row.telefone||'—',type:tipo,extra:tipo,statusRaw:row.status_inclusao,statusLabel:info.label,statusBucket:info.bucket,groups:[],updated:fmtDate(row.ultima_tentativa),observacao:row.observacao||'',cargo:'',centroCusto:''};
+        return {id:'g-'+row.id,name:row.nome||'(sem nome)',phone:row.telefone||'—',type:tipo,extra:tipo,statusRaw:row.status_inclusao,statusLabel:info.label,statusBucket:info.bucket,statusCategoria:info.categoria,groups:[],updated:fmtDate(row.ultima_tentativa),observacao:row.observacao||'',cargo:'',centroCusto:''};
       }
       function toCsvValue(v){const s=v==null?'':String(v);return /[",\n;]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s}
       function exportCsv(rows){
@@ -1900,7 +2119,7 @@ html>body{padding:0}
       document.getElementById('membros-pm-apply').onclick=function(e){
         e.preventDefault();
         const q=document.getElementById('membros-pm-q').value.toLowerCase(),t=document.getElementById('membros-pm-type').value,s=document.getElementById('membros-pm-status').value;
-        filtered=data.filter(function(x){return (!q||(x.name+' '+x.phone).toLowerCase().indexOf(q)!==-1)&&(!t||x.type===t)&&(!s||x.statusBucket===s)});
+        filtered=data.filter(function(x){return (!q||(x.name+' '+x.phone).toLowerCase().indexOf(q)!==-1)&&(!t||x.type===t)&&(!s||x.statusCategoria===s)});
         page=1;render();location.hash='';
       };
       document.getElementById('membros-pm-clear').onclick=function(e){
@@ -3005,7 +3224,7 @@ html>body{padding:0}
 const items=[];
 let filtered=[...items],page=1,selected=null,activePane='employees';const size=4,statusLabel={done:'Concluído',running:'Em andamento',pending:'Aguardando execução',error:'Com erro',cancelled:'Cancelado'};
 function render(){const rows=filtered.slice((page-1)*size,page*size);document.getElementById('processamentos-list').innerHTML=rows.map(p=>`<div class="pp-row"><div><strong>${p.name}</strong><small>${p.origin}</small></div><div class="pp-cell">${p.type}</div><div class="pp-cell">${p.records} registro(s)</div><div><span class="pp-status ${p.status}">${statusLabel[p.status]}</span></div><a class="pp-link" href="#processamentos-detail" data-id="${p.id}">Visualizar →</a></div>`).join('');['running','pending','done','error'].forEach(s=>document.getElementById('processamentos-'+s).textContent=filtered.filter(p=>p.status===s).length);const cancelled=document.getElementById('processamentos-cancelled');if(cancelled)cancelled.textContent=filtered.filter(p=>p.status==='cancelled').length;document.getElementById('processamentos-label').textContent=filtered.length+' registros';document.getElementById('processamentos-summary').textContent=filtered.length?`${(page-1)*size+1}–${(page-1)*size+rows.length} de ${filtered.length}`:'0 registros';const pages=Math.max(1,Math.ceil(filtered.length/size)),target=document.getElementById('processamentos-pages');window.AsserthPaginacao.render(target,{page:page,total:pages,onSelect:function(p){page=p;render()}})}
-function detail(p){selected=p;document.getElementById('processamentos-detail-head').innerHTML=`<div><span>Processamento</span><strong>${p.name}</strong></div><div><span>Status</span><strong>${statusLabel[p.status]}</strong></div><div><span>Origem</span><strong>${p.origin}</strong></div><div><span>Atualização</span><strong>${p.date}</strong></div>`;const steps=p.status==='pending'?[['✓','Solicitação registrada','Ação recebida e validada pela plataforma.','10:18'],['·','Aguardando execução','A operação está disponível para execução nesta tela.','—']]:p.status==='error'?[['✓','Arquivo recebido','Layout e registros identificados.','09:01'],['!','Validação interrompida','Dois registros não possuem telefone válido.','09:02']]:p.status==='running'?[['✓','Solicitação registrada','Operação recebida pela plataforma.','10:21'],['↻','Execução em andamento','A integração está processando esta solicitação.','agora']]:[['✓','Solicitação registrada','Dados recebidos pela plataforma.','09:40'],['✓','Validação concluída','Estrutura e campos obrigatórios validados.','09:41'],['✓','Conciliação executada','Inclusões e remoções confirmadas na comunidade.','09:42']];document.getElementById('processamentos-steps').innerHTML=steps.map(s=>`<div class="pp-step"><span class="pp-step-icon">${s[0]}</span><div><strong>${s[1]}</strong><p>${s[2]}</p></div><time>${s[3]}</time></div>`).join('');const result=document.getElementById('processamentos-result');if(p.kind==='load'){result.className='pp-result';result.innerHTML=`<div><span>Recebidos</span><strong>${p.records}</strong></div><div><span>Incluídos</span><strong>${p.included}</strong></div><div><span>Removidos</span><strong>${p.removed}</strong></div><div><span>Mantidos (já estavam incluídos)</span><strong>${p.mantidos||0}</strong></div><div><span>Erros</span><strong>${p.errors}</strong></div>`}else{result.className='pp-context';result.innerHTML=`<div class="pp-context-row"><span>Descrição</span><strong>${p.description}</strong></div><div class="pp-context-row"><span>Situação atual</span><strong>${p.situation}</strong></div><div class="pp-context-row"><span>Próxima ação</span><strong>${p.next}</strong></div>`}const action=document.getElementById('processamentos-action');action.style.display='inline-flex';action.textContent=p.status==='pending'?'Executar agora':p.status==='error'?'Reprocessar':p.status==='running'?'Atualizar status':p.kind==='load'?'Exportar resultado':'Ver registro';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(action)}
+function detail(p){selected=p;document.getElementById('processamentos-detail-head').innerHTML=`<div><span>Processamento</span><strong>${p.name}</strong></div><div><span>Status</span><strong>${statusLabel[p.status]}</strong></div><div><span>Origem</span><strong>${p.origin}</strong></div><div><span>Atualização</span><strong>${p.date}</strong></div>`;const steps=p.status==='pending'?[['✓','Solicitação registrada','Ação recebida e validada pela plataforma.','10:18'],['·','Aguardando execução','A operação está disponível para execução nesta tela.','—']]:p.status==='error'?(p.pausadoPorDesconexao?[['✓','Arquivo recebido','Layout e registros identificados.',''],['⏸','Pausado por desconexão',p.mensagemPausa||'A integração com a Z-API está desconectada. O time responsável já está verificando.','']]:[['✓','Arquivo recebido','Layout e registros identificados.','09:01'],['!','Validação interrompida','Dois registros não possuem telefone válido.','09:02']]):p.status==='running'?[['✓','Solicitação registrada','Operação recebida pela plataforma.','10:21'],['↻','Execução em andamento','A integração está processando esta solicitação.','agora']]:[['✓','Solicitação registrada','Dados recebidos pela plataforma.','09:40'],['✓','Validação concluída','Estrutura e campos obrigatórios validados.','09:41'],['✓','Conciliação executada','Inclusões e remoções confirmadas na comunidade.','09:42']];document.getElementById('processamentos-steps').innerHTML=steps.map(s=>`<div class="pp-step"><span class="pp-step-icon">${s[0]}</span><div><strong>${s[1]}</strong><p>${s[2]}</p></div><time>${s[3]}</time></div>`).join('');const result=document.getElementById('processamentos-result');if(p.kind==='load'){result.className='pp-result';const escPausa=String(p.mensagemPausa||'A integração com a Z-API está desconectada. O time responsável já está verificando — nenhuma ação manual é necessária.').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));const avisoPausa=p.pausadoPorDesconexao?`<div class="pp-context-row" style="grid-column:1/-1;background:color-mix(in srgb,var(--pv-amber,#f59e0b) 12%,transparent);border-radius:8px;padding:10px 12px;margin-bottom:8px"><span>⏸ Pausado por desconexão</span><strong style="font-weight:500">${escPausa}</strong></div>`:'';result.innerHTML=`${avisoPausa}<div><span>Recebidos</span><strong>${p.records}</strong></div><div><span>Incluídos</span><strong>${p.included}</strong></div><div><span>Removidos</span><strong>${p.removed}</strong></div><div><span>Mantidos (já estavam incluídos)</span><strong>${p.mantidos||0}</strong></div><div><span>Erros</span><strong>${p.errors}</strong></div>`}else{result.className='pp-context';result.innerHTML=`<div class="pp-context-row"><span>Descrição</span><strong>${p.description}</strong></div><div class="pp-context-row"><span>Situação atual</span><strong>${p.situation}</strong></div><div class="pp-context-row"><span>Próxima ação</span><strong>${p.next}</strong></div>`}const action=document.getElementById('processamentos-action');action.style.display='inline-flex';action.textContent=p.status==='pending'?'Executar agora':p.status==='error'?'Reprocessar':p.status==='running'?'Atualizar status':p.kind==='load'?'Exportar resultado':'Ver registro';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(action)}
 function toast(t){const e=document.getElementById('processamentos-toast');e.textContent=t;e.classList.add('show');if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(e);setTimeout(()=>e.classList.remove('show'),2600)}document.getElementById('processamentos-list').onclick=e=>{const a=e.target.closest('[data-id]');if(a)detail(items.find(p=>p.id==a.dataset.id))};document.querySelectorAll('.pp-import-tab').forEach(b=>b.onclick=()=>{activePane=b.dataset.pane;document.querySelectorAll('.pp-import-tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.pp-import-pane').forEach(x=>x.classList.toggle('active',x.id==='processamentos-pane-'+activePane))});function fileInfo(input,id){input.onchange=()=>{const box=document.getElementById(id),files=[...input.files];box.innerHTML=`<span>${files.map(f=>f.name).join(', ')}</span><strong>${files.length} arquivo(s)</strong>`;box.classList.toggle('show',files.length>0)}}fileInfo(document.getElementById('processamentos-providers-file'),'processamentos-providers-info');
 // Carga de colaboradores por empresa (2026-08-26): cada arquivo enviado
 // aqui é de UMA empresa (Quatro C, Asserth Consultoria, PL Temporários,
@@ -3202,6 +3421,15 @@ document.getElementById('processamentos-start').onclick=async e=>{
     const linhas=resposta.data||[];
     const reais=linhas.map((row,idx)=>{
       const id=900000+idx;
+      // Pausa por desconexão da Z-API (2026-08-27): quando o processamento é
+      // interrompido no meio por queda da integração, o n8n grava isso em
+      // `detalhe.pausado_por_desconexao`/`detalhe.mensagem_pausa` (ver
+      // supabase_fix_pausa_desconexao_colaboradores.sql). A linha continua
+      // elegível para reprocessamento automático por baixo (status real da
+      // fila permanece PENDENTE), mas aqui na tela ela aparece como "erro"
+      // com uma mensagem tranquilizadora, distinta de um erro de dado real.
+      const pausadoPorDesconexao=!!(row.detalhe&&row.detalhe.pausado_por_desconexao);
+      const mensagemPausa=row.detalhe&&row.detalhe.mensagem_pausa||'';
       const registro={
         id,
         name:row.titulo,
@@ -3215,9 +3443,11 @@ document.getElementById('processamentos-start').onclick=async e=>{
         removed:row.removidos||0,
         pending:0,
         mantidos:row.mantidos||0,
-        errors:row.erros||0
+        errors:row.erros||0,
+        pausadoPorDesconexao,
+        mensagemPausa
       };
-      meta[id]={kind:'load',name:registro.name,received:registro.records,included:registro.included,removed:registro.removed,pending:0,errors:registro.errors};
+      meta[id]={kind:'load',name:registro.name,received:registro.records,included:registro.included,removed:registro.removed,pending:0,errors:registro.errors,pausadoPorDesconexao,mensagemPausa};
       return registro;
     });
     const tiposReais=new Set(reais.map(r=>r.type));
@@ -3806,9 +4036,9 @@ errorExport.addEventListener('click',e=>{e.preventDefault();const p=meta[current
     if (!language || !zone) return;
 
       var GREETING_WORDS = {
-        'pt-BR':{morning:'Bom dia',afternoon:'Boa tarde',evening:'Boa noite',intro:'Acompanhe o que precisa de atenção e conduza as próximas ações da comunidade.',overview:'Visão geral',work:'Fila de trabalho',agenda:'Próximos envios',today:'Atualizado hoje'},
-        es:{morning:'Buenos días',afternoon:'Buenas tardes',evening:'Buenas noches',intro:'Acompañe lo que necesita atención y conduzca las próximas acciones de la comunidad.',overview:'Vista general',work:'Cola de trabajo',agenda:'Próximos envíos',today:'Actualizado hoy'},
-        en:{morning:'Good morning',afternoon:'Good afternoon',evening:'Good evening',intro:'Track what needs attention and guide the community’s next actions.',overview:'Overview',work:'Work queue',agenda:'Upcoming messages',today:'Updated today'}
+        'pt-BR':{morning:'Bom dia',afternoon:'Boa tarde',evening:'Boa noite',intro:'Acompanhe o que precisa de atenção e conduza as próximas ações da comunidade.',overview:'Visão geral',work:'Fila de trabalho',agenda:'Próximos envios',today:'Atualizado hoje',checked:'Verificado em'},
+        es:{morning:'Buenos días',afternoon:'Buenas tardes',evening:'Buenas noches',intro:'Acompañe lo que necesita atención y conduzca las próximas acciones de la comunidad.',overview:'Vista general',work:'Cola de trabajo',agenda:'Próximos envíos',today:'Actualizado hoy',checked:'Verificado el'},
+        en:{morning:'Good morning',afternoon:'Good afternoon',evening:'Good evening',intro:'Track what needs attention and guide the community’s next actions.',overview:'Overview',work:'Work queue',agenda:'Upcoming messages',today:'Updated today',checked:'Checked at'}
       };
 
       var UI = {
@@ -3826,6 +4056,14 @@ errorExport.addEventListener('click',e=>{e.preventDefault();const p=meta[current
     // ----- Membros -----
     Object.assign(UI.es,{'Consulte e gerencie as pessoas registradas na comunidade conforme o seu acesso.':'Consulte y gestione las personas registradas en la comunidad conforme a su acceso.','Relação atual':'Relación actual','registros visíveis':'registros visibles','Na comunidade':'En la comunidad','presença confirmada':'presencia confirmada','Convites enviados':'Invitaciones enviadas','aguardando entrada':'esperando ingreso','precisam de tratamento':'requieren tratamiento','Relação atual de membros':'Relación actual de miembros','A relação inclui pessoas confirmadas, convidadas e registros com divergência.':'La relación incluye personas confirmadas, invitadas y registros con divergencia.','Filtrar':'Filtrar','Exportar':'Exportar','Filtrar membros':'Filtrar miembros','Localize apenas os registros necessários.':'Localice únicamente los registros necesarios.','Tipo de membro':'Tipo de miembro','Status':'Estado','Grupo':'Grupo','Colaborador':'Colaborador','Gestor':'Gestor','Prestador':'Prestador','Incluído':'Incluido','Convite enviado':'Invitación enviada','Com divergência':'Con divergencia','Limpar':'Limpiar','Aplicar filtros':'Aplicar filtros','Detalhes do membro':'Detalles del miembro','Consulte o cadastro e gerencie grupos autorizados.':'Consulte el registro y gestione los grupos autorizados.','Grupos vinculados':'Grupos vinculados','Telefone':'Teléfono','Tipo':'Tipo','Última atualização':'Última actualización','Avisos é obrigatório e não pode ser removido. As alterações nos demais grupos serão enviadas para execução e acompanhamento em Processamentos; elas não retiram a pessoa da comunidade.':'Avisos es obligatorio y no puede eliminarse. Los cambios en los demás grupos se enviarán para ejecución y seguimiento en Procesamientos; no retiran a la persona de la comunidad.','Visualizar →':'Ver →','Sem vínculo':'Sin vínculo','Fechar':'Cerrar','Salvar':'Guardar','Digite para pesquisar':'Escriba para buscar','Digite o nome':'Escriba el nombre','Nome do usuário':'Nombre del usuario'});
     Object.assign(UI.en,{'Consulte e gerencie as pessoas registradas na comunidade conforme o seu acesso.':'View and manage the people registered in the community according to your access.','Relação atual':'Current listing','registros visíveis':'visible records','Na comunidade':'In the community','presença confirmada':'confirmed presence','Convites enviados':'Invitations sent','aguardando entrada':'awaiting entry','precisam de tratamento':'need attention','Relação atual de membros':'Current member listing','A relação inclui pessoas confirmadas, convidadas e registros com divergência.':'The listing includes confirmed people, invited people, and records with discrepancies.','Filtrar':'Filter','Exportar':'Export','Filtrar membros':'Filter members','Localize apenas os registros necessários.':'Find only the records you need.','Tipo de membro':'Member type','Status':'Status','Grupo':'Group','Colaborador':'Employee','Gestor':'Manager','Prestador':'Contractor','Incluído':'Included','Convite enviado':'Invitation sent','Com divergência':'With a discrepancy','Limpar':'Clear','Aplicar filtros':'Apply filters','Detalhes do membro':'Member details','Consulte o cadastro e gerencie grupos autorizados.':'View the record and manage authorized groups.','Grupos vinculados':'Linked groups','Telefone':'Phone','Tipo':'Type','Última atualização':'Last update','Avisos é obrigatório e não pode ser removido. As alterações nos demais grupos serão enviadas para execução e acompanhamento em Processamentos; elas não retiram a pessoa da comunidade.':'Notices is mandatory and cannot be removed. Changes to the other groups will be sent for execution and tracking in Processing; they do not remove the person from the community.','Visualizar →':'View →','Sem vínculo':'Not linked','Fechar':'Close','Salvar':'Save','Digite para pesquisar':'Type to search','Digite o nome':'Type the name','Nome do usuário':'User name'});
+    // ----- Visão Geral (2026-08-27: cartões que viraram dado real, ver
+    // window.AsserthViews['visao-geral'].init) -----
+    Object.assign(UI.es,{'Verificando conexão…':'Verificando conexión…','Conexão disponível':'Conexión disponible','Conexão indisponível':'Conexión no disponible','Conexão desconhecida':'Conexión desconocida',' · Integração com a comunidade operando normalmente':' · Integración con la comunidad funcionando con normalidad',' · Ainda não há nenhuma verificação registrada':' · Aún no hay ninguna verificación registrada',' · Não foi possível consultar o status agora':' · No fue posible consultar el estado ahora','Carregando…':'Cargando…','Não foi possível carregar agora.':'No fue posible cargar ahora.','Não foi possível conectar ao serviço.':'No fue posible conectar con el servicio.','convite enviado, aguardando confirmação':'invitación enviada, esperando confirmación','Nenhum envio agendado no momento.':'Ningún envío programado por el momento.'});
+    Object.assign(UI.en,{'Verificando conexão…':'Checking connection…','Conexão disponível':'Connection available','Conexão indisponível':'Connection unavailable','Conexão desconhecida':'Connection unknown',' · Integração com a comunidade operando normalmente':' · Community integration operating normally',' · Ainda não há nenhuma verificação registrada':' · No check has been recorded yet',' · Não foi possível consultar o status agora':' · Could not check the status right now','Carregando…':'Loading…','Não foi possível carregar agora.':'Could not load right now.','Não foi possível conectar ao serviço.':'Could not connect to the service.','convite enviado, aguardando confirmação':'invitation sent, awaiting confirmation','Nenhum envio agendado no momento.':'No sends scheduled at the moment.'});
+    // ----- Membros: rótulos de status/categoria refinados (2026-08-27,
+    // classificação única window.AsserthStatusParticipante) -----
+    Object.assign(UI.es,{'Convite enviado (aguardando confirmação)':'Invitación enviada (esperando confirmación)','Pendente (ainda não processado)':'Pendiente (aún no procesado)','Pendente (sem confirmação)':'Pendiente (sin confirmación)','Pendente (sem WhatsApp confirmado)':'Pendiente (sin WhatsApp confirmado)','Telefone com divergência':'Teléfono con divergencia','Telefone não localizado':'Teléfono no localizado','Erro de processamento':'Error de procesamiento','Erro de processamento (API)':'Error de procesamiento (API)','Erro ao remover':'Error al eliminar','Não classificado':'No clasificado','Não identificado':'No identificado','Não identificado (fora de qualquer base)':'No identificado (fuera de cualquier base)','Removido da comunidade':'Eliminado de la comunidad','Ausente (saiu após confirmação)':'Ausente (salió tras confirmación)'});
+    Object.assign(UI.en,{'Convite enviado (aguardando confirmação)':'Invitation sent (awaiting confirmation)','Pendente (ainda não processado)':'Pending (not yet processed)','Pendente (sem confirmação)':'Pending (unconfirmed)','Pendente (sem WhatsApp confirmado)':'Pending (WhatsApp not confirmed)','Telefone com divergência':'Phone with a discrepancy','Telefone não localizado':'Phone not found','Erro de processamento':'Processing error','Erro de processamento (API)':'Processing error (API)','Erro ao remover':'Error while removing','Não classificado':'Not classified','Não identificado':'Not identified','Não identificado (fora de qualquer base)':'Not identified (not in any base)','Removido da comunidade':'Removed from the community','Ausente (saiu após confirmação)':'Absent (left after confirmation)'});
     // ----- Grupos -----
     Object.assign(UI.es,{'Consulte, personalize e acompanhe os grupos conectados à comunidade.':'Consulte, personalice y siga los grupos conectados a la comunidad.','Grupos registrados':'Grupos registrados','visíveis para o acesso':'visibles para el acceso','Conectados':'Conectados','sincronizados com a instância':'sincronizados con la instancia','Membros vinculados':'Miembros vinculados','pessoas únicas nos grupos filtrados':'personas únicas en los grupos filtrados','Requer atenção':'Requiere atención','pendência de sincronização':'pendiente de sincronización','Relação de grupos':'Relación de grupos','Gerencie identidade, descrição e regras operacionais dos grupos autorizados.':'Gestione la identidad, la descripción y las reglas operativas de los grupos autorizados.','Sincronizar':'Sincronizar','Filtrar grupos':'Filtrar grupos','Localize os grupos necessários.':'Localice los grupos necesarios.','Nome do grupo':'Nombre del grupo','Área responsável':'Área responsable','Situação da instância':'Situación de la instancia','Conectado':'Conectado','Detalhes do grupo':'Detalles del grupo','Personalize as informações e acompanhe a sincronização com a instância.':'Personalice la información y siga la sincronización con la instancia.','Alterar foto':'Cambiar foto','Descrição':'Descripción','Grupo':'Grupo','Membros':'Miembros','Configurações do grupo':'Configuración del grupo','Somente administradores enviam mensagens':'Solo los administradores envían mensajes','Somente administradores incluem membros':'Solo los administradores incluyen miembros','Sincronizado com a instância':'Sincronizado con la instancia','Sincronização requer atenção':'La sincronización requiere atención','Última verificação hoje, 09:42':'Última verificación hoy, 09:42','Sincronizar agora':'Sincronizar ahora','No grupo Avisos, somente administradores podem enviar mensagens e incluir membros. Essa configuração é obrigatória e não pode ser alterada.':'En el grupo Avisos, solo los administradores pueden enviar mensajes e incluir miembros. Esta configuración es obligatoria y no puede modificarse.','As alterações serão enviadas para execução e acompanhamento em Processamentos.':'Los cambios se enviarán para ejecución y seguimiento en Procesamientos.','Alterações registradas em Processamentos.':'Cambios registrados en Procesamientos.','Sincronização do grupo solicitada e registrada em Processamentos.':'Sincronización del grupo solicitada y registrada en Procesamientos.','Sincronização geral solicitada e registrada em Processamentos.':'Sincronización general solicitada y registrada en Procesamientos.'});
     Object.assign(UI.en,{'Consulte, personalize e acompanhe os grupos conectados à comunidade.':'View, customize, and track the groups connected to the community.','Grupos registrados':'Registered groups','visíveis para o acesso':'visible for this access','Conectados':'Connected','sincronizados com a instância':'synced with the instance','Membros vinculados':'Linked members','pessoas únicas nos grupos filtrados':'unique people in the filtered groups','Requer atenção':'Needs attention','pendência de sincronização':'sync pending','Relação de grupos':'Group listing','Gerencie identidade, descrição e regras operacionais dos grupos autorizados.':'Manage the identity, description, and operating rules of the authorized groups.','Sincronizar':'Sync','Filtrar grupos':'Filter groups','Localize os grupos necessários.':'Find the groups you need.','Nome do grupo':'Group name','Área responsável':'Responsible department','Situação da instância':'Instance status','Conectado':'Connected','Detalhes do grupo':'Group details','Personalize as informações e acompanhe a sincronização com a instância.':'Customize the information and track synchronization with the instance.','Alterar foto':'Change photo','Descrição':'Description','Grupo':'Group','Membros':'Members','Configurações do grupo':'Group settings','Somente administradores enviam mensagens':'Only administrators send messages','Somente administradores incluem membros':'Only administrators add members','Sincronizado com a instância':'Synced with the instance','Sincronização requer atenção':'Sync needs attention','Última verificação hoje, 09:42':'Last checked today, 9:42 AM','Sincronizar agora':'Sync now','No grupo Avisos, somente administradores podem enviar mensagens e incluir membros. Essa configuração é obrigatória e não pode ser alterada.':'In the Notices group, only administrators can send messages and add members. This setting is mandatory and cannot be changed.','As alterações serão enviadas para execução e acompanhamento em Processamentos.':'Changes will be sent for execution and tracking in Processing.','Alterações registradas em Processamentos.':'Changes logged in Processing.','Sincronização do grupo solicitada e registrada em Processamentos.':'Group sync requested and logged in Processing.','Sincronização geral solicitada e registrada em Processamentos.':'Full sync requested and logged in Processing.'});
@@ -3954,10 +4192,20 @@ errorExport.addEventListener('click',e=>{e.preventDefault();const p=meta[current
       if (kicker) kicker.textContent = words.overview;
       if (workTitle) workTitle.textContent = words.work;
       if (agendaTitle) agendaTitle.textContent = words.agenda;
-      if (updated) {
+      // 2026-08-27: este <time> passou a mostrar a hora REAL da última
+      // verificação de conexão (comunidades.status_comunidade,
+      // ultima_verificacao), gravada em updated.dataset.iso pelo código de
+      // carregarStatusConexao() na própria view. Antes, este bloco sempre
+      // escrevia a hora ATUAL do navegador ("Atualizado hoje, HH:MM"),
+      // mesmo sem nenhuma consulta real por trás - foi exatamente esse
+      // texto fixo que a Ana apontou como incoerente. Enquanto o dado real
+      // ainda não carregou (dataset.iso vazio), não mexe no texto - quem
+      // decide o que aparece nesse meio-tempo é o próprio carregamento.
+      if (updated && updated.dataset.iso) {
         try {
-          var time = new Intl.DateTimeFormat(lang, { hour: '2-digit', minute: '2-digit', timeZone: tz }).format(new Date());
-          updated.textContent = words.today + ', ' + time;
+          var quando = new Date(updated.dataset.iso);
+          var dataHora = new Intl.DateTimeFormat(lang, { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', timeZone: tz }).format(quando);
+          updated.textContent = words.checked + ' ' + dataHora;
         } catch (e) {}
       }
     }
