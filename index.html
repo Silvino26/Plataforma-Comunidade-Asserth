@@ -1751,7 +1751,22 @@ html>body{padding:0}
       // de carregamento/indisponível honesto em vez de um valor inventado.
       var supaClient=window.AsserthSupabase;
 
-      function setText(id,texto){var el=document.getElementById(id);if(el)el.textContent=texto}
+      // setText() SEMPRE re-marca (retag) o próprio elemento que acabou de
+      // escrever. Motivo (bug real, achado por vídeo da Ana em 27/08): o
+      // sistema de tradução da plataforma marca (na 1ª vez que vê cada
+      // elemento) o texto ORIGINAL de boot como "baseline" - e volta a
+      // aplicar esse baseline (ou a tradução dele) toda vez que roda uma
+      // retradução global, o que acontece com bastante frequência (qualquer
+      // outro card chamando retag() dispara uma retradução do documento
+      // inteiro, não só do elemento dele). Um elemento cujo texto de boot é
+      // algo como "Carregando…" e que é atualizado via setText() SEM
+      // retag() correspondente funciona por um instante e depois volta
+      // sozinho para "Carregando…" assim que qualquer outro card da tela
+      // terminar de carregar - exatamente o que a Ana filmou. Sempre
+      // re-marcar aqui elimina essa classe inteira de bug para todo uso de
+      // setText(), em vez de depender de lembrar de chamar retag() em cada
+      // call site individualmente.
+      function setText(id,texto){var el=document.getElementById(id);if(el){el.textContent=texto;retag(id)}}
       function retag(id){var el=document.getElementById(id);if(el&&window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(el)}
 
       // ----- Conexão com a comunidade (comunidades.status_comunidade) -----
@@ -1763,6 +1778,17 @@ html>body{padding:0}
       // integração não significa que a comunidade em si desapareceu.
       (function carregarStatusConexao(){
         var barra=document.getElementById('visao-geral-statusbar'),dot=document.getElementById('visao-geral-conexao-dot'),titulo=document.getElementById('visao-geral-conexao-titulo'),detalhe=document.getElementById('visao-geral-conexao-detalhe'),hora=document.getElementById('visao-geral-conexao-hora');
+        // Re-marca titulo+detalhe+hora juntos, em TODA saída desta função -
+        // bug real encontrado em 27/08 (vídeo da Ana): só titulo+hora eram
+        // re-marcados depois do sucesso, então "detalhe" (o texto " · ...")
+        // sempre voltava sozinho pro texto de boot ("Consultando o status
+        // mais recente da integração") assim que qualquer outro card da
+        // tela disparasse uma retradução global - e os 3 desfechos que
+        // retornam cedo (sem supaClient / sem linha / erro) nem chamavam
+        // retag nenhum, então nunca corrigiam nada, sempre revertiam.
+        function retagConexao(){
+          if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh([titulo,detalhe,hora].filter(Boolean));
+        }
         function aplicarOffline(mensagemDetalhe){
           if(barra)barra.classList.add('is-offline');
           if(dot)dot.classList.add('is-offline');
@@ -1776,19 +1802,20 @@ html>body{padding:0}
           if(detalhe)detalhe.textContent=' · Integração com a comunidade operando normalmente';
         }
         try{
-          if(!supaClient){if(titulo)titulo.textContent='Conexão desconhecida';if(detalhe)detalhe.textContent=' · Não foi possível consultar o status agora';return}
+          if(!supaClient){if(titulo)titulo.textContent='Conexão desconhecida';if(detalhe)detalhe.textContent=' · Não foi possível consultar o status agora';retagConexao();return}
           supaClient.from('status_comunidade').select('conectado,ultima_verificacao,ultimo_erro').order('ultima_verificacao',{ascending:false}).limit(1).then(function(resposta){
             if(resposta&&resposta.error)throw resposta.error;
             var linha=resposta&&Array.isArray(resposta.data)?resposta.data[0]:null;
-            if(!linha){if(titulo)titulo.textContent='Conexão desconhecida';if(detalhe)detalhe.textContent=' · Ainda não há nenhuma verificação registrada';return}
+            if(!linha){if(titulo)titulo.textContent='Conexão desconhecida';if(detalhe)detalhe.textContent=' · Ainda não há nenhuma verificação registrada';retagConexao();return}
             if(linha.conectado===true)aplicarOnline();
             else aplicarOffline(linha.ultimo_erro?('Falha na integração: '+linha.ultimo_erro):'Falha na integração com a comunidade — equipe já notificada');
             if(hora&&linha.ultima_verificacao)hora.dataset.iso=linha.ultima_verificacao;
-            if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh([titulo,hora].filter(Boolean));
+            retagConexao();
           }).catch(function(err){
             console.error('[VisaoGeral] não foi possível carregar o status de conexão:',err);
             if(titulo)titulo.textContent='Conexão desconhecida';
             if(detalhe)detalhe.textContent=' · Não foi possível consultar o status agora';
+            retagConexao();
           });
         }catch(err){
           console.error('[VisaoGeral] falha inesperada ao carregar status de conexão:',err);
@@ -1850,6 +1877,13 @@ html>body{padding:0}
             if(atencao>0){
               if(fMembrosTitulo)fMembrosTitulo.textContent=atencao+(atencao===1?' membro precisa':' membros precisam')+' de tratamento';
               if(fMembrosDetalhe)fMembrosDetalhe.textContent='Telefone com divergência, erro de processamento ou registro não identificado.';
+              // Bug real (vídeo da Ana, 27/08): só o "detalhe" era re-marcado
+              // aqui - o "titulo" (que já começa com o texto "Carregando…"
+              // no HTML de boot) ficava de fora e voltava sozinho pra
+              // "Carregando…" assim que qualquer outro card da tela
+              // disparasse uma retradução global. Os dois precisam ser
+              // re-marcados juntos.
+              retag('visao-geral-fila-membros-titulo');
               retag('visao-geral-fila-membros-detalhe');
             }else if(fMembrosArtigo){
               fMembrosArtigo.style.display='none';
@@ -1892,6 +1926,11 @@ html>body{padding:0}
               var proximo=aguardandoAprovacao[0],dataProx=proximo.data_disparo?new Date(proximo.data_disparo):null,dataTxt=dataProx&&!isNaN(dataProx.getTime())?formatarDataHora(dataProx):'data a confirmar';
               if(fAprovacoesTitulo)fAprovacoesTitulo.textContent=aguardandoAprovacao.length+(aguardandoAprovacao.length===1?' comunicado aguarda':' comunicados aguardam')+' aprovação';
               if(fAprovacoesDetalhe)fAprovacoesDetalhe.textContent='O mais próximo está agendado para '+dataTxt+'.';
+              // mesmo bug de retag da fila de membros (ver comentário lá) -
+              // "titulo" começa com "Carregando…" no boot e precisa ser
+              // re-marcado explicitamente, senão volta sozinho.
+              retag('visao-geral-fila-aprovacoes-titulo');
+              retag('visao-geral-fila-aprovacoes-detalhe');
             }else if(fAprovacoesArtigo){
               fAprovacoesArtigo.style.display='none';
             }
@@ -1936,6 +1975,10 @@ html>body{padding:0}
             if(typeof linha.removidos==='number')partes.push(linha.removidos+' remoções');
             if(typeof linha.incluidos==='number')partes.push(linha.incluidos+' novas inclusões');
             if(detalhe)detalhe.textContent=partes.join(' · ')||'Concluído sem detalhes adicionais.';
+            // mesmo bug de retag da fila de membros/aprovações (ver
+            // comentários lá) - "titulo" começa com "Carregando…" no boot.
+            retag('visao-geral-fila-processamentos-titulo');
+            retag('visao-geral-fila-processamentos-detalhe');
           }).catch(function(err){
             console.error('[VisaoGeral] não foi possível carregar o último processamento:',err);
             if(artigo)artigo.style.display='none';
