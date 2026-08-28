@@ -2268,32 +2268,83 @@ html>body{padding:0}
 </script>
 
 <section id="view-grupos" class="view pv-main" data-view="grupos" hidden>
-<div class="pv-page-head"><div><span class="pv-kicker">Comunidade</span><h1>Grupos</h1><p>Consulte, personalize e acompanhe os grupos conectados à comunidade.</p></div><div class="pv-comm-head-side"><div class="pv-profile"><input class="pv-profile-toggle" id="pv-profile-toggle-grupos" type="checkbox"><label class="pv-profile-btn" for="pv-profile-toggle-grupos" aria-label="Abrir opções do usuário"><span class="pv-avatar">AS</span></label><div class="pv-profile-menu" id="pv-profile-menu-grupos"><div class="pv-profile-summary"><strong>Ana Silva</strong><span>Administradora · Tecnologia</span></div><a href="#pv-native-profile"><i data-lucide="user-round" aria-hidden="true"></i> Meu perfil</a><a href="#pv-native-preferences"><i data-lucide="palette" aria-hidden="true"></i> Aparência e preferências</a><a href="#pv-native-notifications"><i data-lucide="bell" aria-hidden="true"></i> Notificações</a><a href="#pv-native-logout"><i data-lucide="log-out" aria-hidden="true"></i> Sair</a></div></div><div class="pg-actions"><a class="pv-comm-button" href="#grupos-pg-filter"><i data-lucide="sliders-horizontal"></i>Filtrar</a><button class="pv-comm-button" id="grupos-pg-sync-all"><i data-lucide="refresh-cw"></i>Sincronizar</button></div></div></div><div class="pv-metrics"><div class="pv-metric"><span>Grupos registrados</span><strong id="grupos-pg-total">10</strong><small>visíveis para o acesso</small></div><div class="pv-metric"><span>Conectados</span><strong id="grupos-pg-connected">9</strong><small>sincronizados com a instância</small></div><div class="pv-metric"><span>Membros vinculados</span><strong id="grupos-pg-members">226</strong><small>pessoas únicas nos grupos filtrados</small></div><div class="pv-metric"><span>Requer atenção</span><strong id="grupos-pg-attention">1</strong><small>pendência de sincronização</small></div></div><section class="pv-section"><div class="pv-comm-toolbar"><div><h2>Relação de grupos</h2><p>Gerencie identidade, descrição e regras operacionais dos grupos autorizados.</p></div><span class="pv-comm-cell" id="grupos-pg-label">10 registros</span></div><div class="pg-list" id="grupos-pg-list"></div><div class="pv-pagination"><span id="grupos-pg-summary"></span><div class="pv-page-buttons" id="grupos-pg-pages"></div></div></section>
-<section class="pv-native-panel" id="grupos-pg-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar grupos</h2><p>Localize os grupos necessários.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-filter-grid"><div class="pv-native-field"><label>Nome do grupo</label><input id="grupos-pg-q" placeholder="Digite para pesquisar"></div><div class="pv-native-field"><label>Área responsável</label><select class="pg-native-select" id="grupos-pg-area"><option value="">Todas</option><option>Corporativo</option><option>Departamento Pessoal</option><option>Recrutamento e Seleção</option><option>Financeiro</option><option>Tecnologia</option></select></div><div class="pv-native-field"><label>Situação da instância</label><select class="pg-native-select" id="grupos-pg-status"><option value="">Todas</option><option value="connected">Conectado</option><option value="warning">Requer atenção</option></select></div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" id="grupos-pg-clear" href="#">Limpar</a><a id="grupos-pg-apply" href="#">Aplicar filtros</a></div></div></section><section class="pv-native-panel" id="grupos-pg-detail"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Detalhes do grupo</h2><p>Personalize as informações e acompanhe a sincronização com a instância.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pg-editor"><div class="pg-photo-wrap"><div class="pg-photo" id="grupos-pg-photo"><span class="pg-photo-placeholder">A</span></div><label class="pg-upload">Alterar foto<input type="file" id="grupos-pg-photo-input" accept="image/png,image/jpeg,image/webp"></label></div><div class="pg-fields"><div class="pg-field"><label>Nome do grupo</label><input id="grupos-pg-name" maxlength="80"></div><div class="pg-field"><label>Descrição</label><textarea id="grupos-pg-description" maxlength="500"></textarea><div class="pg-counter"><span id="grupos-pg-description-count">0</span> / 500</div></div></div></div><div class="pg-detail-grid" id="grupos-pg-detail-data"></div><h3 class="pg-section-title">Configurações do grupo</h3><div class="pg-permissions" id="grupos-pg-permissions"><label class="pg-check"><input type="checkbox" id="grupos-pg-admin-message"> Somente administradores enviam mensagens</label><label class="pg-check"><input type="checkbox" id="grupos-pg-admin-member"> Somente administradores incluem membros</label></div><div class="pg-sync"><div><strong id="grupos-pg-sync-title">Sincronizado com a instância</strong><span id="grupos-pg-sync-time">Última verificação hoje, 09:42</span></div><button type="button" id="grupos-pg-sync-one">Sincronizar agora</button></div><p class="pg-note" id="grupos-pg-note"></p></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Fechar</a><a id="grupos-pg-save" href="#">Salvar</a></div></div></section><div class="pg-toast" id="grupos-pg-toast"></div>
+<div class="pv-page-head"><div><span class="pv-kicker">Comunidade</span><h1>Grupos</h1><p>Consulte, personalize e acompanhe os grupos conectados à comunidade.</p></div><div class="pv-comm-head-side"><div class="pv-profile"><input class="pv-profile-toggle" id="pv-profile-toggle-grupos" type="checkbox"><label class="pv-profile-btn" for="pv-profile-toggle-grupos" aria-label="Abrir opções do usuário"><span class="pv-avatar">AS</span></label><div class="pv-profile-menu" id="pv-profile-menu-grupos"><div class="pv-profile-summary"><strong>Ana Silva</strong><span>Administradora · Tecnologia</span></div><a href="#pv-native-profile"><i data-lucide="user-round" aria-hidden="true"></i> Meu perfil</a><a href="#pv-native-preferences"><i data-lucide="palette" aria-hidden="true"></i> Aparência e preferências</a><a href="#pv-native-notifications"><i data-lucide="bell" aria-hidden="true"></i> Notificações</a><a href="#pv-native-logout"><i data-lucide="log-out" aria-hidden="true"></i> Sair</a></div></div><div class="pg-actions"><a class="pv-comm-button" href="#grupos-pg-filter"><i data-lucide="sliders-horizontal"></i>Filtrar</a><button class="pv-comm-button" id="grupos-pg-sync-all"><i data-lucide="refresh-cw"></i>Sincronizar</button><a class="pv-comm-button is-primary" href="#grupos-pg-new"><i data-lucide="plus"></i>Novo grupo</a></div></div></div><div class="pv-metrics"><div class="pv-metric"><span>Grupos registrados</span><strong id="grupos-pg-total">0</strong><small>visíveis para o acesso</small></div><div class="pv-metric"><span>Conectados</span><strong id="grupos-pg-connected">0</strong><small>sincronizados com a instância</small></div><div class="pv-metric"><span>Membros vinculados</span><strong id="grupos-pg-members">0</strong><small>soma dos participantes por grupo (a mesma pessoa em 2 grupos conta 2x)</small></div><div class="pv-metric"><span>Requer atenção</span><strong id="grupos-pg-attention">0</strong><small>não sincronizado com a Z-API</small></div></div><section class="pv-section"><div class="pv-comm-toolbar"><div><h2>Relação de grupos</h2><p>Gerencie identidade, descrição e regras operacionais dos grupos autorizados.</p></div><span class="pv-comm-cell" id="grupos-pg-label">10 registros</span></div><div class="pg-list" id="grupos-pg-list"></div><div class="pv-pagination"><span id="grupos-pg-summary"></span><div class="pv-page-buttons" id="grupos-pg-pages"></div></div></section>
+<section class="pv-native-panel" id="grupos-pg-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar grupos</h2><p>Localize os grupos necessários.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-filter-grid"><div class="pv-native-field"><label>Nome do grupo</label><input id="grupos-pg-q" placeholder="Digite para pesquisar"></div><div class="pv-native-field"><label>Área responsável</label><select class="pg-native-select" id="grupos-pg-area"><option value="">Todas</option><option>Tecnologia</option><option>Comunicação Interna</option><option>Departamento Pessoal</option><option>Recrutamento e Seleção</option><option>Financeiro</option><option>Comercial</option></select></div><div class="pv-native-field"><label>Situação da instância</label><select class="pg-native-select" id="grupos-pg-status"><option value="">Todas</option><option value="connected">Conectado</option><option value="warning">Requer atenção</option></select></div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" id="grupos-pg-clear" href="#">Limpar</a><a id="grupos-pg-apply" href="#">Aplicar filtros</a></div></div></section><section class="pv-native-panel" id="grupos-pg-detail"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Detalhes do grupo</h2><p>Personalize as informações e acompanhe a sincronização com a instância.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pg-editor"><div class="pg-photo-wrap"><div class="pg-photo" id="grupos-pg-photo"><span class="pg-photo-placeholder">A</span></div><label class="pg-upload">Alterar foto<input type="file" id="grupos-pg-photo-input" accept="image/png,image/jpeg,image/webp"></label></div><div class="pg-fields"><div class="pg-field"><label>Nome do grupo</label><input id="grupos-pg-name" maxlength="80"></div><div class="pg-field"><label>Descrição</label><textarea id="grupos-pg-description" maxlength="500"></textarea><div class="pg-counter"><span id="grupos-pg-description-count">0</span> / 500</div></div></div></div><div class="pg-detail-grid" id="grupos-pg-detail-data"></div><h3 class="pg-section-title">Configurações do grupo</h3><div class="pg-permissions" id="grupos-pg-permissions"><label class="pg-check"><input type="checkbox" id="grupos-pg-admin-message"> Somente administradores enviam mensagens</label><label class="pg-check"><input type="checkbox" id="grupos-pg-admin-member"> Somente administradores incluem membros</label></div><div class="pg-sync"><div><strong id="grupos-pg-sync-title">Sincronizado com a instância</strong><span id="grupos-pg-sync-time">Última verificação hoje, 09:42</span></div><button type="button" id="grupos-pg-sync-one">Sincronizar agora</button></div><p class="pg-note" id="grupos-pg-note"></p></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Fechar</a><a id="grupos-pg-save" href="#">Salvar</a></div></div></section><section class="pv-native-panel" id="grupos-pg-new"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Novo grupo</h2><p>Cria o grupo de verdade no WhatsApp - todos os números informados recebem a notificação de entrada imediatamente.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pv-native-field"><label>Nome do grupo *</label><input id="grupos-pg-new-name" placeholder="Ex.: Comercial - Regional Sul" maxlength="80"></div><div class="pv-native-field"><label>Área responsável *</label><select id="grupos-pg-new-area"><option value="">Selecione</option><option>Tecnologia</option><option>Comunicação Interna</option><option>Departamento Pessoal</option><option>Recrutamento e Seleção</option><option>Financeiro</option><option>Comercial</option></select></div><div class="pv-native-field"><label>Descrição</label><textarea id="grupos-pg-new-description" maxlength="500" placeholder="Opcional"></textarea></div><div class="pv-native-field"><label>Telefones iniciais *</label><textarea id="grupos-pg-new-phones" placeholder="Um número por linha, com DDI e DDD, só dígitos. Ex.: 5544999999999"></textarea></div><div class="pc-note">Não inclua o número da própria instância - ele entra automaticamente como criador/administrador do grupo. Números que não puderem ser adicionados de primeira aparecerão em Processamentos, com o link de convite para adicionar manualmente.</div><div class="pa-error" id="grupos-pg-new-error"></div></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Cancelar</a><a id="grupos-pg-new-create" href="#">Criar grupo</a></div></div></section><div class="pg-toast" id="grupos-pg-toast"></div>
 </section>
 <script>
 (function(){
   window.AsserthViews = window.AsserthViews || {};
   window.AsserthViews['grupos'] = {
     init: function() {
-      const groups=[['Avisos','Corporativo',226,'connected','Grupo oficial para comunicados gerais da comunidade.',true,true],['Departamento Pessoal','Departamento Pessoal',34,'connected','Informações e orientações do Departamento Pessoal.',true,true],['Recrutamento e Seleção','Recrutamento e Seleção',18,'connected','Oportunidades, processos seletivos e integrações.',true,true],['Financeiro','Financeiro',21,'connected','Comunicados financeiros e orientações de pagamentos.',true,true],['Comercial','Comercial',16,'connected','Alinhamentos e comunicados do time comercial.',true,true],['Tecnologia','Tecnologia',12,'connected','Atualizações de sistemas, segurança e suporte.',true,true],['Diretoria','Corporativo',7,'connected','Informações estratégicas para a diretoria.',true,true],['Gerência','Corporativo',15,'connected','Alinhamentos destinados às lideranças.',true,true],['Colaboradores','Corporativo',215,'connected','Conteúdos direcionados aos colaboradores.',true,true],['Prestadores','Corporativo',11,'warning','Conteúdos direcionados aos prestadores.',true,true]].map((g,i)=>({id:i+1,name:g[0],area:g[1],members:g[2],status:g[3],description:g[4],adminMessage:g[5],adminMember:g[6]}));
-      let filtered=[...groups],page=1,selected=null;
+      // Dados reais (Supabase, tabela comunidades.grupos_whatsapp) - ver
+      // supabase_fix_grupos_reais.sql. "Requer atenção" = grupo cuja
+      // última sincronização com a Z-API falhou (erro_sincronizacao
+      // preenchido); "Membros vinculados" = soma dos participantes reais
+      // de cada grupo (a mesma pessoa em 2 grupos conta 2x - não é uma
+      // contagem de pessoas únicas, o mock original calculava isso errado
+      // com Math.max e um rótulo que não batia com a conta).
+      const AREAS_LIST=['Tecnologia','Comunicação Interna','Departamento Pessoal','Recrutamento e Seleção','Financeiro','Comercial'];
+      function esc(value){return String(value==null?'':value).replace(/[&<>]/g,function(char){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[char]})}
+      function pad(value){return String(value).padStart(2,'0')}
+      function brDateTime(value){
+        if(!value)return '—';
+        const d=new Date(value);
+        if(isNaN(d.getTime()))return '—';
+        return pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
+      }
+      let groups=[],filtered=[],page=1,selected=null;
       const size=4;
+      function mapRow(row){
+        return{
+          id:row.id,
+          name:row.nome,
+          area:row.area||'—',
+          // null = nunca sincronizado ainda (distinto de 0 participantes).
+          members:(row.participantes===null||row.participantes===undefined)?null:row.participantes,
+          erro:row.erro_sincronizacao||null,
+          description:row.descricao||'',
+          adminMessage:!!row.admin_only_message,
+          adminMember:!!row.admin_only_member,
+          ultimaSincronizacao:row.ultima_sincronizacao||null
+        };
+      }
+      function loadGroups(){
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient){groups=[];filtered=[];page=1;render();return Promise.resolve()}
+        return supaClient.from('grupos_whatsapp').select('*').eq('ativo',true).order('nome',{ascending:true}).then(function(resposta){
+          if(resposta&&resposta.error){
+            console.error('[Grupos] erro ao carregar grupos:',resposta.error);
+            groups=[];filtered=[];page=1;render();
+            return;
+          }
+          groups=(resposta&&resposta.data||[]).map(mapRow);
+          filtered=groups.slice();
+          page=1;
+          render();
+        }).catch(function(err){
+          console.error('[Grupos] falha inesperada ao carregar grupos:',err);
+          groups=[];filtered=[];page=1;render();
+        });
+      }
       function render(){
         const rows=filtered.slice((page-1)*size,page*size);
-        document.getElementById('grupos-pg-list').innerHTML=rows.map(g=>`<div class="pg-row"><div><strong>${g.name}</strong></div><div class="pg-cell">${g.area}</div><div class="pg-cell">${g.members} membros</div><div><span class="pg-status ${g.status==='warning'?'warning':''}">${g.status==='warning'?'Requer atenção':'Conectado'}</span></div><a class="pg-link" href="#grupos-pg-detail" data-id="${g.id}">Visualizar →</a></div>`).join('');
+        document.getElementById('grupos-pg-list').innerHTML=rows.map(function(g){
+          const membersLabel=g.members===null?'não sincronizado':g.members+' membros',attention=!!g.erro;
+          return '<div class="pg-row"><div><strong>'+esc(g.name)+'</strong></div><div class="pg-cell">'+esc(g.area)+'</div><div class="pg-cell">'+membersLabel+'</div><div><span class="pg-status '+(attention?'warning':'')+'">'+(attention?'Requer atenção':'Conectado')+'</span></div><a class="pg-link" href="#grupos-pg-detail" data-id="'+g.id+'">Visualizar →</a></div>';
+        }).join('');
         document.getElementById('grupos-pg-total').textContent=filtered.length;
-        document.getElementById('grupos-pg-connected').textContent=filtered.filter(g=>g.status==='connected').length;
-        document.getElementById('grupos-pg-members').textContent=filtered.length?Math.max(...filtered.map(g=>g.members)):0;
-        document.getElementById('grupos-pg-attention').textContent=filtered.filter(g=>g.status==='warning').length;
+        document.getElementById('grupos-pg-connected').textContent=filtered.filter(function(g){return !g.erro}).length;
+        document.getElementById('grupos-pg-members').textContent=filtered.reduce(function(sum,g){return sum+(g.members||0)},0);
+        document.getElementById('grupos-pg-attention').textContent=filtered.filter(function(g){return g.erro}).length;
         document.getElementById('grupos-pg-label').textContent=filtered.length+' registros';
-        document.getElementById('grupos-pg-summary').textContent=filtered.length?`${(page-1)*size+1}–${(page-1)*size+rows.length} de ${filtered.length}`:'0 registros';
+        document.getElementById('grupos-pg-summary').textContent=filtered.length?((page-1)*size+1)+'–'+((page-1)*size+rows.length)+' de '+filtered.length:'0 registros';
         const pages=Math.max(1,Math.ceil(filtered.length/size)),target=document.getElementById('grupos-pg-pages');
         window.AsserthPaginacao.render(target,{page:page,total:pages,onSelect:function(p){page=p;render()}});
       }
       function detail(g){
         selected=g;
-        document.getElementById('grupos-pg-detail-data').innerHTML=`<div><span>Grupo</span><strong>${g.name}</strong></div><div><span>Área responsável</span><strong>${g.area}</strong></div><div><span>Membros</span><strong>${g.members}</strong></div><div><span>Situação da instância</span><strong>${g.status==='warning'?'Requer atenção':'Conectado'}</strong></div>`;
+        const attention=!!g.erro;
+        document.getElementById('grupos-pg-detail-data').innerHTML='<div><span>Grupo</span><strong>'+esc(g.name)+'</strong></div><div><span>Área responsável</span><strong>'+esc(g.area)+'</strong></div><div><span>Membros</span><strong>'+(g.members===null?'não sincronizado ainda':g.members)+'</strong></div><div><span>Situação da instância</span><strong>'+(attention?'Requer atenção':'Conectado')+'</strong></div>';
         document.getElementById('grupos-pg-name').value=g.name;
         document.getElementById('grupos-pg-description').value=g.description;
         document.getElementById('grupos-pg-description-count').textContent=g.description.length;
@@ -2303,9 +2354,9 @@ html>body{padding:0}
         document.getElementById('grupos-pg-admin-message').disabled=isAvisos;
         document.getElementById('grupos-pg-admin-member').disabled=isAvisos;
         permissions.classList.toggle('locked',isAvisos);
-        document.getElementById('grupos-pg-note').textContent=isAvisos?'No grupo Avisos, somente administradores podem enviar mensagens e incluir membros. Essa configuração é obrigatória e não pode ser alterada.':'As alterações serão enviadas para execução e acompanhamento em Processamentos.';
-        document.getElementById('grupos-pg-photo').innerHTML=`<span class="pg-photo-placeholder">${g.name.charAt(0)}</span>`;
-        document.getElementById('grupos-pg-sync-title').textContent=g.status==='warning'?'Sincronização requer atenção':'Sincronizado com a instância';
+        document.getElementById('grupos-pg-note').textContent=isAvisos?'No grupo Avisos, somente administradores podem enviar mensagens e incluir membros. Essa configuração é obrigatória e não pode ser alterada.':'Nome e descrição são salvos aqui e sincronizados com o WhatsApp na próxima rodada automática (a cada 15 minutos). Foto e os toggles "somente administradores" ainda são apenas informativos nesta versão - não são lidos nem gravados no WhatsApp de verdade.';
+        document.getElementById('grupos-pg-photo').innerHTML='<span class="pg-photo-placeholder">'+esc(g.name.charAt(0))+'</span>';
+        document.getElementById('grupos-pg-sync-title').textContent=attention?('Requer atenção'+(g.erro?': '+g.erro:'')):('Sincronizado em '+brDateTime(g.ultimaSincronizacao));
         // i18n: estes dois elementos alternam entre textos fixos em pt-BR
         // conforme o registro selecionado; sem isto, uma tradução em cache
         // do PRIMEIRO texto visto poderia sobrescrever o texto atual (ver
@@ -2314,16 +2365,104 @@ html>body{padding:0}
           window.AsserthI18n.retagAndRefresh([document.getElementById('grupos-pg-note'), document.getElementById('grupos-pg-sync-title')]);
         }
       }
-      document.getElementById('grupos-pg-list').onclick=e=>{const a=e.target.closest('[data-id]');if(a)detail(groups.find(g=>g.id==a.dataset.id))};
-      document.getElementById('grupos-pg-description').oninput=e=>document.getElementById('grupos-pg-description-count').textContent=e.target.value.length;
-      document.getElementById('grupos-pg-photo-input').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>document.getElementById('grupos-pg-photo').innerHTML=`<img src="${r.result}" alt="Prévia da foto">`;r.readAsDataURL(f)};
-      function toast(t){const el=document.getElementById('grupos-pg-toast');el.textContent=t;el.classList.add('show');if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(el);setTimeout(()=>el.classList.remove('show'),2600)}
-      document.getElementById('grupos-pg-save').onclick=e=>{e.preventDefault();if(!selected)return;selected.name=document.getElementById('grupos-pg-name').value.trim()||selected.name;selected.description=document.getElementById('grupos-pg-description').value.trim();if(selected.name!=='Avisos'){selected.adminMessage=document.getElementById('grupos-pg-admin-message').checked;selected.adminMember=document.getElementById('grupos-pg-admin-member').checked}render();toast('Alterações registradas em Processamentos.');location.hash=''};
-      document.getElementById('grupos-pg-sync-one').onclick=()=>toast('Sincronização do grupo solicitada e registrada em Processamentos.');
-      document.getElementById('grupos-pg-sync-all').onclick=()=>toast('Sincronização geral solicitada e registrada em Processamentos.');
-      document.getElementById('grupos-pg-apply').onclick=e=>{e.preventDefault();const q=document.getElementById('grupos-pg-q').value.toLowerCase(),a=document.getElementById('grupos-pg-area').value,s=document.getElementById('grupos-pg-status').value;filtered=groups.filter(g=>(!q||g.name.toLowerCase().includes(q))&&(!a||g.area===a)&&(!s||g.status===s));page=1;render();location.hash=''};
-      document.getElementById('grupos-pg-clear').onclick=e=>{e.preventDefault();['grupos-pg-q','grupos-pg-area','grupos-pg-status'].forEach(id=>document.getElementById(id).value='');filtered=[...groups];page=1;render();location.hash=''};
-      render();
+      document.getElementById('grupos-pg-list').onclick=function(e){const a=e.target.closest('[data-id]');if(a){const g=groups.find(function(x){return String(x.id)===String(a.dataset.id)});if(g)detail(g)}};
+      document.getElementById('grupos-pg-description').oninput=function(e){document.getElementById('grupos-pg-description-count').textContent=e.target.value.length};
+      document.getElementById('grupos-pg-photo-input').onchange=function(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=function(){document.getElementById('grupos-pg-photo').innerHTML='<img src="'+r.result+'" alt="Prévia da foto">'};r.readAsDataURL(f)};
+      function toast(t){const el=document.getElementById('grupos-pg-toast');el.textContent=t;el.classList.add('show');if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(el);setTimeout(function(){el.classList.remove('show')},2600)}
+      // "Salvar": grava de verdade em grupos_whatsapp (antes só mostrava um
+      // toast e não persistia nada). Nome/descrição entram sempre; os 2
+      // toggles "somente administradores" só quando o grupo não é o
+      // "Avisos" (mesma trava que já existia na tela para esse grupo).
+      document.getElementById('grupos-pg-save').onclick=function(e){
+        e.preventDefault();
+        if(!selected)return;
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient){toast('Não foi possível conectar ao serviço. Tente novamente em instantes.');return}
+        const novoNome=document.getElementById('grupos-pg-name').value.trim()||selected.name;
+        const novaDescricao=document.getElementById('grupos-pg-description').value.trim();
+        const payload={nome:novoNome,descricao:novaDescricao};
+        if(selected.name!=='Avisos'){
+          payload.admin_only_message=document.getElementById('grupos-pg-admin-message').checked;
+          payload.admin_only_member=document.getElementById('grupos-pg-admin-member').checked;
+        }
+        const saveLink=e.currentTarget;
+        saveLink.style.pointerEvents='none';
+        supaClient.from('grupos_whatsapp').update(payload).eq('id',selected.id).then(function(resposta){
+          saveLink.style.pointerEvents='';
+          if(resposta&&resposta.error){
+            console.error('[Grupos] erro ao salvar grupo:',resposta.error);
+            toast('Não foi possível salvar as alterações. Tente novamente em instantes.');
+            return;
+          }
+          selected.name=novoNome;
+          selected.description=novaDescricao;
+          if(payload.admin_only_message!==undefined){selected.adminMessage=payload.admin_only_message;selected.adminMember=payload.admin_only_member}
+          render();
+          toast('Alterações salvas.');
+          location.hash='';
+        }).catch(function(err){
+          saveLink.style.pointerEvents='';
+          console.error('[Grupos] falha inesperada ao salvar grupo:',err);
+          toast('Não foi possível salvar as alterações. Tente novamente em instantes.');
+        });
+      };
+      // "Sincronizar"/"Sincronizar agora": o front-end não tem credenciais
+      // da Z-API e por isso nunca chama a Z-API direto - quem sincroniza
+      // de verdade é o workflow n8n "Comunidade Asserth | Sincronizar
+      // Grupos (Z-API)", rodando automaticamente a cada 15 minutos. Estes
+      // botões só recarregam o estado mais recente já gravado no banco por
+      // esse workflow, com um aviso claro disso (em vez de fingir uma
+      // sincronização instantânea que o navegador não consegue fazer).
+      document.getElementById('grupos-pg-sync-one').onclick=function(){loadGroups().then(function(){toast('Grupos atualizados. A sincronização com o WhatsApp roda automaticamente a cada 15 minutos.')})};
+      document.getElementById('grupos-pg-sync-all').onclick=function(){loadGroups().then(function(){toast('Grupos atualizados. A sincronização com o WhatsApp roda automaticamente a cada 15 minutos.')})};
+      document.getElementById('grupos-pg-apply').onclick=function(e){e.preventDefault();const q=document.getElementById('grupos-pg-q').value.toLowerCase(),a=document.getElementById('grupos-pg-area').value,s=document.getElementById('grupos-pg-status').value;filtered=groups.filter(function(g){return(!q||g.name.toLowerCase().includes(q))&&(!a||g.area===a)&&(!s||(s==='warning'?!!g.erro:!g.erro))});page=1;render();location.hash=''};
+      document.getElementById('grupos-pg-clear').onclick=function(e){e.preventDefault();['grupos-pg-q','grupos-pg-area','grupos-pg-status'].forEach(function(id){document.getElementById(id).value=''});filtered=groups.slice();page=1;render();location.hash=''};
+      // "Novo grupo": cria o grupo DE VERDADE no WhatsApp via Z-API (decisão
+      // confirmada com a Ana - ver supabase_fix_grupos_reais.sql). O
+      // front-end nunca chama a Z-API direto: só registra o pedido em
+      // comunidades.solicitacoes_criacao_grupo; quem cria de fato é o
+      // workflow n8n "Comunidade Asserth | Criar Grupo (Z-API)".
+      function parseTelefones(texto){
+        const partes=String(texto||'').split(/[\n,;]+/).map(function(p){return p.replace(/\D/g,'')}).filter(function(p){return p.length>=10&&p.length<=14});
+        return Array.from(new Set(partes));
+      }
+      const novoErro=document.getElementById('grupos-pg-new-error');
+      function setNovoErro(msg){novoErro.textContent=msg||'';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(novoErro)}
+      document.getElementById('grupos-pg-new-create').onclick=function(e){
+        e.preventDefault();
+        const nome=document.getElementById('grupos-pg-new-name').value.trim();
+        const area=document.getElementById('grupos-pg-new-area').value;
+        const descricao=document.getElementById('grupos-pg-new-description').value.trim();
+        const telefones=parseTelefones(document.getElementById('grupos-pg-new-phones').value);
+        if(!nome){setNovoErro('Informe o nome do grupo.');return}
+        if(!area){setNovoErro('Selecione a área responsável.');return}
+        if(!telefones.length){setNovoErro('Informe ao menos um telefone válido (DDI+DDD+número, só dígitos).');return}
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient){setNovoErro('Não foi possível conectar ao serviço. Tente novamente em instantes.');return}
+        const usuarioId=(window.AsserthSession&&window.AsserthSession.user&&window.AsserthSession.user.id)||null;
+        const createLink=e.currentTarget;
+        createLink.style.pointerEvents='none';
+        setNovoErro('');
+        supaClient.from('solicitacoes_criacao_grupo').insert({nome:nome,descricao:descricao||null,area:area,telefones:telefones,solicitado_por:usuarioId}).then(function(resposta){
+          createLink.style.pointerEvents='';
+          if(resposta&&resposta.error){
+            console.error('[Grupos] erro ao registrar solicitação de criação de grupo:',resposta.error);
+            setNovoErro('Não foi possível registrar o pedido. Tente novamente em instantes.');
+            return;
+          }
+          document.getElementById('grupos-pg-new-name').value='';
+          document.getElementById('grupos-pg-new-area').value='';
+          document.getElementById('grupos-pg-new-description').value='';
+          document.getElementById('grupos-pg-new-phones').value='';
+          toast('Pedido de criação registrado. Acompanhe em Processamentos — o grupo é criado no WhatsApp em instantes.');
+          location.hash='';
+        }).catch(function(err){
+          createLink.style.pointerEvents='';
+          console.error('[Grupos] falha inesperada ao registrar solicitação de criação de grupo:',err);
+          setNovoErro('Não foi possível registrar o pedido. Tente novamente em instantes.');
+        });
+      };
+      loadGroups();
     }
   };
 })();
