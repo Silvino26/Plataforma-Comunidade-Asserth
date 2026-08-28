@@ -1352,6 +1352,15 @@ html>body{padding:0}
 #asserth-platform-overview [data-view="processamentos"] .pv-metrics{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important}
 @media(max-width:900px){#asserth-platform-overview [data-view="processamentos"] .pv-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:560px){#asserth-platform-overview [data-view="processamentos"] .pv-metrics{grid-template-columns:1fr!important}}
+/* Mesmo ajuste, agora para Membros (2026-08-27): "Convites enviados" misturava
+   duas categorias bem diferentes (convite já enviado x nunca processado ainda)
+   sob um único número - a Ana apontou isso ao comparar com o filtro de Status,
+   que já usa as 8 categorias finas. Separado em 2 cartões (Convite enviado /
+   Pendente), totalizando 5 cartões nesta aba - mesma técnica de grid usada
+   acima para Processamentos. */
+#asserth-platform-overview [data-view="membros"] .pv-metrics{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important}
+@media(max-width:900px){#asserth-platform-overview [data-view="membros"] .pv-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:560px){#asserth-platform-overview [data-view="membros"] .pv-metrics{grid-template-columns:1fr!important}}
 
 .pa-delete-choice{display:grid;gap:8px;margin-top:12px}.pa-delete-choice label{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border:1px solid var(--pv-line);border-radius:9px;cursor:pointer}.pa-delete-choice label:has(input:checked){border-color:#8fc5b6;background:var(--pv-surface-soft)}.pa-delete-choice input{margin-top:2px;accent-color:var(--pv-green)}.pa-delete-choice strong{display:block;font-size:8.5px}.pa-delete-choice small{display:block;margin-top:3px;color:var(--pv-muted);font-size:7.5px;line-height:1.4}.pa-delete-warning{padding:11px 12px;border-left:2px solid #b42332;background:#fff3f4;color:#7d2630;font-size:8px;line-height:1.5}.pa-danger-solid{background:#b42332!important;color:#fff!important;border-color:#b42332!important}
 
@@ -1681,7 +1690,7 @@ html>body{padding:0}
       <div class="pv-page-head"><div><span class="pv-kicker">Visão geral</span><h1>Bom dia, Ana.</h1><p>Acompanhe o que precisa de atenção e conduza as próximas ações da comunidade.</p></div><div class="pv-profile"><input class="pv-profile-toggle" id="pv-profile-toggle-visao-geral" type="checkbox"><label class="pv-profile-btn" for="pv-profile-toggle-visao-geral" aria-label="Abrir opções do usuário"><span class="pv-avatar">AS</span></label><div class="pv-profile-menu" id="pv-profile-menu-visao-geral"><div class="pv-profile-summary"><strong>Ana Silva</strong><span>Administradora · Tecnologia</span></div><a href="#pv-native-profile"><i data-lucide="user-round" aria-hidden="true"></i> Meu perfil</a><a href="#pv-native-preferences"><i data-lucide="palette" aria-hidden="true"></i> Aparência e preferências</a><a href="#pv-native-notifications"><i data-lucide="bell" aria-hidden="true"></i> Notificações</a><a href="#pv-native-logout"><i data-lucide="log-out" aria-hidden="true"></i> Sair</a></div></div></div>
       <div class="pv-statusbar" id="visao-geral-statusbar" aria-label="Status geral da comunidade"><div class="pv-status-main"><span class="pv-live" id="visao-geral-conexao-dot"></span><div><strong id="visao-geral-conexao-titulo">Verificando conexão…</strong><span id="visao-geral-conexao-detalhe"> · Consultando o status mais recente da integração</span></div></div><time id="visao-geral-conexao-hora">—</time></div>
       <div class="pv-metrics" aria-label="Indicadores principais"><div class="pv-metric"><span>Membros confirmados</span><strong id="visao-geral-membros-total">—</strong><small id="visao-geral-membros-detalhe">Carregando…</small></div><div class="pv-metric"><span>Comunicados neste mês</span><strong id="visao-geral-comunicados-total">—</strong><small id="visao-geral-comunicados-detalhe">Carregando…</small></div><div class="pv-metric is-attention"><span>Aguardando aprovação</span><strong id="visao-geral-aprovacao-total">—</strong><small id="visao-geral-aprovacao-detalhe">requerem decisão</small></div><div class="pv-metric"><span>Convites pendentes</span><strong id="visao-geral-convites-total">—</strong><small id="visao-geral-convites-detalhe">convite enviado, aguardando confirmação</small></div></div>
-      <div class="pv-grid"><section class="pv-section"><div class="pv-section-head"><div><h2>Fila de trabalho</h2><p>Prioridades organizadas para o seu perfil de acesso.</p></div></div><div class="pv-worklist" id="visao-geral-fila-lista"><article class="pv-work" id="visao-geral-fila-aprovacoes"><span class="pv-work-icon"><i data-lucide="badge-check" aria-hidden="true"></i></span><div><strong id="visao-geral-fila-aprovacoes-titulo">Carregando…</strong><span id="visao-geral-fila-aprovacoes-detalhe"></span></div><a href="#" data-view-link="aprovacoes" class="pv-tag"  data-roles="admin approver">Decidir agora</a></article><article class="pv-work" id="visao-geral-fila-membros"><span class="pv-work-icon"><i data-lucide="user-round-x" aria-hidden="true"></i></span><div><strong id="visao-geral-fila-membros-titulo">Carregando…</strong><span id="visao-geral-fila-membros-detalhe"></span></div><a href="#" data-view-link="membros" class="pv-tag"  data-roles="admin operator">Revisar dados</a></article><article class="pv-work" id="visao-geral-fila-processamentos"><span class="pv-work-icon"><i data-lucide="file-check-2" aria-hidden="true"></i></span><div><strong id="visao-geral-fila-processamentos-titulo">Carregando…</strong><span id="visao-geral-fila-processamentos-detalhe"></span></div><a href="#" data-view-link="processamentos" class="pv-tag is-green"  data-roles="admin">Ver resultado</a></article></div></section>
+      <div class="pv-grid"><section class="pv-section"><div class="pv-section-head"><div><h2>Fila de trabalho</h2><p>Prioridades organizadas para o seu perfil de acesso.</p></div></div><div class="pv-worklist" id="visao-geral-fila-lista"><article class="pv-work" id="visao-geral-fila-aprovacoes"><span class="pv-work-icon"><i data-lucide="badge-check" aria-hidden="true"></i></span><div><strong id="visao-geral-fila-aprovacoes-titulo">Carregando…</strong><span id="visao-geral-fila-aprovacoes-detalhe"></span></div><a href="#" data-view-link="aprovacoes" class="pv-tag"  data-roles="admin approver">Decidir agora</a></article><article class="pv-work" id="visao-geral-fila-membros"><span class="pv-work-icon"><i data-lucide="user-round-x" aria-hidden="true"></i></span><div><strong id="visao-geral-fila-membros-titulo">Carregando…</strong><span id="visao-geral-fila-membros-detalhe"></span></div><a href="#" data-view-link="membros" data-filter-preset="atencao" class="pv-tag"  data-roles="admin operator">Revisar dados</a></article><article class="pv-work" id="visao-geral-fila-processamentos"><span class="pv-work-icon"><i data-lucide="file-check-2" aria-hidden="true"></i></span><div><strong id="visao-geral-fila-processamentos-titulo">Carregando…</strong><span id="visao-geral-fila-processamentos-detalhe"></span></div><a href="#" data-view-link="processamentos" class="pv-tag is-green"  data-roles="admin">Ver resultado</a></article></div></section>
         <section class="pv-section"><div class="pv-section-head"><div><h2>Próximos envios</h2><p>Agenda do Grupo de Avisos.</p></div><a href="#" data-view-link="comunicados" class="pv-link" >Abrir em Comunicados</a></div><div class="pv-agenda" id="visao-geral-agenda-lista"><div id="visao-geral-agenda-vazio" style="padding:20px 0;color:var(--pv-muted);font-size:10px">Carregando…</div></div></section></div>
 </section>
 <script>
@@ -1969,6 +1978,19 @@ html>body{padding:0}
             var linha=resposta&&Array.isArray(resposta.data)?resposta.data[0]:null;
             var titulo=document.getElementById('visao-geral-fila-processamentos-titulo'),detalhe=document.getElementById('visao-geral-fila-processamentos-detalhe');
             if(!linha){if(artigo)artigo.style.display='none';return}
+            // Pergunta real da Ana em 27/08: "aí eu volto pra Visão Geral,
+            // continua lá, vai ficar pra sempre aqui?" - com razão: esta
+            // consulta sempre busca o ÚLTIMO CONCLUIDO, então sem um limite
+            // de tempo ela nunca some da Fila de trabalho, mesmo dias depois
+            // (isso é uma fila de PRIORIDADES, não um histórico permanente -
+            // o histórico completo já existe em Processamentos). Critério
+            // escolhido: só aparece aqui se concluiu nas últimas 24h; mais
+            // velho que isso, esconde o card (mesmo comportamento de "sem
+            // pendência" já usado nos outros itens da fila).
+            if(linha.finalizado_em){
+              var horasDesde=(Date.now()-new Date(linha.finalizado_em).getTime())/3600000;
+              if(!(horasDesde>=0&&horasDesde<=24)){if(artigo)artigo.style.display='none';return}
+            }
             if(titulo)titulo.textContent=(linha.titulo||linha.tipo||'Processamento')+' concluído';
             var partes=[];
             if(typeof linha.registros==='number')partes.push(linha.registros+' registros válidos');
@@ -2000,8 +2022,8 @@ html>body{padding:0}
 </script>
 
 <section id="view-membros" class="view pv-main" data-view="membros" hidden>
-<div class="pv-page-head"><div><span class="pv-kicker">Comunidade</span><h1>Membros</h1><p>Consulte e gerencie as pessoas registradas na comunidade conforme o seu acesso.</p></div><div class="pv-comm-head-side"><div class="pv-profile"><input class="pv-profile-toggle" id="pv-profile-toggle-membros" type="checkbox"><label class="pv-profile-btn" for="pv-profile-toggle-membros" aria-label="Abrir opções do usuário"><span class="pv-avatar">AS</span></label><div class="pv-profile-menu" id="pv-profile-menu-membros"><div class="pv-profile-summary"><strong>Ana Silva</strong><span>Administradora · Tecnologia</span></div><a href="#pv-native-profile"><i data-lucide="user-round" aria-hidden="true"></i> Meu perfil</a><a href="#pv-native-preferences"><i data-lucide="palette" aria-hidden="true"></i> Aparência e preferências</a><a href="#pv-native-notifications"><i data-lucide="bell" aria-hidden="true"></i> Notificações</a><a href="#pv-native-logout"><i data-lucide="log-out" aria-hidden="true"></i> Sair</a></div></div><div class="pm-actions"><a class="pv-comm-button" href="#membros-pm-filter"><i data-lucide="sliders-horizontal"></i>Filtrar</a><button class="pv-comm-button" id="membros-pm-export"><i data-lucide="download"></i>Exportar</button></div></div></div><div class="pv-metrics"><div class="pv-metric"><span>Relação atual</span><strong id="membros-pm-total">0</strong><small>registros visíveis</small></div><div class="pv-metric"><span>Na comunidade</span><strong id="membros-pm-included">0</strong><small>presença confirmada</small></div><div class="pv-metric"><span>Convites enviados</span><strong id="membros-pm-invited">0</strong><small>aguardando entrada</small></div><div class="pv-metric"><span>Com divergência</span><strong id="membros-pm-errors">0</strong><small>precisam de tratamento</small></div></div><section class="pv-section"><div class="pv-comm-toolbar"><div><h2>Relação atual de membros</h2><p>A relação inclui pessoas confirmadas, convidadas e registros com divergência.</p></div><span class="pv-comm-cell" id="membros-pm-label"></span></div><div class="pm-list" id="membros-pm-list"></div><div class="pv-pagination"><span id="membros-pm-summary"></span><div class="pv-page-buttons" id="membros-pm-pages"></div></div></section>
-<section class="pv-native-panel" id="membros-pm-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar membros</h2><p>Localize apenas os registros necessários.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-filter-grid"><div class="pv-native-field"><label>Nome</label><input id="membros-pm-q" placeholder="Digite para pesquisar"></div><div class="pv-native-field"><label>Tipo de membro</label><select id="membros-pm-type"><option value="">Todos</option><option>Colaborador</option><option>Prestador</option></select></div><div class="pv-native-field"><label>Status</label><select id="membros-pm-status"><option value="">Todos</option><option value="incluido">Incluído</option><option value="convite_pendente">Convite enviado (aguardando confirmação)</option><option value="pendente_sem_convite">Pendente (sem confirmação)</option><option value="telefone_divergente">Telefone com divergência</option><option value="erro_processamento">Erro de processamento</option><option value="nao_identificado">Não identificado</option><option value="removido">Removido da comunidade</option><option value="ausente">Ausente (saiu após confirmação)</option></select></div><div class="pv-native-field"><label>Grupo</label><select id="membros-pm-group"><option value="">Todos</option><option>Avisos</option><option>Financeiro</option><option>Departamento Pessoal</option></select></div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" id="membros-pm-clear" href="#">Limpar</a><a id="membros-pm-apply" href="#">Aplicar filtros</a></div></div></section><section class="pv-native-panel" id="membros-pm-detail"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Detalhes do membro</h2><p>Consulte o cadastro e gerencie grupos autorizados.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-detail-grid" id="membros-pm-detail-data"></div><h3 style="font-size:10px">Grupos vinculados</h3><div class="pm-groups-picker" id="membros-pm-groups-picker"><button class="pm-groups-trigger" id="membros-pm-groups-trigger" type="button"><span class="chips" id="membros-pm-group-chips"></span><span>⌄</span></button><div class="pm-group-list" id="membros-pm-group-list"></div></div><p class="pm-note">Avisos é obrigatório e não pode ser removido. As alterações nos demais grupos serão enviadas para execução e acompanhamento em Processamentos; elas não retiram a pessoa da comunidade.</p></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Fechar</a><a id="membros-pm-save" href="#">Salvar</a></div></div></section><div class="pv-toast" id="membros-pm-toast"><i data-lucide="info" aria-hidden="true"></i><span></span></div>
+<div class="pv-page-head"><div><span class="pv-kicker">Comunidade</span><h1>Membros</h1><p>Consulte e gerencie as pessoas registradas na comunidade conforme o seu acesso.</p></div><div class="pv-comm-head-side"><div class="pv-profile"><input class="pv-profile-toggle" id="pv-profile-toggle-membros" type="checkbox"><label class="pv-profile-btn" for="pv-profile-toggle-membros" aria-label="Abrir opções do usuário"><span class="pv-avatar">AS</span></label><div class="pv-profile-menu" id="pv-profile-menu-membros"><div class="pv-profile-summary"><strong>Ana Silva</strong><span>Administradora · Tecnologia</span></div><a href="#pv-native-profile"><i data-lucide="user-round" aria-hidden="true"></i> Meu perfil</a><a href="#pv-native-preferences"><i data-lucide="palette" aria-hidden="true"></i> Aparência e preferências</a><a href="#pv-native-notifications"><i data-lucide="bell" aria-hidden="true"></i> Notificações</a><a href="#pv-native-logout"><i data-lucide="log-out" aria-hidden="true"></i> Sair</a></div></div><div class="pm-actions"><a class="pv-comm-button" href="#membros-pm-filter"><i data-lucide="sliders-horizontal"></i>Filtrar</a><button class="pv-comm-button" id="membros-pm-export"><i data-lucide="download"></i>Exportar</button></div></div></div><div class="pv-metrics"><div class="pv-metric"><span>Relação atual</span><strong id="membros-pm-total">0</strong><small>registros visíveis</small></div><div class="pv-metric"><span>Na comunidade</span><strong id="membros-pm-included">0</strong><small>presença confirmada</small></div><div class="pv-metric"><span>Convite enviado</span><strong id="membros-pm-invited">0</strong><small>aguardando confirmação</small></div><div class="pv-metric"><span>Pendente</span><strong id="membros-pm-pending">0</strong><small>sem confirmação, ainda não processado</small></div><div class="pv-metric"><span>Precisam de atenção</span><strong id="membros-pm-errors">0</strong><small>telefone divergente, erro ou não identificado</small></div></div><section class="pv-section"><div class="pv-comm-toolbar"><div><h2>Relação atual de membros</h2><p>A relação inclui pessoas confirmadas, convidadas e registros com divergência.</p></div><span class="pv-comm-cell" id="membros-pm-label"></span></div><div class="pm-list" id="membros-pm-list"></div><div class="pv-pagination"><span id="membros-pm-summary"></span><div class="pv-page-buttons" id="membros-pm-pages"></div></div></section>
+<section class="pv-native-panel" id="membros-pm-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar membros</h2><p>Localize apenas os registros necessários.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-filter-grid"><div class="pv-native-field"><label>Nome</label><input id="membros-pm-q" placeholder="Digite para pesquisar"></div><div class="pv-native-field"><label>Tipo de membro</label><select id="membros-pm-type"><option value="">Todos</option><option>Colaborador</option><option>Prestador</option></select></div><div class="pv-native-field"><label>Status</label><select id="membros-pm-status"><option value="">Todos</option><option value="atencao">Precisam de atenção (agrupado)</option><option value="incluido">Incluído</option><option value="convite_pendente">Convite enviado (aguardando confirmação)</option><option value="pendente_sem_convite">Pendente (sem confirmação)</option><option value="telefone_divergente">Telefone com divergência</option><option value="erro_processamento">Erro de processamento</option><option value="nao_identificado">Não identificado</option><option value="removido">Removido da comunidade</option><option value="ausente">Ausente (saiu após confirmação)</option></select></div><div class="pv-native-field"><label>Grupo</label><select id="membros-pm-group"><option value="">Todos</option><option>Avisos</option><option>Financeiro</option><option>Departamento Pessoal</option></select></div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" id="membros-pm-clear" href="#">Limpar</a><a id="membros-pm-apply" href="#">Aplicar filtros</a></div></div></section><section class="pv-native-panel" id="membros-pm-detail"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Detalhes do membro</h2><p>Consulte o cadastro e gerencie grupos autorizados.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-detail-grid" id="membros-pm-detail-data"></div><h3 style="font-size:10px">Grupos vinculados</h3><div class="pm-groups-picker" id="membros-pm-groups-picker"><button class="pm-groups-trigger" id="membros-pm-groups-trigger" type="button"><span class="chips" id="membros-pm-group-chips"></span><span>⌄</span></button><div class="pm-group-list" id="membros-pm-group-list"></div></div><p class="pm-note">Avisos é obrigatório e não pode ser removido. As alterações nos demais grupos serão enviadas para execução e acompanhamento em Processamentos; elas não retiram a pessoa da comunidade.</p></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Fechar</a><a id="membros-pm-save" href="#">Salvar</a></div></div></section><div class="pv-toast" id="membros-pm-toast"><i data-lucide="info" aria-hidden="true"></i><span></span></div>
 </section>
 <script>
 (function(){
@@ -2092,8 +2114,19 @@ html>body{padding:0}
         if(toastTimer)clearTimeout(toastTimer);
         toastTimer=setTimeout(function(){toastEl.classList.remove('is-visible')},5000);
       }
-      let data=[],filtered=[],page=1,selected=null;
+      let data=[],filtered=[],page=1,selected=null,pendingPreset=null;
       const size=10;
+      // "atencao" é um valor de filtro especial (não é uma categoria real de
+      // banco): agrupa as 3 categorias que já usam a flag `atencao:true` em
+      // AsserthStatusParticipante (telefone_divergente, erro_processamento,
+      // nao_identificado) - exatamente o mesmo critério usado pela Visão
+      // Geral pra contar "X membros precisam de tratamento". Centralizado
+      // aqui pra o filtro manual e o deep-link (applyPreset) nunca divergirem.
+      function matchesStatus(x,s){
+        if(!s)return true;
+        if(s==='atencao'){var info=window.AsserthStatusParticipante&&window.AsserthStatusParticipante.info(x.statusRaw);return !!(info&&info.atencao)}
+        return x.statusCategoria===s;
+      }
       function popularTipos(){
         const select=document.getElementById('membros-pm-type');
         if(!select)return;
@@ -2121,9 +2154,12 @@ html>body{padding:0}
           if(algumErro)showToast('Alguns registros não puderam ser carregados agora. A relação pode estar incompleta.');
           data=linhas;
           popularTipos();
-          filtered=data.slice();
-          page=1;
-          render();
+          // Se um deep-link (ex.: "Revisar dados" da Visão Geral) chamou
+          // applyPreset() antes do carregamento terminar, aplica agora que
+          // já existe dado pra filtrar - sem isso o preset seria perdido
+          // quando essa view é acessada pela 1ª vez via esse link.
+          if(pendingPreset){var preset=pendingPreset;pendingPreset=null;applyPresetNow(preset)}
+          else{filtered=data.slice();page=1;render()}
         }).catch(function(err){
           console.error('[Membros] falha inesperada ao carregar membros:',err);
           showToast('Não foi possível carregar a relação de membros agora. Tente novamente em instantes.');
@@ -2137,8 +2173,18 @@ html>body{padding:0}
         document.getElementById('membros-pm-list').innerHTML=rows.length?rows.map(function(m){return '<div class="pm-row"><div><strong>'+escapeHtml(m.name)+'</strong></div><div class="pm-cell">'+escapeHtml(m.type)+'</div><div class="pm-cell">'+escapeHtml(m.extra||'—')+'</div><div><span class="pm-status '+m.statusBucket+'">'+escapeHtml(m.statusLabel)+'</span></div><a class="pm-link" href="#membros-pm-detail" data-id="'+m.id+'">Visualizar →</a></div>'}).join(''):'<div style="padding:30px 0;text-align:center;color:var(--pv-muted);font-size:9px">Nenhum membro encontrado para os filtros aplicados.</div>';
         document.getElementById('membros-pm-total').textContent=filtered.length;
         document.getElementById('membros-pm-included').textContent=filtered.filter(function(x){return x.statusBucket==='included'}).length;
-        document.getElementById('membros-pm-invited').textContent=filtered.filter(function(x){return x.statusBucket==='invited'}).length;
-        document.getElementById('membros-pm-errors').textContent=filtered.filter(function(x){return x.statusBucket==='error'}).length;
+        // Bug real apontado pela Ana em 27/08: estes cartões usavam o
+        // agrupamento grosso de 3 cores (statusBucket) - "Convites enviados"
+        // somava junto quem já recebeu convite (convite_pendente) com quem
+        // nunca foi nem processado ainda (pendente_sem_convite), enquanto o
+        // filtro de Status logo abaixo já usava as 8 categorias finas. Dois
+        // números com o mesmo rótulo contando coisas diferentes. Agora os 5
+        // cartões usam a categoria fina, igual ao filtro e igual à Visão
+        // Geral - "Precisam de atenção" é a mesma união (telefone_divergente
+        // + erro_processamento + nao_identificado) usada no filtro "atencao".
+        document.getElementById('membros-pm-invited').textContent=filtered.filter(function(x){return x.statusCategoria==='convite_pendente'}).length;
+        document.getElementById('membros-pm-pending').textContent=filtered.filter(function(x){return x.statusCategoria==='pendente_sem_convite'}).length;
+        document.getElementById('membros-pm-errors').textContent=filtered.filter(function(x){return matchesStatus(x,'atencao')}).length;
         document.getElementById('membros-pm-label').textContent=filtered.length+' registros';
         document.getElementById('membros-pm-summary').textContent=filtered.length?((page-1)*size+1)+'–'+((page-1)*size+rows.length)+' de '+filtered.length:'0 registros';
         const p=document.getElementById('membros-pm-pages');
@@ -2162,7 +2208,7 @@ html>body{padding:0}
       document.getElementById('membros-pm-apply').onclick=function(e){
         e.preventDefault();
         const q=document.getElementById('membros-pm-q').value.toLowerCase(),t=document.getElementById('membros-pm-type').value,s=document.getElementById('membros-pm-status').value;
-        filtered=data.filter(function(x){return (!q||(x.name+' '+x.phone).toLowerCase().indexOf(q)!==-1)&&(!t||x.type===t)&&(!s||x.statusCategoria===s)});
+        filtered=data.filter(function(x){return (!q||(x.name+' '+x.phone).toLowerCase().indexOf(q)!==-1)&&(!t||x.type===t)&&matchesStatus(x,s)});
         page=1;render();location.hash='';
       };
       document.getElementById('membros-pm-clear').onclick=function(e){
@@ -2170,6 +2216,21 @@ html>body{padding:0}
         ['membros-pm-q','membros-pm-type','membros-pm-status','membros-pm-group'].forEach(function(id){document.getElementById(id).value=''});
         filtered=data.slice();page=1;render();location.hash='';
       };
+      // Deep-link vindo de outra view (ex.: "Revisar dados" na Fila de
+      // trabalho da Visão Geral) - limpa nome/tipo/grupo, marca o preset no
+      // próprio select de Status (pra ficar visível qual filtro está ativo
+      // se a pessoa abrir "Filtrar" depois) e filtra a lista já carregada.
+      function applyPresetNow(preset){
+        ['membros-pm-q','membros-pm-type','membros-pm-group'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
+        var statusSelect=document.getElementById('membros-pm-status');
+        if(statusSelect)statusSelect.value=preset;
+        filtered=data.filter(function(x){return matchesStatus(x,preset)});
+        page=1;render();location.hash='';
+      }
+      function applyPreset(preset){
+        if(data&&data.length){applyPresetNow(preset)}else{pendingPreset=preset}
+      }
+      window.AsserthViews['membros'].applyPreset=applyPreset;
       document.getElementById('membros-pm-save').onclick=function(e){e.preventDefault();if(selected)selected.groups=Array.from(document.querySelectorAll('#membros-pm-group-list input:checked')).map(function(x){return x.value});render();alert('Solicitação registrada em Processamentos. As alterações serão aplicadas na comunidade pela automação.');location.hash=''};
       const pmPicker=document.getElementById('membros-pm-groups-picker'),pmTrigger=document.getElementById('membros-pm-groups-trigger'),pmGroupList=document.getElementById('membros-pm-group-list');
       const syncGroupChips=function(){const groups=Array.from(pmGroupList.querySelectorAll('input:checked')).map(function(input){return input.value});document.getElementById('membros-pm-group-chips').innerHTML=groups.map(function(group){return '<span>'+group+'</span>'}).join('')};
@@ -2335,7 +2396,17 @@ html>body{padding:0}
         return{
           id:index,
           title:row.nome||'(sem nome)',
-          campaign:'Código '+(row.codigo||'—'),
+          // Nome real da campanha (comunidades.campanhas, via
+          // campanhaNomePorId - ver tentativaCarregarCampanhasReais
+          // acima). Antes mostrava 'Código '+row.codigo, que é o código
+          // INTERNO do comunicado, não o nome da campanha - bug
+          // reportado pela Ana ("clico em novo comunicado, vincula
+          // campanhas fixas no front, mas não registra em nada").
+          // campanhaId fica guardado à parte para o retoque de nomes
+          // assim que a lista de campanhas reais terminar de carregar
+          // (ver o `records.forEach` logo acima).
+          campanhaId:row.campanha_id||null,
+          campaign:(row.campanha_id&&campanhaNomePorId[row.campanha_id])||'Sem campanha',
           group:grupo,
           date:parts.date,
           time:parts.time,
@@ -2392,6 +2463,16 @@ html>body{padding:0}
       // isso, continua tudo exatamente como já era (grupo_id ausente do
       // cadastro, checkbox estático com os 10 nomes do mockup).
       let grupoIdPorNome={};
+      // campanhaIdPorNome / campanhaNomePorId: mesmo espírito de
+      // grupoIdPorNome acima, mas para a tabela comunidades.campanhas
+      // (ver supabase_fix_campanhas.sql) - preenchidos por
+      // tentativaCarregarCampanhasReais() logo abaixo. Nome -> id serve
+      // pro seletor "Campanha" do cadastro (grava campanha_id real no
+      // insert); id -> nome serve pra listagem já carregada mostrar o
+      // nome de verdade da campanha em vez do código interno do
+      // comunicado (bug reportado pela Ana - a coluna "campanha" da
+      // listagem mostrava "Código COM-..." em vez do nome da campanha).
+      let campanhaIdPorNome={},campanhaNomePorId={};
       function pad(value){return String(value).padStart(2,'0')}
       function iso(date){return date.getFullYear()+'-'+pad(date.getMonth()+1)+'-'+pad(date.getDate())}
       function nextAllowed(){let value=new Date(Date.now()+5*60000);if(value.getDay()===6){value.setDate(value.getDate()+2);value.setHours(9,0,0,0)}if(value.getDay()===0){value.setDate(value.getDate()+1);value.setHours(9,0,0,0)}return value}
@@ -2451,6 +2532,45 @@ html>body{padding:0}
           }).catch(function(err){console.error('[Comunicados] não foi possível carregar grupos reais (mantendo lista padrão):',err)});
         }catch(err){console.error('[Comunicados] tentativa de carregar grupos reais falhou (mantendo lista padrão):',err)}
       })();
+      // Substitui a lista fixa de campanhas (herdada do mockup) pelas
+      // campanhas reais cadastradas em comunidades.campanhas (ver
+      // supabase_fix_campanhas.sql e a aba Campanhas, agora também real).
+      // Igual ao carregamento de grupos acima: se a tabela ainda não
+      // existir, vier vazia ou a consulta falhar, o seletor cai de volta
+      // pro comportamento anterior (só "Sem campanha", sem travar nada).
+      // Além de popular o seletor de cadastro e o filtro da listagem,
+      // também reaplica os nomes reais nos registros JÁ carregados (a
+      // carga de campanhas e a de comunicados correm em paralelo, uma
+      // não espera a outra) e redesenha a lista.
+      const campaignSelect=document.getElementById('comunicados-pv-comm-campaign'),campaignFilterSelect=document.getElementById('comunicados-pv-filter-campaign');
+      (function tentativaCarregarCampanhasReais(){
+        try{
+          const supaClient=window.AsserthSupabase;
+          if(!supaClient)return;
+          supaClient.from('campanhas').select('id,nome').order('nome',{ascending:true}).then(function(resposta){
+            if(!resposta||resposta.error||!Array.isArray(resposta.data)||!resposta.data.length)return;
+            campanhaIdPorNome={};campanhaNomePorId={};
+            resposta.data.forEach(function(c){campanhaIdPorNome[c.nome]=c.id;campanhaNomePorId[c.id]=c.nome});
+            const opcoes=resposta.data.map(function(c){return '<option>'+escapeHtml(c.nome)+'</option>'}).join('');
+            if(campaignSelect){const atual=campaignSelect.value;campaignSelect.innerHTML='<option>Sem campanha</option>'+opcoes;campaignSelect.value=[...campaignSelect.options].some(o=>o.value===atual)?atual:'Sem campanha'}
+            if(campaignFilterSelect){const atual=campaignFilterSelect.value;campaignFilterSelect.innerHTML='<option value="">Todas</option>'+opcoes+'<option>Sem campanha</option>';campaignFilterSelect.value=[...campaignFilterSelect.options].some(o=>o.value===atual)?atual:''}
+            // Registros já carregados (records) usavam o placeholder
+            // 'Código COM-...' como nome da campanha - reaplica agora que
+            // os nomes reais chegaram, sem esperar um novo loadRecords().
+            if(records.length){
+              // Muda o campo direto nos objetos que já estão em `records`
+              // - como `filtered` é sempre derivado de `records` por
+              // slice()/filter() (nunca uma cópia profunda), os mesmos
+              // objetos já ficam corrigidos ali também. Só render() é
+              // necessário; nada de reaplicar filtros nem mexer no hash
+              // (evita fechar um painel que a Ana possa estar com essa
+              // carga assíncrona ainda em andamento).
+              records.forEach(function(r){if(r.campanhaId)r.campaign=campanhaNomePorId[r.campanhaId]||r.campaign});
+              render();
+            }
+          }).catch(function(err){console.error('[Comunicados] não foi possível carregar campanhas reais (mantendo seletor padrão):',err)});
+        }catch(err){console.error('[Comunicados] tentativa de carregar campanhas reais falhou (mantendo seletor padrão):',err)}
+      })();
       function showPreview(value,time,imageSource){document.getElementById('comunicados-pv-wa-message').innerHTML=formatted(value);document.getElementById('comunicados-pv-wa-time').textContent=(time||'09:00')+' ✓✓';const img=document.getElementById('comunicados-pv-wa-image');if(objectUrl){URL.revokeObjectURL(objectUrl);objectUrl=''}let src=imageSource||'';if(!src&&type.value==='image'&&imageFile.files&&imageFile.files[0]){objectUrl=URL.createObjectURL(imageFile.files[0]);src=objectUrl}if(src){img.src=src;img.style.display='block'}else{img.removeAttribute('src');img.style.display='none'}}
       document.getElementById('comunicados-pv-preview-action').addEventListener('click',function(){previewOrigin='form';showPreview(message.value,sendTime.value,'')});
       list.addEventListener('click',function(e){const link=e.target.closest('[data-record]');if(!link)return;const r=records.find(function(item){return item.id===Number(link.dataset.record)});if(r){previewOrigin='list';showPreview(r.message,r.time,r.image||'')}});
@@ -2465,6 +2585,7 @@ html>body{padding:0}
         message.value='';
         updateType();
         if(observacaoBox)observacaoBox.value='';
+        if(campaignSelect)campaignSelect.value='Sem campanha';
         checks.forEach(function(c){c.checked=false});
         renderGroups();
         recurrence.value='once';
@@ -2622,6 +2743,15 @@ html>body{padding:0}
           const chaveUnica=(nome.toUpperCase()+'|'+dataDisparo.slice(0,10)+'|'+String(grupoId||grupo).toUpperCase());
           const linha={codigo:codigo,nome:nome,tipo:tipo,mensagem:message.value,data_disparo:dataDisparo,status:'AGUARDANDO_APROVACAO',tentativas:0,criado_por:usuarioId,observacao:observacao,grupo_nome:grupo,chave_unica:chaveUnica,recorrencia:recorrencia};
           if(grupoId)linha.grupo_id=grupoId;
+          // campanha_id: só é enviado quando o nome escolhido no seletor
+          // corresponde a uma campanha real já carregada (ver
+          // campanhaIdPorNome, populado por tentativaCarregarCampanhasReais
+          // acima) - "Sem campanha" (ou uma campanha que ainda não
+          // carregou) deixa a chave de fora, igual ao que já era feito
+          // pra grupo_id antes de existir a tabela de grupos.
+          const campanhaSelecionada=campaignSelect?campaignSelect.value:'';
+          const campanhaId=campanhaSelecionada&&campanhaSelecionada!=='Sem campanha'?campanhaIdPorNome[campanhaSelecionada]:null;
+          if(campanhaId)linha.campanha_id=campanhaId;
           if(urlImagem)linha.url_imagem=urlImagem;
           if(recorrencia!=='once'){linha.recorrencia_fim=recurrenceUntil.value;if(serieId)linha.serie_id=serieId}
           return linha;
@@ -2685,8 +2815,8 @@ html>body{padding:0}
 <div class="pv-page-head"><div><span class="pv-kicker">Comunicação</span><h1>Campanhas</h1><p>Organize comunicações relacionadas e acompanhe sua execução por área autorizada.</p></div><div class="pv-comm-head-side"><div class="pv-profile"><input class="pv-profile-toggle" id="pv-profile-toggle-campanhas" type="checkbox"><label class="pv-profile-btn" for="pv-profile-toggle-campanhas" aria-label="Abrir opções do usuário"><span class="pv-avatar">AS</span></label><div class="pv-profile-menu" id="pv-profile-menu-campanhas"><div class="pv-profile-summary"><strong>Ana Silva</strong><span>Administradora · Tecnologia</span></div><a href="#pv-native-profile"><i data-lucide="user-round" aria-hidden="true"></i> Meu perfil</a><a href="#pv-native-preferences"><i data-lucide="palette" aria-hidden="true"></i> Aparência e preferências</a><a href="#pv-native-notifications"><i data-lucide="bell" aria-hidden="true"></i> Notificações</a><a href="#pv-native-logout"><i data-lucide="log-out" aria-hidden="true"></i> Sair</a></div></div><div class="pc-actions"><a class="pv-comm-button" href="#campanhas-pc-filter"><i data-lucide="sliders-horizontal"></i>Filtrar</a><a class="pv-comm-button is-primary" href="#campanhas-pc-new"><i data-lucide="plus"></i>Nova campanha</a></div></div></div>
 <div class="pv-metrics"><div class="pv-metric"><span>Campanhas ativas</span><strong id="campanhas-pc-count-active">0</strong><small>no resultado filtrado</small></div><div class="pv-metric"><span>Comunicados vinculados</span><strong id="campanhas-pc-count-messages">0</strong><small>somatório das campanhas</small></div><div class="pv-metric"><span>Agendados</span><strong id="campanhas-pc-count-scheduled">0</strong><small>próximos envios</small></div><div class="pv-metric"><span>Concluídas</span><strong id="campanhas-pc-count-completed">0</strong><small>no resultado filtrado</small></div></div>
 <section class="pv-section"><div class="pv-comm-toolbar"><div><h2>Registros de campanhas</h2><p>Consulte as campanhas visíveis para seu acesso e seus comunicados relacionados.</p></div><span class="pv-comm-cell" id="campanhas-pc-result-label">0 registros</span></div><div class="pv-comm-list" id="campanhas-pc-list"></div><div class="pv-pagination"><span id="campanhas-pc-page-summary">0 registros</span><div class="pv-page-buttons" id="campanhas-pc-pages"></div></div></section><div class="pv-toast" id="campanhas-pv-toast"><i data-lucide="info" aria-hidden="true"></i><span></span></div>
-<section class="pv-native-panel" id="campanhas-pc-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar campanhas</h2><p>Os resultados respeitam as áreas autorizadas para o seu acesso.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pc-filter-grid"><div class="pv-native-field"><label>Nome da campanha</label><input id="campanhas-pc-filter-name" placeholder="Digite o nome"></div><div class="pv-native-field"><label>Status</label><select id="campanhas-pc-filter-status"><option value="">Todos</option><option value="active">Ativa</option><option value="paused">Pausada</option><option value="completed">Concluída</option></select></div><div class="pv-native-field"><label>Área responsável</label><select id="campanhas-pc-filter-area"><option value="">Todas as áreas autorizadas</option><option>Comunicação Interna</option><option>Departamento Pessoal</option><option>Financeiro</option><option>Tecnologia</option></select></div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" id="campanhas-pc-clear" href="#">Limpar</a><a id="campanhas-pc-apply" href="#">Aplicar filtros</a></div></div></section>
-<section class="pv-native-panel" id="campanhas-pc-new"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Nova campanha</h2><p>Depois de salva, a campanha ficará disponível no cadastro de comunicados.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pv-native-field"><label>Nome da campanha *</label><input id="campanhas-pc-new-name" placeholder="Ex.: Integração Setembro 2026" maxlength="80"></div><div class="pc-note">A área responsável e a visibilidade serão definidas automaticamente pelo seu acesso. Outros detalhes serão formados pelos comunicados vinculados.</div><div class="pa-error" id="campanhas-pc-new-error"></div></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Cancelar</a><a id="campanhas-pc-create" href="#">Salvar campanha</a></div></div></section>
+<section class="pv-native-panel" id="campanhas-pc-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar campanhas</h2><p>Os resultados respeitam as áreas autorizadas para o seu acesso.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pc-filter-grid"><div class="pv-native-field"><label>Nome da campanha</label><input id="campanhas-pc-filter-name" placeholder="Digite o nome"></div><div class="pv-native-field"><label>Status</label><select id="campanhas-pc-filter-status"><option value="">Todos</option><option value="active">Ativa</option><option value="paused">Pausada</option><option value="completed">Concluída</option></select></div><div class="pv-native-field"><label>Área responsável</label><select id="campanhas-pc-filter-area"><option value="">Todas as áreas autorizadas</option><option>Tecnologia</option><option>Comunicação Interna</option><option>Departamento Pessoal</option><option>Recrutamento e Seleção</option><option>Financeiro</option><option>Comercial</option></select></div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" id="campanhas-pc-clear" href="#">Limpar</a><a id="campanhas-pc-apply" href="#">Aplicar filtros</a></div></div></section>
+<section class="pv-native-panel" id="campanhas-pc-new"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Nova campanha</h2><p>Depois de salva, a campanha ficará disponível no cadastro de comunicados.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pv-native-field"><label>Nome da campanha *</label><input id="campanhas-pc-new-name" placeholder="Ex.: Integração Setembro 2026" maxlength="80"></div><div class="pv-native-field"><label>Área responsável *</label><select id="campanhas-pc-new-area"><option value="">Selecione</option><option>Tecnologia</option><option>Comunicação Interna</option><option>Departamento Pessoal</option><option>Recrutamento e Seleção</option><option>Financeiro</option><option>Comercial</option></select></div><div class="pc-note">Escolha a área responsável pela campanha — ela é registrada como informada aqui, independentemente da sua própria área de acesso. Outros detalhes serão formados pelos comunicados vinculados.</div><div class="pa-error" id="campanhas-pc-new-error"></div></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Cancelar</a><a id="campanhas-pc-create" href="#">Salvar campanha</a></div></div></section>
 <section class="pv-native-panel" id="campanhas-pc-detail"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Detalhes da campanha</h2><p>Acompanhe os comunicados vinculados e o andamento da campanha.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pc-detail-head"><span>Campanha</span><strong id="campanhas-pc-detail-name"></strong></div><div class="pc-detail-meta"><div><span>Área responsável</span><strong id="campanhas-pc-detail-area"></strong></div><div><span>Criada por</span><strong id="campanhas-pc-detail-author"></strong></div><div><span>Status atual</span><div class="pc-status-picker" id="campanhas-pc-status-picker"><button class="pc-inline-status" id="campanhas-pc-status-trigger" type="button" aria-haspopup="listbox" aria-expanded="false"><span>Ativa</span><i data-lucide="chevron-down"></i></button><div class="pc-status-menu" role="listbox"><button class="pc-status-option" type="button" data-status="active">Ativa</button><button class="pc-status-option" type="button" data-status="paused">Pausada</button><button class="pc-status-option" type="button" data-status="completed">Concluída</button></div></div></div><div><span>Comunicados vinculados</span><strong id="campanhas-pc-detail-count"></strong></div></div><h3 style="margin:0;font-size:10px;font-weight:500">Comunicados vinculados</h3><div class="pc-linked" id="campanhas-pc-linked"></div></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Fechar</a><a id="campanhas-pc-save-status" href="#">Salvar status</a></div></div></section>
 </section>
 <script>
@@ -2694,29 +2824,135 @@ html>body{padding:0}
   window.AsserthViews = window.AsserthViews || {};
   window.AsserthViews['campanhas'] = {
     init: function() {
-      const campaigns=[
-        {id:1,name:'Integração Agosto 2026',area:'Comunicação Interna',group:'Avisos',status:'active',author:'Mariana Costa',messages:[['Boas-vindas aos novos membros','20/08 · 14:00','Aguardando aprovação'],['Campanha de integração','29/08 · 10:00','Reprovado'],['Integração de prestadores','29/07 · 09:30','Enviado']]},
-        {id:2,name:'Benefícios 2026',area:'Departamento Pessoal',group:'Avisos',status:'active',author:'Carla Mendes',messages:[['Atualização de benefícios','21/08 · 10:30','Aguardando aprovação'],['Novo benefício corporativo','02/09 · 09:00','Agendado']]},
-        {id:3,name:'Fechamento Financeiro',area:'Financeiro',group:'Financeiro',status:'paused',author:'Rafael Lima',messages:[['Prazo para notas fiscais','24/08 · 09:00','Aguardando aprovação']]},
-        {id:4,name:'Segurança da Informação',area:'Tecnologia',group:'Tecnologia',status:'completed',author:'Pedro Souza',messages:[['Manutenção programada','18/08 · 18:00','Reprovado'],['Boas práticas de segurança','12/08 · 11:00','Enviado']]},
-        {id:5,name:'Experiência do colaborador',area:'Comunicação Interna',group:'Avisos',status:'active',author:'Mariana Costa',messages:[['Pesquisa de experiência','26/08 · 15:00','Aprovado']]},
-        {id:6,name:'Calendário DP',area:'Departamento Pessoal',group:'Departamento Pessoal',status:'completed',author:'Juliana Alves',messages:[['Fechamento da folha','25/08 · 11:00','Aprovado']]}
-      ];
+      // Dados reais (Supabase, tabela comunidades.campanhas — ver
+      // supabase_fix_campanhas.sql). Antes desta correção (2026-08-27)
+      // esta tela inteira era um array `campaigns` fixo, sem nenhuma
+      // tabela por trás - a Ana reportou isso no vídeo do dia 27/08
+      // ("está mock, esses registros não existem em nenhuma tabela").
+      // `messages` (lista de comunicados vinculados) não vem mais junto
+      // no registro da campanha - é buscado à parte em `comunicacoes`
+      // (campo campanha_id) e guardado em `linkedByCampaign` abaixo,
+      // porque são tabelas diferentes.
+      let campaigns=[],filtered=[],page=1,selected=null,linkedByCampaign={};
       const status={active:['Ativa','is-sent'],paused:['Pausada','is-pending'],completed:['Concluída','is-scheduled']};
-      let filtered=campaigns.slice(),page=1,selected=null;
+      const msgStatusLabel={pending:'Aguardando aprovação',scheduled:'Agendado',sent:'Enviado',rejected:'Reprovado',error:'Erro no envio'};
       const size=4,list=document.getElementById('campanhas-pc-list'),pages=document.getElementById('campanhas-pc-pages');
+      const toastEl=document.getElementById('campanhas-pv-toast')||null,toastText=toastEl?toastEl.querySelector('span'):null;
+      function showToast(msg){if(!toastEl||!toastText)return;toastText.textContent=msg;toastEl.classList.add('is-visible');setTimeout(()=>toastEl.classList.remove('is-visible'),5000)}
       function esc(v){return String(v||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+      // Mesmo mapeamento de status de comunicacoes já usado em
+      // Comunicados/Aprovações (ver mapStatus nessas telas) - reaproveitado
+      // aqui só para rotular os comunicados vinculados no detalhe da
+      // campanha, sem duplicar a lógica de cor/estado inteira.
+      function mapMsgStatus(dbStatus){
+        switch(String(dbStatus||'').toUpperCase()){
+          case 'AGUARDANDO_APROVACAO': return 'pending';
+          case 'PENDENTE': return 'scheduled';
+          case 'PROCESSANDO': return 'scheduled';
+          case 'ENVIADO': return 'sent';
+          case 'ERRO': return 'error';
+          case 'REJEITADO': return 'rejected';
+          case 'CANCELADO': return 'rejected';
+          default: return 'pending';
+        }
+      }
+      function pad(n){return String(n).padStart(2,'0')}
+      function brDateTime(value){
+        if(!value)return '—';
+        const parsed=new Date(value);
+        if(isNaN(parsed.getTime()))return '—';
+        return pad(parsed.getDate())+'/'+pad(parsed.getMonth()+1)+' · '+pad(parsed.getHours())+':'+pad(parsed.getMinutes());
+      }
+      // Cache uuid -> nome (mesma função comunidades.nomes_usuarios(uuid[])
+      // já usada em Aprovações - ver supabase_fix_nomes_usuarios.sql).
+      const userNames={};
+      const UUID_RE=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      function resolveAuthorNames(rows){
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient)return Promise.resolve();
+        const ids=[...new Set(rows.map(r=>r.authorId).filter(id=>id&&UUID_RE.test(id)&&!userNames[id]))];
+        if(!ids.length)return Promise.resolve();
+        return supaClient.rpc('nomes_usuarios',{p_ids:ids}).then(function(resposta){
+          if(resposta&&resposta.error){console.error('[Campanhas] erro ao resolver nomes de autores:',resposta.error);return}
+          (resposta&&resposta.data||[]).forEach(function(u){if(u&&u.id)userNames[u.id]=u.nome||userNames[u.id]});
+        }).catch(function(err){console.error('[Campanhas] falha inesperada ao resolver nomes de autores:',err)});
+      }
+      function mapCampaignRow(row){
+        return{
+          id:row.id,
+          name:row.nome||'(sem nome)',
+          area:row.area||'—',
+          status:(row.status==='paused'||row.status==='completed')?row.status:'active',
+          authorId:row.criado_por||null,
+          author:(row.criado_por&&userNames[row.criado_por])||row.criado_por||'—'
+        };
+      }
+      function applyAuthorNames(){campaigns.forEach(c=>{if(c.authorId&&userNames[c.authorId])c.author=userNames[c.authorId]})}
+      function linkedFor(id){return linkedByCampaign[id]||[]}
+      // Busca, à parte, quantos/quais comunicados (tabela comunicacoes)
+      // estão vinculados a cada campanha - nunca bloqueia a listagem de
+      // campanhas em si: se falhar, cada campanha simplesmente aparece
+      // com 0 comunicado(s) vinculado(s) em vez de travar a tela inteira.
+      function loadLinkedMessages(){
+        const supaClient=window.AsserthSupabase;
+        linkedByCampaign={};
+        if(!supaClient)return Promise.resolve();
+        return supaClient.from('comunicacoes').select('nome,data_disparo,status,campanha_id').not('campanha_id','is',null).then(function(resposta){
+          if(resposta&&resposta.error){console.error('[Campanhas] erro ao carregar comunicados vinculados:',resposta.error);return}
+          (resposta&&resposta.data||[]).forEach(function(row){
+            if(!row.campanha_id)return;
+            (linkedByCampaign[row.campanha_id]=linkedByCampaign[row.campanha_id]||[]).push({
+              nome:row.nome||'(sem nome)',
+              quando:brDateTime(row.data_disparo),
+              status:msgStatusLabel[mapMsgStatus(row.status)]
+            });
+          });
+        }).catch(function(err){console.error('[Campanhas] falha inesperada ao carregar comunicados vinculados:',err)});
+      }
+      function loadCampaigns(){
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient){
+          showToast('Não foi possível conectar ao serviço de campanhas.');
+          campaigns=[];filtered=[];page=1;render();
+          return Promise.resolve();
+        }
+        return supaClient.from('campanhas').select('*').order('criado_em',{ascending:false}).then(function(resposta){
+          if(resposta&&resposta.error){
+            console.error('[Campanhas] erro ao carregar campanhas:',resposta.error);
+            showToast('Não foi possível carregar as campanhas agora.');
+            campaigns=[];filtered=[];page=1;render();
+            return;
+          }
+          campaigns=(resposta&&resposta.data||[]).map(mapCampaignRow);
+          filtered=campaigns.slice();page=1;
+          return loadLinkedMessages().then(function(){
+            render();
+            return resolveAuthorNames(campaigns).then(function(){
+              applyAuthorNames();
+              render();
+              if(selected){
+                const fresh=campaigns.find(c=>c.id===selected.id);
+                if(fresh)details(fresh);
+              }
+            });
+          });
+        }).catch(function(err){
+          console.error('[Campanhas] falha inesperada ao carregar campanhas:',err);
+          showToast('Não foi possível carregar as campanhas agora.');
+          campaigns=[];filtered=[];page=1;render();
+        });
+      }
       function render(){
         const total=Math.max(1,Math.ceil(filtered.length/size));
         if(page>total)page=total;
         const start=(page-1)*size,rows=filtered.slice(start,start+size);
-        list.innerHTML=rows.length?rows.map(c=>{const s=status[c.status];return '<div class="pv-comm-row"><div><strong>'+esc(c.name)+'</strong><span>'+c.messages.length+' comunicado(s) vinculado(s)</span></div><div class="pv-comm-cell">'+esc(c.area)+'</div><div class="pv-comm-cell">'+esc(c.author)+'</div><div class="pv-comm-state"><span class="pv-comm-status '+s[1]+'">'+s[0]+'</span></div><a class="pv-comm-view" href="#campanhas-pc-detail" data-campaign="'+c.id+'">Visualizar →</a></div>'}).join(''):'<div class="pc-empty">Nenhuma campanha encontrada.</div>';
+        list.innerHTML=rows.length?rows.map(c=>{const s=status[c.status],n=linkedFor(c.id).length;return '<div class="pv-comm-row"><div><strong>'+esc(c.name)+'</strong><span>'+n+' comunicado(s) vinculado(s)</span></div><div class="pv-comm-cell">'+esc(c.area)+'</div><div class="pv-comm-cell">'+esc(c.author)+'</div><div class="pv-comm-state"><span class="pv-comm-status '+s[1]+'">'+s[0]+'</span></div><a class="pv-comm-view" href="#campanhas-pc-detail" data-campaign="'+c.id+'">Visualizar →</a></div>'}).join(''):'<div class="pc-empty">Nenhuma campanha encontrada.</div>';
         document.getElementById('campanhas-pc-result-label').textContent=filtered.length+' registros';
         document.getElementById('campanhas-pc-page-summary').textContent=filtered.length?(start+1)+'–'+(start+rows.length)+' de '+filtered.length:'0 registros';
         document.getElementById('campanhas-pc-count-active').textContent=filtered.filter(c=>c.status==='active').length;
         document.getElementById('campanhas-pc-count-completed').textContent=filtered.filter(c=>c.status==='completed').length;
-        document.getElementById('campanhas-pc-count-messages').textContent=filtered.reduce((n,c)=>n+c.messages.length,0);
-        document.getElementById('campanhas-pc-count-scheduled').textContent=filtered.reduce((n,c)=>n+c.messages.filter(m=>/Agendado|Aguardando/.test(m[2])).length,0);
+        document.getElementById('campanhas-pc-count-messages').textContent=filtered.reduce((n,c)=>n+linkedFor(c.id).length,0);
+        document.getElementById('campanhas-pc-count-scheduled').textContent=filtered.reduce((n,c)=>n+linkedFor(c.id).filter(m=>m.status===msgStatusLabel.pending||m.status===msgStatusLabel.scheduled).length,0);
         window.AsserthPaginacao.render(pages,{page:page,total:total,onSelect:function(p){page=p;render()}});
       }
       function setStatusPicker(value){
@@ -2732,23 +2968,72 @@ html>body{padding:0}
         document.getElementById('campanhas-pc-detail-name').textContent=c.name;
         document.getElementById('campanhas-pc-detail-area').textContent=c.area;
         document.getElementById('campanhas-pc-detail-author').textContent=c.author;
-        document.getElementById('campanhas-pc-detail-count').textContent=c.messages.length;
+        const linked=linkedFor(c.id);
+        document.getElementById('campanhas-pc-detail-count').textContent=linked.length;
         setStatusPicker(c.status);
-        document.getElementById('campanhas-pc-linked').innerHTML=c.messages.length?c.messages.map(m=>'<div class="pc-linked-row"><strong>'+esc(m[0])+'</strong><span>'+esc(m[1])+'</span><span>'+esc(m[2])+'</span></div>').join(''):'<div class="pc-empty">Nenhum comunicado vinculado.</div>'
+        document.getElementById('campanhas-pc-linked').innerHTML=linked.length?linked.map(m=>'<div class="pc-linked-row"><strong>'+esc(m.nome)+'</strong><span>'+esc(m.quando)+'</span><span>'+esc(m.status)+'</span></div>').join(''):'<div class="pc-empty">Nenhum comunicado vinculado.</div>'
       }
       const statusPicker=document.getElementById('campanhas-pc-status-picker'),statusTrigger=document.getElementById('campanhas-pc-status-trigger');
       statusTrigger.onclick=()=>{const open=statusPicker.classList.toggle('is-open');statusTrigger.setAttribute('aria-expanded',String(open))};
       statusPicker.querySelector('.pc-status-menu').onclick=e=>{const option=e.target.closest('[data-status]');if(!option)return;setStatusPicker(option.dataset.status);statusPicker.classList.remove('is-open');statusTrigger.setAttribute('aria-expanded','false')};
       document.addEventListener('click',e=>{if(!statusPicker.contains(e.target)){statusPicker.classList.remove('is-open');statusTrigger.setAttribute('aria-expanded','false')}});
-      list.onclick=e=>{const a=e.target.closest('[data-campaign]');if(a)details(campaigns.find(c=>c.id===Number(a.dataset.campaign)))};
-      document.getElementById('campanhas-pc-save-status').onclick=e=>{e.preventDefault();if(!selected)return;selected.status=statusTrigger.dataset.value;details(selected);render()};
-      document.getElementById('campanhas-pc-create').onclick=e=>{
+      list.onclick=e=>{const a=e.target.closest('[data-campaign]');if(a)details(campaigns.find(c=>c.id===a.dataset.campaign))};
+      document.getElementById('campanhas-pc-save-status').onclick=async function(e){
         e.preventDefault();
-        const input=document.getElementById('campanhas-pc-new-name'),name=input.value.trim(),error=document.getElementById('campanhas-pc-new-error');
+        if(!selected)return;
+        const novoStatus=statusTrigger.dataset.value,supaClient=window.AsserthSupabase,saveLink=e.currentTarget;
+        if(!supaClient){showToast('Não foi possível conectar ao serviço de campanhas.');return}
+        saveLink.style.pointerEvents='none';
+        try{
+          const resposta=await supaClient.from('campanhas').update({status:novoStatus}).eq('id',selected.id);
+          saveLink.style.pointerEvents='';
+          if(resposta&&resposta.error){
+            console.error('[Campanhas] erro ao atualizar status:',resposta.error);
+            showToast('Não foi possível atualizar o status agora. Tente novamente.');
+            return;
+          }
+          selected.status=novoStatus;
+          details(selected);render();
+          showToast('Status da campanha atualizado.');
+        }catch(err){
+          saveLink.style.pointerEvents='';
+          console.error('[Campanhas] falha inesperada ao atualizar status:',err);
+          showToast('Não foi possível atualizar o status agora. Tente novamente.');
+        }
+      };
+      document.getElementById('campanhas-pc-create').onclick=async function(e){
+        e.preventDefault();
+        const input=document.getElementById('campanhas-pc-new-name'),areaSelect=document.getElementById('campanhas-pc-new-area'),name=input.value.trim(),area=areaSelect.value,error=document.getElementById('campanhas-pc-new-error');
         if(!name){error.textContent='Informe o nome da campanha.';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(error);return}
+        if(!area){error.textContent='Informe a área responsável.';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(error);return}
         if(campaigns.some(c=>c.name.toLowerCase()===name.toLowerCase())){error.textContent='Já existe uma campanha com este nome.';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(error);return}
-        campaigns.unshift({id:Date.now(),name,area:'Tecnologia',status:'active',author:'Ana Silva',messages:[]});
-        filtered=campaigns.slice();input.value='';error.textContent='';page=1;render();location.hash=''
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient){error.textContent='Não foi possível conectar ao serviço de campanhas.';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(error);return}
+        const usuarioId=(window.AsserthSession&&window.AsserthSession.user&&window.AsserthSession.user.id)||null;
+        const createLink=e.currentTarget;
+        createLink.style.pointerEvents='none';
+        try{
+          const resposta=await supaClient.from('campanhas').insert({nome:name,area:area,status:'active',criado_por:usuarioId}).select('*').single();
+          createLink.style.pointerEvents='';
+          if(resposta&&resposta.error){
+            console.error('[Campanhas] erro ao cadastrar:',resposta.error);
+            // 23505 = violação da constraint de nome único (ver
+            // campanhas_nome_unico_idx) - alguém pode ter criado o mesmo
+            // nome entre a checagem local acima e este insert.
+            error.textContent=resposta.error.code==='23505'?'Já existe uma campanha com este nome.':'Não foi possível salvar a campanha agora. Tente novamente em instantes.';
+            if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(error);
+            return;
+          }
+          input.value='';areaSelect.value='';error.textContent='';
+          showToast('Campanha criada com sucesso.');
+          location.hash='';
+          await loadCampaigns();
+        }catch(err){
+          createLink.style.pointerEvents='';
+          console.error('[Campanhas] falha inesperada ao cadastrar:',err);
+          error.textContent='Não foi possível salvar a campanha agora. Tente novamente em instantes.';
+          if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(error);
+        }
       };
       document.getElementById('campanhas-pc-apply').onclick=e=>{
         e.preventDefault();
@@ -2762,6 +3047,7 @@ html>body{padding:0}
         filtered=campaigns.slice();page=1;render();location.hash=''
       };
       render();
+      loadCampaigns();
     }
   };
 })();
@@ -2802,6 +3088,11 @@ html>body{padding:0}
       // com um select direto). Sem essa função, "Criado por" mostra o uuid
       // crú, que era exatamente o bug reportado pela Ana em 25/08.
       const userNames={};
+      // campanhaNomePorId: mesmo papel do equivalente em Comunicados -
+      // resolve o nome real da campanha (comunidades.campanhas, ver
+      // supabase_fix_campanhas.sql) a partir de comunicacoes.campanha_id.
+      // Populado por tentativaCarregarCampanhasReais() logo abaixo.
+      let campanhaNomePorId={};
       const size=4,list=document.getElementById('aprovacoes-pa-list'),pages=document.getElementById('aprovacoes-pa-pages');
       const toastEl=document.getElementById('aprovacoes-pv-toast')||null,toastText=toastEl?toastEl.querySelector('span'):null;
       function showToast(msg){if(!toastEl||!toastText)return;toastText.textContent=msg;toastEl.classList.add('is-visible');setTimeout(()=>toastEl.classList.remove('is-visible'),5000)}
@@ -2833,7 +3124,12 @@ html>body{padding:0}
         return{
           id:row.id,
           title:row.nome||'(sem nome)',
-          campaign:'Código '+(row.codigo||'—'),
+          // Nome real da campanha - ver campanhaNomePorId acima e
+          // tentativaCarregarCampanhasReais() logo abaixo (mesma correção
+          // aplicada em Comunicados; antes mostrava o código interno do
+          // comunicado, não o nome da campanha).
+          campanhaId:row.campanha_id||null,
+          campaign:(row.campanha_id&&campanhaNomePorId[row.campanha_id])||'Sem campanha',
           group:row.grupo_nome||'—',
           authorId:row.criado_por||null,
           author:(row.criado_por&&userNames[row.criado_por])||row.criado_por||'—',
@@ -2924,6 +3220,33 @@ html>body{padding:0}
           data=[];filtered=[];page=1;render();
         });
       }
+      // Mesma correção de Comunicados: troca a lista fixa de campanhas do
+      // filtro pelas campanhas reais (comunidades.campanhas) e reaplica o
+      // nome real nos registros já carregados (a carga de campanhas roda
+      // em paralelo com loadRecords(), sem depender uma da outra). Se a
+      // tabela ainda não existir/vier vazia/falhar, o filtro cai de volta
+      // pra só "Todas"/"Sem campanha", sem travar a tela.
+      const campaignFilterSelect=document.getElementById('aprovacoes-pa-filter-campaign');
+      (function tentativaCarregarCampanhasReais(){
+        try{
+          const supaClient=window.AsserthSupabase;
+          if(!supaClient)return;
+          supaClient.from('campanhas').select('id,nome').order('nome',{ascending:true}).then(function(resposta){
+            if(!resposta||resposta.error||!Array.isArray(resposta.data)||!resposta.data.length)return;
+            campanhaNomePorId={};
+            resposta.data.forEach(function(c){campanhaNomePorId[c.id]=c.nome});
+            if(campaignFilterSelect){
+              const atual=campaignFilterSelect.value;
+              campaignFilterSelect.innerHTML='<option value="">Todas</option>'+resposta.data.map(function(c){return '<option>'+esc(c.nome)+'</option>'}).join('')+'<option>Sem campanha</option>';
+              campaignFilterSelect.value=[...campaignFilterSelect.options].some(o=>o.value===atual)?atual:'';
+            }
+            if(data.length){
+              data.forEach(function(r){if(r.campanhaId)r.campaign=campanhaNomePorId[r.campanhaId]||r.campaign});
+              render();
+            }
+          }).catch(function(err){console.error('[Aprovações] não foi possível carregar campanhas reais (mantendo filtro padrão):',err)});
+        }catch(err){console.error('[Aprovações] tentativa de carregar campanhas reais falhou (mantendo filtro padrão):',err)}
+      })();
       function render(){const total=Math.max(1,Math.ceil(filtered.length/size));if(page>total)page=total;const start=(page-1)*size,rows=filtered.slice(start,start+size);list.innerHTML=rows.length?rows.map(r=>{const s=labels[r.status],stateClass=r.status==='pending'?'is-pending':r.status==='approved'?'is-sent':'is-error';return '<div class="pv-comm-row"><div><strong>'+esc(r.title)+'</strong><span>'+esc(r.campaign)+'</span></div><div class="pv-comm-cell">'+esc(r.group)+'</div><div class="pv-comm-cell">'+date(r.date)+' · '+r.time+'</div><div class="pv-comm-state"><span class="pv-comm-status '+stateClass+'">'+s[0]+'</span></div><a class="pv-comm-view" href="#aprovacoes-pa-review" data-review="'+r.id+'">'+(r.status==='pending'?'Analisar':'Visualizar')+' →</a></div>'}).join(''):'<div style="padding:30px;text-align:center;color:var(--pv-muted);font-size:9px">Nenhum comunicado encontrado.</div>';document.getElementById('aprovacoes-pa-result-label').textContent=filtered.length+' registros';document.getElementById('aprovacoes-pa-page-summary').textContent=filtered.length?(start+1)+'–'+(start+rows.length)+' de '+filtered.length:'0 registros';['pending','approved','rejected'].forEach(s=>document.getElementById('aprovacoes-pa-count-'+s).textContent=filtered.filter(r=>r.status===s).length);const next=filtered.filter(r=>r.status==='pending').sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time))[0];document.getElementById('aprovacoes-pa-next-time').textContent=next?next.time:'—';const nextDateEl=document.getElementById('aprovacoes-pa-next-date');nextDateEl.textContent=next?date(next.date)+' · '+next.group:'sem pendências';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(nextDateEl);window.AsserthPaginacao.render(pages,{page:page,total:total,onSelect:function(p){page=p;render()}});}
       function openReview(r){selected=r;document.getElementById('aprovacoes-pa-review-title').textContent=r.title;document.getElementById('aprovacoes-pa-review-author').textContent=r.author;document.getElementById('aprovacoes-pa-review-context').textContent=r.group+' · '+r.campaign;document.getElementById('aprovacoes-pa-review-schedule').textContent=date(r.date)+' às '+r.time;document.getElementById('aprovacoes-pa-review-message').innerHTML=fmt(r.message);document.getElementById('aprovacoes-pa-review-time').textContent=r.time+' ✓✓';const reviewImg=document.getElementById('aprovacoes-pa-review-image');if(r.image){reviewImg.src=r.image;reviewImg.style.display='block'}else{reviewImg.removeAttribute('src');reviewImg.style.display='none'}const recurrenceNote=document.getElementById('aprovacoes-pa-review-recurrence');if(r.recorrencia&&r.recorrencia!=='once'){recurrenceNote.innerHTML='<strong>🔁 Comunicado recorrente:</strong> '+esc(recurrenceLabels[r.recorrencia]||r.recorrencia)+(r.recorrenciaFim?', até '+date(r.recorrenciaFim):'')+'. Confira se o texto continua fazendo sentido sendo reenviado nas próximas datas.';recurrenceNote.hidden=false}else{recurrenceNote.hidden=true}const actions=document.getElementById('aprovacoes-pa-review-actions'),audit=document.getElementById('aprovacoes-pa-review-audit');actions.hidden=r.status!=='pending';audit.hidden=r.status==='pending';if(r.status!=='pending')audit.innerHTML='<strong>Decisão registrada:</strong> '+labels[r.status][0]+(r.decisionAt?' em '+esc(r.decisionAt):'')+(r.reason?'<br><strong>Justificativa:</strong> '+esc(r.reason):'');location.hash='aprovacoes-pa-review'}
       list.addEventListener('click',e=>{const b=e.target.closest('[data-review]');if(b)openReview(data.find(r=>r.id===b.dataset.review||String(r.id)===b.dataset.review))});
@@ -2985,7 +3308,7 @@ html>body{padding:0}
           if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(rejectError);
         }
       };
-      document.getElementById('aprovacoes-pa-apply').onclick=e=>{e.preventDefault();const s=document.getElementById('aprovacoes-pa-filter-status').value,g=document.getElementById('aprovacoes-pa-filter-group').value,a=document.getElementById('aprovacoes-pa-filter-author').value.toLowerCase();filtered=data.filter(r=>(!s||r.status===s)&&(!g||r.group===g)&&(!a||String(r.author).toLowerCase().includes(a)));page=1;render();location.hash=''};document.getElementById('aprovacoes-pa-clear').onclick=e=>{e.preventDefault();['aprovacoes-pa-filter-status','aprovacoes-pa-filter-group','aprovacoes-pa-filter-campaign','aprovacoes-pa-filter-author'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});filtered=data.slice();page=1;render();location.hash=''};
+      document.getElementById('aprovacoes-pa-apply').onclick=e=>{e.preventDefault();const s=document.getElementById('aprovacoes-pa-filter-status').value,g=document.getElementById('aprovacoes-pa-filter-group').value,c=document.getElementById('aprovacoes-pa-filter-campaign').value,a=document.getElementById('aprovacoes-pa-filter-author').value.toLowerCase();filtered=data.filter(r=>(!s||r.status===s)&&(!g||r.group===g)&&(!c||r.campaign===c)&&(!a||String(r.author).toLowerCase().includes(a)));page=1;render();location.hash=''};document.getElementById('aprovacoes-pa-clear').onclick=e=>{e.preventDefault();['aprovacoes-pa-filter-status','aprovacoes-pa-filter-group','aprovacoes-pa-filter-campaign','aprovacoes-pa-filter-author'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});filtered=data.slice();page=1;render();location.hash=''};
       loadRecords();
       if(window.lucide && typeof window.lucide.createIcons==='function'){window.lucide.createIcons({ attrs: { width: 16, height: 16 } });}
     }
@@ -3929,7 +4252,17 @@ errorExport.addEventListener('click',e=>{e.preventDefault();const p=meta[current
       var link = event.target.closest('[data-view-link]');
       if (!link) return;
       event.preventDefault();
-      switchView(link.getAttribute('data-view-link'));
+      var slug = link.getAttribute('data-view-link');
+      switchView(slug);
+      // Deep-link com filtro pré-aplicado (ex.: "Revisar dados" na Fila de
+      // trabalho da Visão Geral) - bug real apontado pela Ana em 27/08: o
+      // link levava pra Membros mas sem nenhum filtro, então a pessoa não
+      // sabia QUAIS membros precisavam de tratamento. Cada view que aceita
+      // isso expõe applyPreset(preset) em window.AsserthViews[slug].
+      var preset = link.getAttribute('data-filter-preset');
+      if (preset && window.AsserthViews && window.AsserthViews[slug] && typeof window.AsserthViews[slug].applyPreset === 'function') {
+        window.AsserthViews[slug].applyPreset(preset);
+      }
     });
   }
 
@@ -4115,7 +4448,7 @@ errorExport.addEventListener('click',e=>{e.preventDefault();const p=meta[current
     Object.assign(UI.en,{'Crie, envie para aprovação e acompanhe as comunicações dos grupos autorizados.':'Create, send for approval, and track messages for the authorized groups.','Agendados':'Scheduled','no resultado filtrado':'in the filtered result','Enviados':'Sent','Reprovados':'Rejected','Registros de comunicados':'Message records','Consulte o conteúdo, o grupo de destino e a situação de cada envio.':'View the content, target group, and status of each send.','Novo comunicado':'New message','Filtrar comunicados':'Filter messages','Combine os critérios necessários e aplique à listagem.':'Combine the criteria you need and apply them to the list.','Mês':'Month','Status':'Status','Campanha':'Campaign','Grupo':'Group','Data inicial':'Start date','Data final':'End date','Agosto 2026':'August 2026','Julho 2026':'July 2026','Aprovado':'Approved','Agendado':'Scheduled','Enviado':'Sent','Reprovado':'Rejected','Todos os grupos autorizados':'All authorized groups','Limpar':'Clear','Aplicar filtros':'Apply filters','Cadastre o conteúdo e encaminhe para aprovação.':'Register the content and send it for approval.','Nome da comunicação *':'Message name *','Tipo *':'Type *','Sem campanha':'No campaign','Texto':'Text','Imagem':'Image','Imagem do comunicado *':'Message image *','Selecionar imagem':'Select image','Nenhum arquivo selecionado':'No file selected','PNG, JPG ou WEBP. O arquivo será tratado, hospedado e vinculado automaticamente.':'PNG, JPG, or WEBP. The file will be processed, hosted, and linked automatically.','Mensagem *':'Message *','Legenda':'Caption','• Lista':'• List','Obrigatória · máximo de 4.096 caracteres':'Required · maximum of 4,096 characters','Opcional · até 1.024 caracteres':'Optional · up to 1,024 characters','Mensagem obrigatória · até 4.096 caracteres':'Message required · up to 4,096 characters','Data do disparo *':'Send date *','Hora do disparo *':'Send time *','Selecione uma data':'Select a date','Recorrência':'Recurrence','Envio único':'One-time send','Todos os dias · segunda a sexta':'Every day · Monday to Friday','Uma vez por semana · mesmo dia':'Once a week · same day','A cada 15 dias · mesmo dia da semana':'Every 15 days · same day of the week','Primeiro dia útil do mês':'First business day of the month','Último dia útil do mês':'Last business day of the month','Repetir até *':'Repeat until *','Este comunicado será enviado uma única vez.':'This message will be sent only once.','Envio em todos os dias, de segunda a sexta-feira, até a data final.':'Sent every day, Monday through Friday, until the end date.','Envio uma vez por semana, sempre no mesmo dia da semana e horário escolhidos.':'Sent once a week, always on the same chosen day of the week and time.','Envio a cada 15 dias, preservando o mesmo dia da semana e horário.':'Sent every 15 days, keeping the same day of the week and time.','Envio no primeiro dia útil de cada mês.':'Sent on the first business day of each month.','Envio no último dia útil de cada mês.':'Sent on the last business day of each month.','Informe a data e o horário do disparo.':'Enter the send date and time.','Disparos não podem ser agendados aos finais de semana.':'Sends cannot be scheduled on weekends.','Escolha um horário com pelo menos 5 minutos de antecedência.':'Choose a time at least 5 minutes from now.','Informe a data final da recorrência.':'Enter the recurrence end date.','A data final também deve ser um dia útil.':'The end date must also be a business day.','A data final deve ser posterior ao primeiro disparo.':'The end date must be after the first send.','Comunicado validado e pronto para encaminhamento à aprovação.':'Message validated and ready to be sent for approval.','Selecione o arquivo da imagem.':'Select the image file.','A mensagem é obrigatória para comunicados de texto.':'The message is required for text messages.','Selecione ao menos um grupo de destino.':'Select at least one target group.','Grupos de destino *':'Target groups *','Selecione um ou mais grupos':'Select one or more groups','Observação':'Note','Informação interna opcional. Não será enviada no WhatsApp.':'Optional internal note. It will not be sent on WhatsApp.','Cancelar':'Cancel','Visualizar':'View','Cadastrar comunicado':'Register message','Prévia no WhatsApp':'WhatsApp preview','Analisar →':'Review →','Nenhum comunicado encontrado para os filtros aplicados.':'No message found for the applied filters.'});
     // ----- Campanhas -----
     Object.assign(UI.es,{'Organize comunicações relacionadas e acompanhe sua execução por área autorizada.':'Organice comunicaciones relacionadas y siga su ejecución por área autorizada.','Campanhas ativas':'Campañas activas','Comunicados vinculados':'Comunicados vinculados','somatório das campanhas':'suma de las campañas','próximos envios':'próximos envíos','Concluídas':'Finalizadas','Registros de campanhas':'Registros de campañas','Consulte as campanhas visíveis para seu acesso e seus comunicados relacionados.':'Consulte las campañas visibles para su acceso y sus comunicados relacionados.','Nova campanha':'Nueva campaña','Filtrar campanhas':'Filtrar campañas','Os resultados respeitam as áreas autorizadas para o seu acesso.':'Los resultados respetan las áreas autorizadas para su acceso.','Nome da campanha':'Nombre de la campaña','Ativa':'Activa','Pausada':'Pausada','Concluída':'Finalizada','Todas as áreas autorizadas':'Todas las áreas autorizadas','Limpar':'Limpiar','Aplicar filtros':'Aplicar filtros','Depois de salva, a campanha ficará disponível no cadastro de comunicados.':'Después de guardarla, la campaña estará disponible en el registro de comunicados.','Nome da campanha *':'Nombre de la campaña *','A área responsável e a visibilidade serão definidas automaticamente pelo seu acesso. Outros detalhes serão formados pelos comunicados vinculados.':'El área responsable y la visibilidad se definirán automáticamente según su acceso. Los demás detalles se formarán a partir de los comunicados vinculados.','Informe o nome da campanha.':'Indique el nombre de la campaña.','Já existe uma campanha com este nome.':'Ya existe una campaña con este nombre.','Cancelar':'Cancelar','Salvar campanha':'Guardar campaña','Detalhes da campanha':'Detalles de la campaña','Acompanhe os comunicados vinculados e o andamento da campanha.':'Siga los comunicados vinculados y el avance de la campaña.','Campanha':'Campaña','Área responsável':'Área responsable','Criada por':'Creada por','Status atual':'Estado actual','Fechar':'Cerrar','Salvar status':'Guardar estado','Nenhuma campanha encontrada.':'No se encontró ninguna campaña.','Nenhum comunicado vinculado.':'Ningún comunicado vinculado.'});
-    Object.assign(UI.en,{'Organize comunicações relacionadas e acompanhe sua execução por área autorizada.':'Organize related messages and track their execution by authorized department.','Campanhas ativas':'Active campaigns','Comunicados vinculados':'Linked messages','somatório das campanhas':'sum across campaigns','próximos envios':'upcoming sends','Concluídas':'Completed','Registros de campanhas':'Campaign records','Consulte as campanhas visíveis para seu acesso e seus comunicados relacionados.':'View the campaigns visible to your access and their related messages.','Nova campanha':'New campaign','Filtrar campanhas':'Filter campaigns','Os resultados respeitam as áreas autorizadas para o seu acesso.':'Results respect the departments authorized for your access.','Nome da campanha':'Campaign name','Ativa':'Active','Pausada':'Paused','Concluída':'Completed','Todas as áreas autorizadas':'All authorized departments','Limpar':'Clear','Aplicar filtros':'Apply filters','Depois de salva, a campanha ficará disponível no cadastro de comunicados.':'Once saved, the campaign will be available in the message registration form.','Nome da campanha *':'Campaign name *','A área responsável e a visibilidade serão definidas automaticamente pelo seu acesso. Outros detalhes serão formados pelos comunicados vinculados.':'The responsible department and visibility will be set automatically based on your access. Other details will be formed by the linked messages.','Informe o nome da campanha.':'Enter the campaign name.','Já existe uma campanha com este nome.':'A campaign with this name already exists.','Cancelar':'Cancel','Salvar campanha':'Save campaign','Detalhes da campanha':'Campaign details','Acompanhe os comunicados vinculados e o andamento da campanha.':'Track the linked messages and the campaign\'s progress.','Campanha':'Campaign','Área responsável':'Responsible department','Criada por':'Created by','Status atual':'Current status','Fechar':'Close','Salvar status':'Save status','Nenhuma campanha encontrada.':'No campaign found.','Nenhum comunicado vinculado.':'No linked messages.'});
+    Object.assign(UI.en,{'Organize comunicações relacionadas e acompanhe sua execução por área autorizada.':'Organize related messages and track their execution by authorized department.','Campanhas ativas':'Active campaigns','Comunicados vinculados':'Linked messages','somatório das campanhas':'sum across campaigns','próximos envios':'upcoming sends','Concluídas':'Completed','Registros de campanhas':'Campaign records','Consulte as campanhas visíveis para seu acesso e seus comunicados relacionados.':'View the campaigns visible to your access and their related messages.','Nova campanha':'New campaign','Filtrar campanhas':'Filter campaigns','Os resultados respeitam as áreas autorizadas para o seu acesso.':'Results respect the departments authorized for your access.','Nome da campanha':'Campaign name','Ativa':'Active','Pausada':'Paused','Concluída':'Completed','Todas as áreas autorizadas':'All authorized departments','Limpar':'Clear','Aplicar filtros':'Apply filters','Depois de salva, a campanha ficará disponível no cadastro de comunicados.':'Once saved, the campaign will be available in the message registration form.','Nome da campanha *':'Campaign name *','Área responsável *':'Responsible department *','Escolha a área responsável pela campanha — ela é registrada como informada aqui, independentemente da sua própria área de acesso. Outros detalhes serão formados pelos comunicados vinculados.':'Choose the department responsible for the campaign — it is recorded exactly as selected here, regardless of your own access department. Other details will be formed by the linked messages.','Informe o nome da campanha.':'Enter the campaign name.','Informe a área responsável.':'Enter the responsible department.','Não foi possível conectar ao serviço de campanhas.':'Could not connect to the campaigns service.','Já existe uma campanha com este nome.':'A campaign with this name already exists.','Não foi possível salvar a campanha agora. Tente novamente em instantes.':'Could not save the campaign right now. Try again shortly.','Não foi possível carregar as campanhas agora.':'Could not load campaigns right now.','Campanha criada com sucesso.':'Campaign created successfully.','Status da campanha atualizado.':'Campaign status updated.','Não foi possível atualizar o status agora. Tente novamente.':'Could not update the status right now. Try again.','Sem campanha':'No campaign','Cancelar':'Cancel','Salvar campanha':'Save campaign','Detalhes da campanha':'Campaign details','Acompanhe os comunicados vinculados e o andamento da campanha.':'Track the linked messages and the campaign\'s progress.','Campanha':'Campaign','Área responsável':'Responsible department','Criada por':'Created by','Status atual':'Current status','Fechar':'Close','Salvar status':'Save status','Nenhuma campanha encontrada.':'No campaign found.','Nenhum comunicado vinculado.':'No linked messages.'});
     // ----- Aprovações -----
     Object.assign(UI.es,{'Analise os comunicados autorizados para o seu acesso e registre uma decisão.':'Analice los comunicados autorizados para su acceso y registre una decisión.','Aprovados':'Aprobados','Próximo agendamento':'Próxima programación','sem pendências':'sin pendientes','Comunicados para decisão':'Comunicados para decisión','Uma aprovação ou reprovação encerra a análise. O conteúdo não pode ser editado.':'Una aprobación o rechazo cierra el análisis. El contenido no puede editarse.','Filtrar aprovações':'Filtrar aprobaciones','Os resultados respeitam as áreas e grupos autorizados para o seu acesso.':'Los resultados respetan las áreas y grupos autorizados para su acceso.','Criado por':'Creado por','Limpar':'Limpiar','Aplicar filtros':'Aplicar filtros','Revisar comunicado':'Revisar comunicado','Confira o conteúdo exatamente como será enviado antes de decidir.':'Confirme el contenido exactamente como se enviará antes de decidir.','Grupo e campanha':'Grupo y campaña','Disparo programado':'Envío programado','Prévia da mensagem':'Vista previa del mensaje','Visualização no WhatsApp':'Visualización en WhatsApp','Reprovar':'Rechazar','Aprovar comunicado':'Aprobar comunicado','Reprovar comunicado':'Rechazar comunicado','A justificativa será registrada e encaminhada ao responsável pela criação.':'La justificación se registrará y se enviará al responsable de la creación.','Voltar':'Volver','Confirmar reprovação':'Confirmar rechazo','Informe o motivo da reprovação.':'Indique el motivo del rechazo.','Decisão registrada:':'Decisión registrada:','Nenhum comunicado encontrado.':'No se encontró ningún comunicado.','Explique objetivamente o que precisa ser revisto.':'Explique objetivamente qué debe revisarse.'});
     Object.assign(UI.en,{'Analise os comunicados autorizados para o seu acesso e registre uma decisão.':'Review the messages authorized for your access and record a decision.','Aprovados':'Approved','Próximo agendamento':'Next scheduled item','sem pendências':'no pending items','Comunicados para decisão':'Messages awaiting a decision','Uma aprovação ou reprovação encerra a análise. O conteúdo não pode ser editado.':'An approval or rejection closes the review. The content cannot be edited.','Filtrar aprovações':'Filter approvals','Os resultados respeitam as áreas e grupos autorizados para o seu acesso.':'Results respect the departments and groups authorized for your access.','Criado por':'Created by','Limpar':'Clear','Aplicar filtros':'Apply filters','Revisar comunicado':'Review message','Confira o conteúdo exatamente como será enviado antes de decidir.':'Check the content exactly as it will be sent before deciding.','Grupo e campanha':'Group and campaign','Disparo programado':'Scheduled send','Prévia da mensagem':'Message preview','Visualização no WhatsApp':'WhatsApp view','Reprovar':'Reject','Aprovar comunicado':'Approve message','Reprovar comunicado':'Reject message','A justificativa será registrada e encaminhada ao responsável pela criação.':'The justification will be logged and sent to the person who created it.','Voltar':'Back','Confirmar reprovação':'Confirm rejection','Informe o motivo da reprovação.':'Enter the rejection reason.','Decisão registrada:':'Decision recorded:','Nenhum comunicado encontrado.':'No message found.','Explique objetivamente o que precisa ser revisto.':'Explain objectively what needs to be revised.'});
