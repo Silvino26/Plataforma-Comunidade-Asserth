@@ -1817,7 +1817,15 @@ html>body{padding:0}
             var linha=resposta&&Array.isArray(resposta.data)?resposta.data[0]:null;
             if(!linha){if(titulo)titulo.textContent='Conexão desconhecida';if(detalhe)detalhe.textContent=' · Ainda não há nenhuma verificação registrada';retagConexao();return}
             if(linha.conectado===true)aplicarOnline();
-            else aplicarOffline(linha.ultimo_erro?('Falha na integração: '+linha.ultimo_erro):'Falha na integração com a comunidade — equipe já notificada');
+            // Nunca expõe `linha.ultimo_erro` aqui (bug reportado pela Ana
+            // em 27/08: o card mostrava o erro técnico cru da integração -
+            // "Falha ao consultar a comunidade (HTTP 400)..." - pra
+            // qualquer pessoa com acesso à plataforma, não só o time de
+            // TI). A mensagem é sempre a mesma, genérica e tranquilizadora,
+            // independente do erro técnico real por trás - quem precisa do
+            // detalhe técnico (TI) consulta `status_comunidade.ultimo_erro`
+            // direto no banco, não pela tela.
+            else aplicarOffline('Falha na integração com a comunidade — equipe já notificada');
             if(hora&&linha.ultima_verificacao)hora.dataset.iso=linha.ultima_verificacao;
             retagConexao();
           }).catch(function(err){
@@ -1973,11 +1981,21 @@ html>body{padding:0}
           if(!supaClient)return;
           var artigo=document.getElementById('visao-geral-fila-processamentos');
           if(artigo&&artigo.style.display==='none')return; // RBAC já escondeu
-          supaClient.from('processamentos').select('tipo,titulo,registros,incluidos,removidos,mantidos,finalizado_em').eq('status','CONCLUIDO').order('finalizado_em',{ascending:false}).limit(1).then(function(resposta){
+          // `.is('visto_em',null)` (ver supabase_fix_processamento_visto.sql):
+          // a Ana pediu uma saída EXPLÍCITA pra este item, não só a janela de
+          // 24h - "eu vi o resultado, preciso ter um botão que finalize que
+          // eu vi". Clicar em "Ver resultado" (handler em bindNav) marca
+          // este id como visto; a partir daí esta consulta nem devolve mais
+          // essa linha, mesmo que ainda esteja dentro das 24h.
+          supaClient.from('processamentos').select('id,tipo,titulo,registros,incluidos,removidos,mantidos,finalizado_em').eq('status','CONCLUIDO').is('visto_em',null).order('finalizado_em',{ascending:false}).limit(1).then(function(resposta){
             if(resposta&&resposta.error)throw resposta.error;
             var linha=resposta&&Array.isArray(resposta.data)?resposta.data[0]:null;
-            var titulo=document.getElementById('visao-geral-fila-processamentos-titulo'),detalhe=document.getElementById('visao-geral-fila-processamentos-detalhe');
+            var titulo=document.getElementById('visao-geral-fila-processamentos-titulo'),detalhe=document.getElementById('visao-geral-fila-processamentos-detalhe'),verLink=artigo?artigo.querySelector('a[data-view-link="processamentos"]'):null;
             if(!linha){if(artigo)artigo.style.display='none';return}
+            // Guarda o id na própria âncora "Ver resultado" - é o que o
+            // handler global em bindNav() usa pra saber qual registro
+            // marcar como visto quando a Ana clicar.
+            if(verLink)verLink.dataset.processamentoId=linha.id;
             // Pergunta real da Ana em 27/08: "aí eu volto pra Visão Geral,
             // continua lá, vai ficar pra sempre aqui?" - com razão: esta
             // consulta sempre busca o ÚLTIMO CONCLUIDO, então sem um limite
@@ -4254,6 +4272,25 @@ errorExport.addEventListener('click',e=>{e.preventDefault();const p=meta[current
       event.preventDefault();
       var slug = link.getAttribute('data-view-link');
       switchView(slug);
+      // Fila de trabalho > "Ver resultado": marca o processamento como
+      // visto (pedido real da Ana em 28/08 - "eu vi o resultado, preciso
+      // ter algum botão que finalize que eu vi, porque senão vai ficar
+      // aqui pra sempre, não faz sentido"). O id vem de
+      // carregarUltimoProcessamento() (Visão Geral), gravado no próprio
+      // link como data-processamento-id assim que a linha carrega - ver
+      // supabase_fix_processamento_visto.sql. Não bloqueia a navegação
+      // (fire-and-forget); o card já some na hora (otimista), sem
+      // esperar a resposta do banco nem uma nova carga da Visão Geral.
+      var processamentoId = link.dataset.processamentoId;
+      if (processamentoId) {
+        var artigoProcessamento = link.closest('.pv-work');
+        if (artigoProcessamento) artigoProcessamento.style.display = 'none';
+        if (window.AsserthSupabase) {
+          window.AsserthSupabase.rpc('marcar_processamento_visto', { p_id: processamentoId }).catch(function (err) {
+            console.error('[VisaoGeral] não foi possível marcar processamento como visto:', err);
+          });
+        }
+      }
       // Deep-link com filtro pré-aplicado (ex.: "Revisar dados" na Fila de
       // trabalho da Visão Geral) - bug real apontado pela Ana em 27/08: o
       // link levava pra Membros mas sem nenhum filtro, então a pessoa não
