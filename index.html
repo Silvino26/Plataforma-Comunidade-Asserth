@@ -1184,20 +1184,10 @@ html>body{padding:0}
 /* ===== membros ===== */
 #asserth-platform-overview .pm-actions{display:flex;gap:8px;justify-content:flex-end}
 .pm-list{padding:0 20px}
-.pm-row{display:grid;grid-template-columns:24px 1.15fr .72fr .72fr .9fr .85fr auto;align-items:center;gap:16px;min-height:62px;border-bottom:1px solid var(--pv-line)}
-.pm-check{display:flex;align-items:center;justify-content:center}
-.pm-check input{width:14px;height:14px}
-.pm-bulkbar{display:none;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;margin:0 0 12px;border:1px solid var(--pv-green);border-radius:9px;background:var(--pv-surface-soft);font-size:9px}
-.pm-bulkbar.is-visible{display:flex}
-.pm-bulkbar select{font:inherit;font-size:8.5px;padding:6px 8px;border-radius:7px;border:1px solid var(--pv-line)}
-.pm-bulkbar button{border:0;border-radius:7px;padding:7px 11px;font:inherit;font-size:8.5px;cursor:pointer;background:var(--pv-green);color:#fff}
-.pm-bulkbar button.pm-bulk-danger{background:#b42332}
-.pm-bulkbar button.pm-bulk-ghost{background:transparent;color:var(--pv-muted);border:1px solid var(--pv-line)}
-.pm-select-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 12px}
-.pm-action-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 0;border-top:1px solid var(--pv-line)}
-.pm-action-row select{font:inherit;font-size:8.5px;padding:6px 8px;border-radius:7px;border:1px solid var(--pv-line)}
-.pm-action-row button{border:0;border-radius:7px;padding:7px 11px;font:inherit;font-size:8.5px;cursor:pointer;background:var(--pv-green);color:#fff}
-.pm-action-row button.pm-bulk-danger{background:#b42332}
+.pm-row{display:grid;grid-template-columns:1.15fr .72fr .72fr .9fr auto;align-items:center;gap:16px;min-height:62px;border-bottom:1px solid var(--pv-line)}
+.pm-bulk-dropdown-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:2px 0 10px}
+.pm-bulk-dropdown-row strong{font-size:9px;font-weight:600;margin-right:auto}
+.pm-bulk-dropdown-row a{color:var(--pv-green);text-decoration:none;font-size:8.5px}
 .pm-row strong{display:block;font-size:9px;font-weight:500}
 .pm-row small,.pm-cell{color:var(--pv-muted);font-size:8px}
 .pm-row small{margin-top:3px}
@@ -2053,8 +2043,8 @@ html>body{padding:0}
 </script>
 
 <section id="view-membros" class="view pv-main" data-view="membros" hidden>
-<div class="pv-page-head"><div><span class="pv-kicker">Comunidade</span><h1>Membros</h1><p>Consulte e gerencie as pessoas registradas na comunidade conforme o seu acesso.</p></div><div class="pv-comm-head-side"><div class="pv-profile"><input class="pv-profile-toggle" id="pv-profile-toggle-membros" type="checkbox"><label class="pv-profile-btn" for="pv-profile-toggle-membros" aria-label="Abrir opções do usuário"><span class="pv-avatar">AS</span></label><div class="pv-profile-menu" id="pv-profile-menu-membros"><div class="pv-profile-summary"><strong>Ana Silva</strong><span>Administradora · Tecnologia</span></div><a href="#pv-native-profile"><i data-lucide="user-round" aria-hidden="true"></i> Meu perfil</a><a href="#pv-native-preferences"><i data-lucide="palette" aria-hidden="true"></i> Aparência e preferências</a><a href="#pv-native-notifications"><i data-lucide="bell" aria-hidden="true"></i> Notificações</a><a href="#pv-native-logout"><i data-lucide="log-out" aria-hidden="true"></i> Sair</a></div></div><div class="pm-actions"><a class="pv-comm-button" href="#membros-pm-filter"><i data-lucide="sliders-horizontal"></i>Filtrar</a><button class="pv-comm-button" id="membros-pm-export"><i data-lucide="download"></i>Exportar</button></div></div></div><div class="pv-metrics"><div class="pv-metric"><span>Relação atual</span><strong id="membros-pm-total">0</strong><small>registros visíveis</small></div><div class="pv-metric"><span>Na comunidade</span><strong id="membros-pm-included">0</strong><small>presença confirmada</small></div><div class="pv-metric"><span>Convite enviado</span><strong id="membros-pm-invited">0</strong><small>aguardando confirmação</small></div><div class="pv-metric"><span>Pendente</span><strong id="membros-pm-pending">0</strong><small title="Sem confirmação, ainda não processado">sem confirmação</small></div><div class="pv-metric"><span>Precisam de atenção</span><strong id="membros-pm-errors">0</strong><small title="Telefone divergente, erro ou não identificado">erro ou divergência</small></div></div><section class="pv-section"><div class="pv-comm-toolbar"><div><h2>Relação atual de membros</h2><p>A relação inclui pessoas confirmadas, convidadas e registros com divergência. A caixa de seleção só aparece para quem já está confirmado na comunidade.</p></div><span class="pv-comm-cell" id="membros-pm-label"></span></div><div class="pm-select-actions"><a class="pv-comm-button" href="#" id="membros-pm-select-all">Selecionar confirmados</a><a class="pv-comm-button" href="#" id="membros-pm-select-none">Limpar seleção</a></div><div class="pm-bulkbar" id="membros-pm-bulkbar"><strong id="membros-pm-bulk-count">0 selecionados</strong><select id="membros-pm-bulk-group"></select><button type="button" id="membros-pm-bulk-incluir">Incluir no grupo</button><button type="button" id="membros-pm-bulk-remover">Remover do grupo</button><button type="button" class="pm-bulk-danger" id="membros-pm-bulk-retirar">Retirar da comunidade</button><span class="pa-error" id="membros-pm-bulk-error"></span></div><div class="pm-list" id="membros-pm-list"></div><div class="pv-pagination"><span id="membros-pm-summary"></span><div class="pv-page-buttons" id="membros-pm-pages"></div></div></section>
-<section class="pv-native-panel" id="membros-pm-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar membros</h2><p>Localize apenas os registros necessários.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-filter-grid"><div class="pv-native-field"><label>Nome</label><input id="membros-pm-q" placeholder="Digite para pesquisar"></div><div class="pv-native-field"><label>Tipo de membro</label><select id="membros-pm-type"><option value="">Todos</option><option>Colaborador</option><option>Prestador</option></select></div><div class="pv-native-field"><label>Status</label><select id="membros-pm-status"><option value="">Todos</option><option value="atencao">Precisam de atenção (agrupado)</option><option value="incluido">Incluído</option><option value="convite_pendente">Convite enviado (aguardando confirmação)</option><option value="pendente_sem_convite">Pendente (sem confirmação)</option><option value="telefone_divergente">Telefone com divergência</option><option value="erro_processamento">Erro de processamento</option><option value="nao_identificado">Não identificado</option><option value="removido">Removido da comunidade</option><option value="ausente">Ausente (saiu após confirmação)</option></select></div><div class="pv-native-field"><label>Grupo</label><select id="membros-pm-group"><option value="">Todos</option><option>Avisos</option><option>Financeiro</option><option>Departamento Pessoal</option></select></div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" id="membros-pm-clear" href="#">Limpar</a><a id="membros-pm-apply" href="#">Aplicar filtros</a></div></div></section><section class="pv-native-panel" id="membros-pm-detail"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Detalhes do membro</h2><p>Consulte o cadastro e a situação real nos grupos de WhatsApp.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-detail-grid" id="membros-pm-detail-data"></div><h3 style="font-size:10px">Grupos vinculados (situação real no WhatsApp)</h3><div class="pm-groups" id="membros-pm-groups-view"><span class="pm-cell">Carregando...</span></div><p class="pm-note" id="membros-pm-groups-note">Esta lista reflete a última sincronização de grupos (a cada 15 minutos) - pode levar alguns minutos para refletir uma movimentação recente.</p><h3 style="font-size:10px">Movimentar este membro</h3><div class="pm-action-row"><select id="membros-pm-detail-incluir-group"></select><button type="button" id="membros-pm-detail-incluir-btn">Incluir no grupo</button></div><div class="pm-action-row"><select id="membros-pm-detail-remover-group"></select><button type="button" id="membros-pm-detail-remover-btn">Remover do grupo</button></div><div class="pm-action-row"><button type="button" class="pm-bulk-danger" id="membros-pm-detail-retirar-btn">Retirar da comunidade</button></div><span class="pa-error" id="membros-pm-detail-error"></span></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Fechar</a></div></div></section><div class="pv-toast" id="membros-pm-toast"><i data-lucide="info" aria-hidden="true"></i><span></span></div>
+<div class="pv-page-head"><div><span class="pv-kicker">Comunidade</span><h1>Membros</h1><p>Consulte e gerencie as pessoas registradas na comunidade conforme o seu acesso.</p></div><div class="pv-comm-head-side"><div class="pv-profile"><input class="pv-profile-toggle" id="pv-profile-toggle-membros" type="checkbox"><label class="pv-profile-btn" for="pv-profile-toggle-membros" aria-label="Abrir opções do usuário"><span class="pv-avatar">AS</span></label><div class="pv-profile-menu" id="pv-profile-menu-membros"><div class="pv-profile-summary"><strong>Ana Silva</strong><span>Administradora · Tecnologia</span></div><a href="#pv-native-profile"><i data-lucide="user-round" aria-hidden="true"></i> Meu perfil</a><a href="#pv-native-preferences"><i data-lucide="palette" aria-hidden="true"></i> Aparência e preferências</a><a href="#pv-native-notifications"><i data-lucide="bell" aria-hidden="true"></i> Notificações</a><a href="#pv-native-logout"><i data-lucide="log-out" aria-hidden="true"></i> Sair</a></div></div><div class="pm-actions"><a class="pv-comm-button" href="#membros-pm-filter"><i data-lucide="sliders-horizontal"></i>Filtrar</a><button class="pv-comm-button" id="membros-pm-export"><i data-lucide="download"></i>Exportar</button><a class="pv-comm-button" href="#membros-pm-acoes" id="membros-pm-acoes-toggle"><i data-lucide="users" aria-hidden="true"></i>Ações</a></div></div></div><div class="pv-metrics"><div class="pv-metric"><span>Relação atual</span><strong id="membros-pm-total">0</strong><small>registros visíveis</small></div><div class="pv-metric"><span>Na comunidade</span><strong id="membros-pm-included">0</strong><small>presença confirmada</small></div><div class="pv-metric"><span>Convite enviado</span><strong id="membros-pm-invited">0</strong><small>aguardando confirmação</small></div><div class="pv-metric"><span>Pendente</span><strong id="membros-pm-pending">0</strong><small title="Sem confirmação, ainda não processado">sem confirmação</small></div><div class="pv-metric"><span>Precisam de atenção</span><strong id="membros-pm-errors">0</strong><small title="Telefone divergente, erro ou não identificado">erro ou divergência</small></div></div><section class="pv-section"><div class="pv-comm-toolbar"><div><h2>Relação atual de membros</h2><p>A relação inclui pessoas confirmadas, convidadas e registros com divergência. Para incluir, remover de um grupo ou retirar alguém da comunidade, use o botão "Ações" acima.</p></div><span class="pv-comm-cell" id="membros-pm-label"></span></div><div class="pm-list" id="membros-pm-list"></div><div class="pv-pagination"><span id="membros-pm-summary"></span><div class="pv-page-buttons" id="membros-pm-pages"></div></div></section>
+<section class="pv-native-panel" id="membros-pm-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar membros</h2><p>Localize apenas os registros necessários.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-filter-grid"><div class="pv-native-field"><label>Nome</label><input id="membros-pm-q" placeholder="Digite para pesquisar"></div><div class="pv-native-field"><label>Tipo de membro</label><select id="membros-pm-type"><option value="">Todos</option><option>Colaborador</option><option>Prestador</option></select></div><div class="pv-native-field"><label>Status</label><select id="membros-pm-status"><option value="">Todos</option><option value="atencao">Precisam de atenção (agrupado)</option><option value="incluido">Incluído</option><option value="convite_pendente">Convite enviado (aguardando confirmação)</option><option value="pendente_sem_convite">Pendente (sem confirmação)</option><option value="telefone_divergente">Telefone com divergência</option><option value="erro_processamento">Erro de processamento</option><option value="nao_identificado">Não identificado</option><option value="removido">Removido da comunidade</option><option value="ausente">Ausente (saiu após confirmação)</option></select></div><div class="pv-native-field"><label>Grupo</label><select id="membros-pm-group"><option value="">Todos</option><option>Avisos</option><option>Financeiro</option><option>Departamento Pessoal</option></select></div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" id="membros-pm-clear" href="#">Limpar</a><a id="membros-pm-apply" href="#">Aplicar filtros</a></div></div></section><section class="pv-native-panel" id="membros-pm-detail"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Detalhes do membro</h2><p>Consulte o cadastro e a situação real nos grupos de WhatsApp.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-detail-grid" id="membros-pm-detail-data"></div><h3 style="font-size:10px">Grupos vinculados (situação real no WhatsApp)</h3><div class="pm-groups" id="membros-pm-groups-view"><span class="pm-cell">Carregando...</span></div><p class="pm-note" id="membros-pm-groups-note">Esta lista reflete a última sincronização de grupos (a cada 15 minutos) - pode levar alguns minutos para refletir uma movimentação recente.</p><p class="pm-note">Para incluir, remover de um grupo ou retirar da comunidade, use o botão "Ações" no topo da tela - vale tanto para 1 pessoa quanto para várias de uma vez.</p></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Fechar</a></div></div></section><section class="pv-native-panel" id="membros-pm-acoes"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Ações</h2><p>Incluir/remover pessoas de um grupo ou retirar da comunidade - vale para 1 pessoa ou para várias de uma vez.</p></div><a class="pv-native-close" href="#" id="membros-pm-acao-close">×</a></div><div class="pv-native-body"><div class="pv-native-field"><label>O que você quer fazer?</label><select id="membros-pm-acao-tipo"><option value="">Selecione</option><option value="INCLUIR_GRUPO">Incluir em um grupo</option><option value="REMOVER_GRUPO">Remover de um grupo</option><option value="RETIRAR_COMUNIDADE">Retirar da comunidade</option></select></div><div class="pv-native-field" id="membros-pm-acao-grupo-wrap" style="display:none"><label id="membros-pm-acao-grupo-label">Grupo</label><select id="membros-pm-acao-grupo"></select></div><p class="pm-note" id="membros-pm-acao-nota" style="display:none">O grupo Avisos não aparece aqui: todo mundo confirmado na comunidade já está nele, e removê-lo de lá é o mesmo que retirar a pessoa da comunidade (use a ação "Retirar da comunidade").</p><div id="membros-pm-acao-picker" style="display:none"><div class="pv-native-field"><label>Buscar pessoa</label><input id="membros-pm-acao-busca" placeholder="Digite para filtrar a lista abaixo"></div><div class="pm-bulk-dropdown-row"><strong id="membros-pm-acao-count">0 selecionado(s)</strong><a href="#" id="membros-pm-acao-select-all">Selecionar todos</a><a href="#" id="membros-pm-acao-select-none">Limpar seleção</a></div><div class="pm-group-list" id="membros-pm-acao-list"></div></div><span class="pa-error" id="membros-pm-bulk-error"></span></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Cancelar</a><a href="#" id="membros-pm-acao-submit">Enviar solicitação</a></div></div></section><div class="pv-toast" id="membros-pm-toast"><i data-lucide="info" aria-hidden="true"></i><span></span></div>
 </section>
 <script>
 (function(){
@@ -2147,26 +2137,25 @@ html>body{padding:0}
       }
       let data=[],filtered=[],page=1,selected=null,pendingPreset=null;
       let gruposAtivos=[];
-      // Seleção em massa (2026-08-28, pedido da Ana: mover ~139 pessoas de
-      // Avisos pros grupos certos sem precisar clicar uma a uma). Guarda os
-      // `id`s locais (ex.: 'p-123') dos membros marcados - só quem já está
-      // CONFIRMADO na comunidade (statusCategoria==='incluido', ou seja,
-      // INCLUIDO/PROTEGIDO) pode ser selecionado; não faz sentido mover pra
-      // um grupo de WhatsApp alguém que ainda nem está confirmado.
-      let selecionados=new Set();
       function findById(id){return data.find(function(x){return x.id===id})}
       function normalizarTelefone(t){return String(t||'').replace(/\D/g,'')}
+      // Grupo "Avisos" não é selecionável no painel de Ações (pedido da Ana
+      // em 2026-08-28, 3ª rodada): quem está confirmado na comunidade já
+      // está em Avisos automaticamente - "incluir" nele não é uma ação
+      // disponível, e "remover" dele é o mesmo que retirar a pessoa da
+      // comunidade inteira (ação própria "Retirar da comunidade", sem
+      // precisar escolher grupo nenhum).
+      let gruposSelecionaveis=[];
       function loadGruposAtivos(){
         const supaClient=window.AsserthSupabase;
         if(!supaClient)return Promise.resolve();
         return supaClient.from('grupos_whatsapp').select('id,nome').eq('ativo',true).order('nome',{ascending:true}).then(function(resposta){
           if(resposta&&resposta.error){console.error('[Membros] erro ao carregar grupos:',resposta.error);return}
           gruposAtivos=(resposta&&resposta.data)||[];
-          const opts=gruposAtivos.map(function(g){return '<option value="'+g.id+'">'+escapeHtml(g.nome)+'</option>'}).join('');
-          ['membros-pm-bulk-group','membros-pm-detail-incluir-group'].forEach(function(selId){
-            const el=document.getElementById(selId);
-            if(el)el.innerHTML='<option value="">Selecione o grupo</option>'+opts;
-          });
+          gruposSelecionaveis=gruposAtivos.filter(function(g){return g.nome!=='Avisos'});
+          const opts=gruposSelecionaveis.map(function(g){return '<option value="'+g.id+'">'+escapeHtml(g.nome)+'</option>'}).join('');
+          const el=document.getElementById('membros-pm-acao-grupo');
+          if(el)el.innerHTML='<option value="">Selecione o grupo</option>'+opts;
         }).catch(function(err){console.error('[Membros] falha inesperada ao carregar grupos:',err)});
       }
       const size=10;
@@ -2225,9 +2214,7 @@ html>body{padding:0}
         if(page>total)page=total;
         const rows=filtered.slice((page-1)*size,page*size);
         document.getElementById('membros-pm-list').innerHTML=rows.length?rows.map(function(m){
-          const podeSelecionar=m.statusCategoria==='incluido';
-          const check=podeSelecionar?'<input type="checkbox" data-select-id="'+m.id+'" '+(selecionados.has(m.id)?'checked':'')+'>':'';
-          return '<div class="pm-row"><div class="pm-check">'+check+'</div><div><strong>'+escapeHtml(m.name)+'</strong></div><div class="pm-cell">'+escapeHtml(m.type)+'</div><div class="pm-cell">'+escapeHtml(m.extra||'—')+'</div><div><span class="pm-status '+m.statusBucket+'">'+escapeHtml(m.statusLabel)+'</span></div><a class="pm-link" href="#membros-pm-detail" data-id="'+m.id+'">Visualizar →</a></div>';
+          return '<div class="pm-row"><div><strong>'+escapeHtml(m.name)+'</strong></div><div class="pm-cell">'+escapeHtml(m.type)+'</div><div class="pm-cell">'+escapeHtml(m.extra||'—')+'</div><div><span class="pm-status '+m.statusBucket+'">'+escapeHtml(m.statusLabel)+'</span></div><a class="pm-link" href="#membros-pm-detail" data-id="'+m.id+'">Visualizar →</a></div>';
         }).join(''):'<div style="padding:30px 0;text-align:center;color:var(--pv-muted);font-size:9px">Nenhum membro encontrado para os filtros aplicados.</div>';
         document.getElementById('membros-pm-total').textContent=filtered.length;
         document.getElementById('membros-pm-included').textContent=filtered.filter(function(x){return x.statusBucket==='included'}).length;
@@ -2247,37 +2234,177 @@ html>body{padding:0}
         document.getElementById('membros-pm-summary').textContent=filtered.length?((page-1)*size+1)+'–'+((page-1)*size+rows.length)+' de '+filtered.length:'0 registros';
         const p=document.getElementById('membros-pm-pages');
         window.AsserthPaginacao.render(p,{page:page,total:total,onSelect:function(i){page=i;render()}});
-        renderBulkBar();
       }
-      function renderBulkBar(){
-        const bar=document.getElementById('membros-pm-bulkbar');
-        document.getElementById('membros-pm-bulk-count').textContent=selecionados.size+' selecionado(s)';
-        bar.classList.toggle('is-visible',selecionados.size>0);
+      // Painel "Ações" (2026-08-28, 3ª rodada - reformulação pedida pela
+      // Ana por vídeo). Antes existia uma caixa de seleção na própria lista
+      // principal, mas ela só aparecia pra quem já estava confirmado na
+      // comunidade - dependendo do filtro aplicado, a coluna sumia/aparecia
+      // linha a linha, sem padrão nenhum, e isso "desconfigurava" a lista
+      // (colunas de tipo/empresa/status pareciam fora de alinhamento aos
+      // olhos da Ana mesmo com o grid tecnicamente correto). Decisão: a
+      // lista principal volta a ser 100% leitura, sem nenhuma seleção nela.
+      // Toda seleção (pontual ou em massa - o mesmo botão serve pros dois
+      // casos) mora agora dentro do próprio painel de Ações: escolhe a ação,
+      // escolhe o grupo (quando aplicável) e o painel busca, na hora, só
+      // quem realmente pode receber aquela ação:
+      //  - Incluir em um grupo: quem já está confirmado na comunidade e
+      //    AINDA NÃO está naquele grupo (consulta real em membros_grupos).
+      //  - Remover de um grupo: quem está de fato naquele grupo agora
+      //    (mesma consulta, só que positiva).
+      //  - Retirar da comunidade: todo mundo confirmado, sem grupo nenhum
+      //    envolvido (a ação já mexe em todos os grupos reais da pessoa).
+      // O grupo "Avisos" nunca aparece no seletor de grupo (ver
+      // loadGruposAtivos) - pedido explícito da Ana: confirmado na
+      // comunidade == já está em Avisos, então "incluir" nele não é uma
+      // ação disponível e "remover" dele é o mesmo que "Retirar da
+      // comunidade" (ação própria, já cobre isso).
+      let acaoElegiveis=[],acaoSelecionados=new Set();
+      const acaoTipoEl=document.getElementById('membros-pm-acao-tipo');
+      const acaoGrupoWrap=document.getElementById('membros-pm-acao-grupo-wrap');
+      const acaoGrupoEl=document.getElementById('membros-pm-acao-grupo');
+      const acaoGrupoLabel=document.getElementById('membros-pm-acao-grupo-label');
+      const acaoNota=document.getElementById('membros-pm-acao-nota');
+      const acaoPicker=document.getElementById('membros-pm-acao-picker');
+      const acaoListEl=document.getElementById('membros-pm-acao-list');
+      const acaoBuscaEl=document.getElementById('membros-pm-acao-busca');
+      const acaoSubmitEl=document.getElementById('membros-pm-acao-submit');
+      const bulkErro=document.getElementById('membros-pm-bulk-error');
+      function setBulkErro(msg){bulkErro.textContent=msg||'';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(bulkErro)}
+      function atualizarContagemAcao(){document.getElementById('membros-pm-acao-count').textContent=acaoSelecionados.size+' selecionado(s)'}
+      // Mostra/esconde via style.display (em vez do atributo "hidden") de
+      // propósito: #asserth-platform-overview .pv-native-field{display:grid}
+      // (regra com escopo de ID) vence o `[hidden]{display:none}` padrão do
+      // navegador em especificidade, então o atributo "hidden" sozinho NÃO
+      // escondia o campo "Grupo" (mesma armadilha de especificidade de CSS
+      // já vista antes nesta tela) - a Ana viu isso no vídeo de 2026-08-29:
+      // o campo "Grupo" aparecia mesmo antes de qualquer ação ser escolhida,
+      // e continuava visível mesmo em "Retirar da comunidade". Estilo
+      // inline sempre vence qualquer regra de folha de estilo, então
+      // resolve de vez, sem precisar caçar mais uma regra ID-escopada.
+      function setAcaoVisible(el,show){el.style.display=show?'':'none'}
+      function resetAcaoPanel(){
+        acaoTipoEl.value='';
+        acaoGrupoEl.value='';
+        setAcaoVisible(acaoGrupoWrap,false);
+        setAcaoVisible(acaoNota,false);
+        setAcaoVisible(acaoPicker,false);
+        acaoBuscaEl.value='';
+        acaoElegiveis=[];
+        acaoSelecionados=new Set();
+        acaoListEl.innerHTML='';
+        setBulkErro('');
+        atualizarContagemAcao();
       }
-      document.getElementById('membros-pm-list').addEventListener('change',function(e){
-        const cb=e.target.closest('[data-select-id]');
+      function renderAcaoLista(){
+        const busca=acaoBuscaEl.value.trim().toLowerCase();
+        const visiveis=acaoElegiveis.filter(function(m){return !busca||(m.name+' '+m.phone).toLowerCase().indexOf(busca)!==-1});
+        acaoListEl.innerHTML=visiveis.length?visiveis.map(function(m){
+          return '<label><input type="checkbox" data-acao-id="'+m.id+'" '+(acaoSelecionados.has(m.id)?'checked':'')+'> <span><strong>'+escapeHtml(m.name)+'</strong> · '+escapeHtml(m.statusLabel)+'</span></label>';
+        }).join(''):'<div style="padding:10px;color:var(--pv-muted);font-size:8.5px">Nenhuma pessoa encontrada.</div>';
+      }
+      acaoListEl.addEventListener('change',function(e){
+        const cb=e.target.closest('[data-acao-id]');
         if(!cb)return;
-        if(cb.checked)selecionados.add(cb.dataset.selectId);else selecionados.delete(cb.dataset.selectId);
-        renderBulkBar();
+        if(cb.checked)acaoSelecionados.add(cb.dataset.acaoId);else acaoSelecionados.delete(cb.dataset.acaoId);
+        atualizarContagemAcao();
       });
-      document.getElementById('membros-pm-select-all').onclick=function(e){
+      acaoBuscaEl.addEventListener('input',renderAcaoLista);
+      document.getElementById('membros-pm-acao-select-all').onclick=function(e){
         e.preventDefault();
-        filtered.forEach(function(m){if(m.statusCategoria==='incluido')selecionados.add(m.id)});
-        render();
+        const busca=acaoBuscaEl.value.trim().toLowerCase();
+        acaoElegiveis.forEach(function(m){if(!busca||(m.name+' '+m.phone).toLowerCase().indexOf(busca)!==-1)acaoSelecionados.add(m.id)});
+        renderAcaoLista();atualizarContagemAcao();
       };
-      document.getElementById('membros-pm-select-none').onclick=function(e){e.preventDefault();selecionados.clear();render()};
-      function setDetailErro(msg){const el=document.getElementById('membros-pm-detail-error');el.textContent=msg||'';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(el)}
+      document.getElementById('membros-pm-acao-select-none').onclick=function(e){e.preventDefault();acaoSelecionados.clear();renderAcaoLista();atualizarContagemAcao()};
+      function carregarElegiveis(){
+        const tipo=acaoTipoEl.value,grupoId=acaoGrupoEl.value;
+        acaoSelecionados=new Set();
+        atualizarContagemAcao();
+        acaoListEl.innerHTML='<div style="padding:10px;color:var(--pv-muted);font-size:8.5px">Carregando...</div>';
+        const confirmados=data.filter(function(m){return m.statusCategoria==='incluido'});
+        if(tipo==='RETIRAR_COMUNIDADE'){acaoElegiveis=confirmados;renderAcaoLista();return}
+        if(!grupoId){acaoElegiveis=[];acaoListEl.innerHTML='<div style="padding:10px;color:var(--pv-muted);font-size:8.5px">Selecione um grupo.</div>';return}
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient){acaoElegiveis=[];acaoListEl.innerHTML='<div style="padding:10px;color:var(--pv-muted);font-size:8.5px">Não foi possível conectar ao serviço.</div>';return}
+        supaClient.from('membros_grupos').select('telefone').eq('grupo_id',grupoId).then(function(resposta){
+          if(acaoTipoEl.value!==tipo||acaoGrupoEl.value!==grupoId)return; // painel mudou enquanto a busca corria
+          if(resposta&&resposta.error){
+            console.error('[Membros] erro ao carregar vínculos do grupo:',resposta.error);
+            acaoElegiveis=[];acaoListEl.innerHTML='<div style="padding:10px;color:var(--pv-muted);font-size:8.5px">Não foi possível carregar quem está no grupo agora.</div>';
+            return;
+          }
+          const telefonesNoGrupo=new Set(((resposta&&resposta.data)||[]).map(function(l){return normalizarTelefone(l.telefone)}));
+          acaoElegiveis=tipo==='INCLUIR_GRUPO'
+            ?confirmados.filter(function(m){return !telefonesNoGrupo.has(normalizarTelefone(m.phone))})
+            :data.filter(function(m){return telefonesNoGrupo.has(normalizarTelefone(m.phone))});
+          renderAcaoLista();
+        }).catch(function(err){
+          if(acaoTipoEl.value!==tipo||acaoGrupoEl.value!==grupoId)return;
+          console.error('[Membros] falha inesperada ao carregar vínculos do grupo:',err);
+          acaoElegiveis=[];acaoListEl.innerHTML='<div style="padding:10px;color:var(--pv-muted);font-size:8.5px">Não foi possível carregar quem está no grupo agora.</div>';
+        });
+      }
+      acaoTipoEl.onchange=function(){
+        setBulkErro('');
+        const tipo=acaoTipoEl.value;
+        acaoGrupoEl.value='';
+        acaoElegiveis=[];acaoSelecionados=new Set();atualizarContagemAcao();
+        if(tipo==='INCLUIR_GRUPO'||tipo==='REMOVER_GRUPO'){
+          setAcaoVisible(acaoGrupoWrap,true);
+          setAcaoVisible(acaoNota,true);
+          acaoGrupoLabel.textContent=tipo==='INCLUIR_GRUPO'?'Grupo de destino':'Grupo de origem';
+          setAcaoVisible(acaoPicker,false);
+          acaoListEl.innerHTML='';
+        }else if(tipo==='RETIRAR_COMUNIDADE'){
+          // Retirar da comunidade não depende de nenhum grupo - pedido
+          // explícito da Ana em 2026-08-29: a ação já mexe em TODOS os
+          // grupos reais que a pessoa está (via membros_grupos, no
+          // workflow Movimentar Membros), então escolher um grupo aqui não
+          // faz sentido. Só a lista de pessoas fica pendente.
+          setAcaoVisible(acaoGrupoWrap,false);
+          setAcaoVisible(acaoNota,false);
+          setAcaoVisible(acaoPicker,true);
+          carregarElegiveis();
+        }else{
+          setAcaoVisible(acaoGrupoWrap,false);
+          setAcaoVisible(acaoNota,false);
+          setAcaoVisible(acaoPicker,false);
+          acaoListEl.innerHTML='';
+        }
+      };
+      acaoGrupoEl.onchange=function(){
+        setBulkErro('');
+        if(!acaoGrupoEl.value){setAcaoVisible(acaoPicker,false);acaoElegiveis=[];acaoSelecionados=new Set();atualizarContagemAcao();acaoListEl.innerHTML='';return}
+        setAcaoVisible(acaoPicker,true);
+        carregarElegiveis();
+      };
+      document.getElementById('membros-pm-acoes-toggle').onclick=function(){resetAcaoPanel()};
+      document.getElementById('membros-pm-acao-close').onclick=function(){resetAcaoPanel()};
+      acaoSubmitEl.onclick=function(e){
+        e.preventDefault();
+        setBulkErro('');
+        const tipo=acaoTipoEl.value;
+        if(!tipo){setBulkErro('Escolha o que você quer fazer.');return}
+        const grupoId=tipo==='RETIRAR_COMUNIDADE'?null:acaoGrupoEl.value;
+        if(tipo!=='RETIRAR_COMUNIDADE'&&!grupoId){setBulkErro('Selecione o grupo.');return}
+        if(!acaoSelecionados.size){setBulkErro('Selecione ao menos uma pessoa.');return}
+        const qtd=acaoSelecionados.size;
+        const telefones=Array.from(acaoSelecionados).map(findById).filter(Boolean).map(function(m){return m.phone});
+        if(tipo==='RETIRAR_COMUNIDADE'&&!window.confirm('Retirar '+qtd+' membro(s) da comunidade? Isso remove a pessoa de TODOS os grupos reais de WhatsApp e marca como removida - não é possível desfazer automaticamente.'))return;
+        registrarMovimentacao(tipo,grupoId,telefones,function(){
+          showToast('Pedido registrado para '+qtd+' membro(s). Acompanhe em Processamentos.');
+          resetAcaoPanel();
+          location.hash='';
+        },setBulkErro);
+      };
       // "Visualizar": puramente informativo (nome + situação atual real nos
-      // grupos) - pedido da Ana em 2026-08-28. Antes, este painel tinha um
-      // seletor de checkboxes de grupos que PARECIA editável mas nunca
-      // gravava nada de verdade (não existia tabela de vínculo real). Agora
-      // a lista vem de comunidades.membros_grupos - a mesma tabela populada
-      // pelo Sincronizar Grupos e usada por Movimentar Membros - e a
-      // movimentação de verdade é feita pelos botões abaixo, que registram
-      // em comunidades.solicitacoes_movimentacao_membros.
+      // grupos) - pedido da Ana em 2026-08-28. A lista vem de
+      // comunidades.membros_grupos - a mesma tabela populada pelo
+      // Sincronizar Grupos e usada por Movimentar Membros. Nenhuma ação de
+      // movimentação mora aqui - incluir/remover de grupo e retirar da
+      // comunidade vivem só no botão "Ações" no topo da tela.
       function detail(m){
         selected=m;
-        setDetailErro('');
         document.getElementById('membros-pm-detail-data').innerHTML=
           '<div><span>Nome</span><strong>'+escapeHtml(m.name)+'</strong></div>'+
           '<div><span>Telefone</span><strong>'+escapeHtml(m.phone)+'</strong></div>'+
@@ -2289,24 +2416,14 @@ html>body{padding:0}
           (m.observacao?'<div><span>Observação</span><strong>'+escapeHtml(m.observacao)+'</strong></div>':'');
         const groupsView=document.getElementById('membros-pm-groups-view');
         groupsView.innerHTML='<span class="pm-cell">Carregando...</span>';
-        const podeMovimentar=m.statusCategoria==='incluido';
-        document.getElementById('membros-pm-detail-incluir-btn').disabled=!podeMovimentar;
-        document.getElementById('membros-pm-detail-remover-btn').disabled=!podeMovimentar;
-        document.getElementById('membros-pm-detail-retirar-btn').disabled=!podeMovimentar;
-        if(!podeMovimentar){
-          setDetailErro('Só é possível movimentar quem já está confirmado na comunidade (Incluído/Protegido).');
-        }
         const supaClient=window.AsserthSupabase;
-        const removerSelect=document.getElementById('membros-pm-detail-remover-group');
-        removerSelect.innerHTML='<option value="">Carregando grupos...</option>';
-        if(!supaClient){groupsView.innerHTML='<span class="pm-cell">Não foi possível conectar ao serviço.</span>';removerSelect.innerHTML='<option value="">Selecione o grupo</option>';return}
+        if(!supaClient){groupsView.innerHTML='<span class="pm-cell">Não foi possível conectar ao serviço.</span>';return}
         const telefoneNormalizado=normalizarTelefone(m.phone);
         supaClient.from('membros_grupos').select('grupo_id,grupos_whatsapp(nome)').eq('telefone',telefoneNormalizado).then(function(resposta){
           if(selected!==m)return; // painel já trocou de membro enquanto a busca corria
           if(resposta&&resposta.error){
             console.error('[Membros] erro ao carregar grupos vinculados:',resposta.error);
             groupsView.innerHTML='<span class="pm-cell">Não foi possível carregar os grupos vinculados agora.</span>';
-            removerSelect.innerHTML='<option value="">Selecione o grupo</option>';
             return;
           }
           const linhas=(resposta&&resposta.data)||[];
@@ -2315,13 +2432,10 @@ html>body{padding:0}
           }else{
             groupsView.innerHTML=linhas.map(function(l){return '<span class="pm-chip">'+escapeHtml((l.grupos_whatsapp&&l.grupos_whatsapp.nome)||l.grupo_id)+'</span>'}).join('');
           }
-          const opts=linhas.map(function(l){return '<option value="'+l.grupo_id+'">'+escapeHtml((l.grupos_whatsapp&&l.grupos_whatsapp.nome)||l.grupo_id)+'</option>'});
-          removerSelect.innerHTML='<option value="">Selecione o grupo</option>'+opts.join('');
         }).catch(function(err){
           if(selected!==m)return;
           console.error('[Membros] falha inesperada ao carregar grupos vinculados:',err);
           groupsView.innerHTML='<span class="pm-cell">Não foi possível carregar os grupos vinculados agora.</span>';
-          removerSelect.innerHTML='<option value="">Selecione o grupo</option>';
         });
       }
       document.getElementById('membros-pm-list').onclick=function(e){const a=e.target.closest('[data-id]');if(a){const m=data.find(function(x){return x.id===a.dataset.id});if(m)detail(m)}};
@@ -2377,67 +2491,6 @@ html>body{padding:0}
           onOk();
         }).catch(function(err){console.error('[Membros] falha inesperada ao registrar movimentação:',err);onErro('Não foi possível registrar o pedido. Tente novamente em instantes.')});
       }
-      const bulkErro=document.getElementById('membros-pm-bulk-error');
-      function setBulkErro(msg){bulkErro.textContent=msg||'';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(bulkErro)}
-      function telefonesSelecionados(){return Array.from(selecionados).map(findById).filter(Boolean).map(function(m){return m.phone})}
-      document.getElementById('membros-pm-bulk-incluir').onclick=function(){
-        setBulkErro('');
-        const grupoId=document.getElementById('membros-pm-bulk-group').value;
-        if(!grupoId){setBulkErro('Selecione o grupo de destino.');return}
-        if(!selecionados.size){setBulkErro('Selecione ao menos um membro.');return}
-        registrarMovimentacao('INCLUIR_GRUPO',grupoId,telefonesSelecionados(),function(){
-          showToast('Pedido registrado para '+selecionados.size+' membro(s). Acompanhe em Processamentos.');
-          selecionados.clear();render();
-        },setBulkErro);
-      };
-      document.getElementById('membros-pm-bulk-remover').onclick=function(){
-        setBulkErro('');
-        const grupoId=document.getElementById('membros-pm-bulk-group').value;
-        if(!grupoId){setBulkErro('Selecione o grupo de origem.');return}
-        if(!selecionados.size){setBulkErro('Selecione ao menos um membro.');return}
-        registrarMovimentacao('REMOVER_GRUPO',grupoId,telefonesSelecionados(),function(){
-          showToast('Pedido registrado para '+selecionados.size+' membro(s). Acompanhe em Processamentos.');
-          selecionados.clear();render();
-        },setBulkErro);
-      };
-      document.getElementById('membros-pm-bulk-retirar').onclick=function(){
-        setBulkErro('');
-        if(!selecionados.size){setBulkErro('Selecione ao menos um membro.');return}
-        if(!window.confirm('Retirar '+selecionados.size+' membro(s) da comunidade? Isso remove a pessoa de TODOS os grupos reais de WhatsApp e marca como removida - não é possível desfazer automaticamente.'))return;
-        registrarMovimentacao('RETIRAR_COMUNIDADE',null,telefonesSelecionados(),function(){
-          showToast('Pedido de remoção registrado para '+selecionados.size+' membro(s). Acompanhe em Processamentos.');
-          selecionados.clear();render();
-        },setBulkErro);
-      };
-      document.getElementById('membros-pm-detail-incluir-btn').onclick=function(){
-        if(!selected)return;
-        setDetailErro('');
-        const grupoId=document.getElementById('membros-pm-detail-incluir-group').value;
-        if(!grupoId){setDetailErro('Selecione o grupo de destino.');return}
-        registrarMovimentacao('INCLUIR_GRUPO',grupoId,[selected.phone],function(){
-          showToast('Pedido registrado. Acompanhe em Processamentos.');
-          location.hash='';
-        },setDetailErro);
-      };
-      document.getElementById('membros-pm-detail-remover-btn').onclick=function(){
-        if(!selected)return;
-        setDetailErro('');
-        const grupoId=document.getElementById('membros-pm-detail-remover-group').value;
-        if(!grupoId){setDetailErro('Selecione o grupo de origem.');return}
-        registrarMovimentacao('REMOVER_GRUPO',grupoId,[selected.phone],function(){
-          showToast('Pedido registrado. Acompanhe em Processamentos.');
-          location.hash='';
-        },setDetailErro);
-      };
-      document.getElementById('membros-pm-detail-retirar-btn').onclick=function(){
-        if(!selected)return;
-        setDetailErro('');
-        if(!window.confirm('Retirar '+selected.name+' da comunidade? Isso remove a pessoa de TODOS os grupos reais de WhatsApp e marca como removida - não é possível desfazer automaticamente.'))return;
-        registrarMovimentacao('RETIRAR_COMUNIDADE',null,[selected.phone],function(){
-          showToast('Pedido de remoção registrado. Acompanhe em Processamentos.');
-          location.hash='';
-        },setDetailErro);
-      };
       loadGruposAtivos();
       loadData();
     }
