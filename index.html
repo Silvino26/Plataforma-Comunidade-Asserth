@@ -1188,6 +1188,7 @@ html>body{padding:0}
 .pm-bulk-dropdown-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:2px 0 10px}
 .pm-bulk-dropdown-row strong{font-size:9px;font-weight:600;margin-right:auto}
 .pm-bulk-dropdown-row a{color:var(--pv-green);text-decoration:none;font-size:8.5px}
+#asserth-platform-overview .pm-bulk-dropdown-row a{font-size:8.5px;font-weight:500;line-height:1}
 .pm-row strong{display:block;font-size:9px;font-weight:500}
 .pm-row small,.pm-cell{color:var(--pv-muted);font-size:8px}
 .pm-row small{margin-top:3px}
@@ -2299,7 +2300,7 @@ html>body{padding:0}
         const busca=acaoBuscaEl.value.trim().toLowerCase();
         const visiveis=acaoElegiveis.filter(function(m){return !busca||(m.name+' '+m.phone).toLowerCase().indexOf(busca)!==-1});
         acaoListEl.innerHTML=visiveis.length?visiveis.map(function(m){
-          return '<label><input type="checkbox" data-acao-id="'+m.id+'" '+(acaoSelecionados.has(m.id)?'checked':'')+'> <span><strong>'+escapeHtml(m.name)+'</strong> · '+escapeHtml(m.statusLabel)+'</span></label>';
+          return '<label><input type="checkbox" data-acao-id="'+m.id+'" '+(acaoSelecionados.has(m.id)?'checked':'')+'> <span><strong>'+escapeHtml(m.name)+'</strong></span></label>';
         }).join(''):'<div style="padding:10px;color:var(--pv-muted);font-size:8.5px">Nenhuma pessoa encontrada.</div>';
       }
       acaoListEl.addEventListener('change',function(e){
