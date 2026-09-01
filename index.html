@@ -1227,6 +1227,15 @@ html>body{padding:0}
 .pm-groups-picker .pm-group-list{display:none;position:absolute;z-index:60;top:calc(100% + 5px);left:0;width:100%;max-height:210px;overflow:auto;background:var(--pv-surface);box-shadow:0 10px 26px rgba(0,0,0,.12)}
 .pm-groups-picker.open .pm-group-list{display:grid}
 .pm-groups-picker+.pm-note{margin-top:12px}
+.pm-naoident-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 2px;border-bottom:1px solid var(--pv-line);font-size:8.5px}
+.pm-naoident-row span{color:var(--pv-muted)}
+.pm-naoident-row a{color:var(--pv-green);text-decoration:none;font-size:8.5px;white-space:nowrap}
+.pm-naoident-link-box{padding:10px 2px 14px;border-bottom:1px solid var(--pv-line)}
+.pm-naoident-link-box input{width:100%;box-sizing:border-box;border:1px solid var(--pv-line);border-radius:7px;padding:0 11px;min-height:36px;font:inherit;font-size:10px;background:var(--pv-surface);color:var(--pv-ink);margin-bottom:8px}
+.pm-naoident-link-box .pm-group-list{max-height:170px}
+.pm-naoident-link-box .pm-group-list button{display:block;width:100%;text-align:left;border:0;background:none;font:inherit;color:var(--pv-ink);padding:7px 8px;border-radius:5px;cursor:pointer;font-size:8px}
+.pm-naoident-link-box .pm-group-list button:hover{background:var(--pv-surface-soft)}
+.pm-naoident-link-cancel{display:inline-block;margin-top:2px;color:var(--pv-muted);text-decoration:none;font-size:8px}
 
 /* ===== grupos ===== */
 .pg-actions{display:flex;gap:10px;justify-content:flex-end}.pg-list{padding:0 28px}.pg-row{display:grid;grid-template-columns:2fr 1.2fr 1fr 1.1fr 82px;gap:22px;align-items:center;min-height:62px;border-bottom:1px solid var(--line,#d9e1de);font-size:12px}.pg-row strong{display:block;font-size:12px}.pg-cell{color:#66736e}.pg-status{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border-radius:999px;background:#e7f2ee;color:#007b62;font-size:11px;white-space:nowrap}.pg-status:before{content:'';width:7px;height:7px;border-radius:50%;background:#00866a}.pg-status.warning{background:#fff1db;color:#ad6a00}.pg-status.warning:before{background:#c98117}.pg-status.pending{background:#eef0f2;color:#5b6a72}.pg-status.pending:before{background:#8b98a1}.pg-link{color:#007b62;text-decoration:none;justify-self:end;font-size:11px}.pg-row-actions{display:flex;flex-direction:column;align-items:flex-end;gap:4px;justify-self:end}.pg-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:27px 38px;padding:18px 4px 25px;border-bottom:1px solid var(--line,#d9e1de)}.pg-detail-grid span{display:block;color:#6b7773;font-size:10px;margin-bottom:9px}.pg-detail-grid strong{font-size:12px}.pg-editor{display:grid;grid-template-columns:128px 1fr;gap:28px;padding:25px 4px 0}.pg-photo{width:112px;height:112px;border-radius:50%;background:#e7f2ee;display:grid;place-items:center;overflow:hidden;border:1px solid #d6dfdc}.pg-photo img{width:100%;height:100%;object-fit:cover}.pg-photo-placeholder{font-size:34px;color:#00866a;font-weight:600}.pg-upload{display:block;width:112px;margin-top:10px;color:#007b62;font-size:11px;cursor:pointer;text-align:center}.pg-upload input{display:none}.pg-fields{display:grid;gap:15px}.pg-field label{display:block;font-size:11px;font-weight:600;margin-bottom:7px}.pg-field input,.pg-field textarea{width:100%;box-sizing:border-box;border:1px solid #d3ddda;border-radius:9px;padding:11px 13px;font:inherit;font-size:12px;background:#fff}.pg-field textarea{min-height:80px;resize:vertical}.pg-counter{text-align:right;color:#75817d;font-size:10px;margin-top:4px}.pg-permissions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pg-check{display:flex;align-items:center;gap:9px;border:1px solid #d8e1de;border-radius:9px;padding:10px 11px;font-size:11px}.pg-check.locked{background:#f5f8f7;color:#66736e}.pg-note{margin-top:18px;padding:12px 14px;border-left:3px solid #00866a;background:#edf5f2;color:#61706b;font-size:11px;line-height:1.45}.pg-sync{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:18px;padding:12px 14px;background:#fafcfb;border:1px solid #d9e2df;border-radius:9px;font-size:11px}.pg-sync strong{display:block;margin-bottom:3px;font-size:11px}.pg-sync span{color:#66736e}.pg-sync button{border:0;background:none;color:#007b62;font-size:11px;font-weight:600;cursor:pointer}.pg-toast{position:fixed;right:28px;bottom:28px;background:#063f34;color:white;padding:13px 17px;border-radius:10px;box-shadow:0 12px 28px #0002;z-index:200;display:none;font-size:13px}.pg-toast.show{display:block}.pg-native-select{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%233c4a46' stroke-width='2' d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center!important;border-radius:9px!important;font-size:12px!important}@media(max-width:850px){.pg-row{grid-template-columns:1fr 1fr}.pg-editor{grid-template-columns:1fr}.pg-photo-wrap{justify-self:start}.pg-detail-grid,.pg-permissions{grid-template-columns:1fr}}
@@ -2044,8 +2053,8 @@ html>body{padding:0}
 </script>
 
 <section id="view-membros" class="view pv-main" data-view="membros" hidden>
-<div class="pv-page-head"><div><span class="pv-kicker">Comunidade</span><h1>Membros</h1><p>Consulte e gerencie as pessoas registradas na comunidade conforme o seu acesso.</p></div><div class="pv-comm-head-side"><div class="pv-profile"><input class="pv-profile-toggle" id="pv-profile-toggle-membros" type="checkbox"><label class="pv-profile-btn" for="pv-profile-toggle-membros" aria-label="Abrir opções do usuário"><span class="pv-avatar">AS</span></label><div class="pv-profile-menu" id="pv-profile-menu-membros"><div class="pv-profile-summary"><strong>Ana Silva</strong><span>Administradora · Tecnologia</span></div><a href="#pv-native-profile"><i data-lucide="user-round" aria-hidden="true"></i> Meu perfil</a><a href="#pv-native-preferences"><i data-lucide="palette" aria-hidden="true"></i> Aparência e preferências</a><a href="#pv-native-notifications"><i data-lucide="bell" aria-hidden="true"></i> Notificações</a><a href="#pv-native-logout"><i data-lucide="log-out" aria-hidden="true"></i> Sair</a></div></div><div class="pm-actions"><a class="pv-comm-button" href="#membros-pm-filter"><i data-lucide="sliders-horizontal"></i>Filtrar</a><button class="pv-comm-button" id="membros-pm-export"><i data-lucide="download"></i>Exportar</button><a class="pv-comm-button" href="#membros-pm-acoes" id="membros-pm-acoes-toggle"><i data-lucide="users" aria-hidden="true"></i>Ações</a></div></div></div><div class="pv-metrics"><div class="pv-metric"><span>Relação atual</span><strong id="membros-pm-total">0</strong><small>registros visíveis</small></div><div class="pv-metric"><span>Na comunidade</span><strong id="membros-pm-included">0</strong><small>presença confirmada</small></div><div class="pv-metric"><span>Convite enviado</span><strong id="membros-pm-invited">0</strong><small>aguardando confirmação</small></div><div class="pv-metric"><span>Pendente</span><strong id="membros-pm-pending">0</strong><small title="Sem confirmação, ainda não processado">sem confirmação</small></div><div class="pv-metric"><span>Precisam de atenção</span><strong id="membros-pm-errors">0</strong><small title="Telefone divergente, erro ou não identificado">erro ou divergência</small></div></div><section class="pv-section"><div class="pv-comm-toolbar"><div><h2>Relação atual de membros</h2><p>A relação inclui pessoas confirmadas, convidadas e registros com divergência. Para incluir, remover de um grupo ou retirar alguém da comunidade, use o botão "Ações" acima.</p></div><span class="pv-comm-cell" id="membros-pm-label"></span></div><div class="pm-list" id="membros-pm-list"></div><div class="pv-pagination"><span id="membros-pm-summary"></span><div class="pv-page-buttons" id="membros-pm-pages"></div></div></section>
-<section class="pv-native-panel" id="membros-pm-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar membros</h2><p>Localize apenas os registros necessários.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-filter-grid"><div class="pv-native-field"><label>Nome</label><input id="membros-pm-q" placeholder="Digite para pesquisar"></div><div class="pv-native-field"><label>Tipo de membro</label><select id="membros-pm-type"><option value="">Todos</option><option>Colaborador</option><option>Prestador</option></select></div><div class="pv-native-field"><label>Status</label><select id="membros-pm-status"><option value="">Todos</option><option value="atencao">Precisam de atenção (agrupado)</option><option value="incluido">Incluído</option><option value="convite_pendente">Convite enviado (aguardando confirmação)</option><option value="pendente_sem_convite">Pendente (sem confirmação)</option><option value="telefone_divergente">Telefone com divergência</option><option value="erro_processamento">Erro de processamento</option><option value="nao_identificado">Não identificado</option><option value="removido">Removido da comunidade</option><option value="ausente">Ausente (saiu após confirmação)</option></select></div><div class="pv-native-field"><label>Grupo</label><select id="membros-pm-group"><option value="">Todos</option><option>Avisos</option><option>Financeiro</option><option>Departamento Pessoal</option></select></div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" id="membros-pm-clear" href="#">Limpar</a><a id="membros-pm-apply" href="#">Aplicar filtros</a></div></div></section><section class="pv-native-panel" id="membros-pm-detail"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Detalhes do membro</h2><p>Consulte o cadastro e a situação real nos grupos de WhatsApp.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-detail-grid" id="membros-pm-detail-data"></div><h3 style="font-size:10px">Grupos vinculados (situação real no WhatsApp)</h3><div class="pm-groups" id="membros-pm-groups-view"><span class="pm-cell">Carregando...</span></div><p class="pm-note" id="membros-pm-groups-note">Esta lista reflete a última sincronização de grupos (a cada 15 minutos) - pode levar alguns minutos para refletir uma movimentação recente.</p><p class="pm-note">Para incluir, remover de um grupo ou retirar da comunidade, use o botão "Ações" no topo da tela - vale tanto para 1 pessoa quanto para várias de uma vez.</p></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Fechar</a></div></div></section><section class="pv-native-panel" id="membros-pm-acoes"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Ações</h2><p>Incluir/remover pessoas de um grupo ou retirar da comunidade - vale para 1 pessoa ou para várias de uma vez.</p></div><a class="pv-native-close" href="#" id="membros-pm-acao-close">×</a></div><div class="pv-native-body"><div class="pv-native-field"><label>O que você quer fazer?</label><select id="membros-pm-acao-tipo"><option value="">Selecione</option><option value="INCLUIR_GRUPO">Incluir em um grupo</option><option value="REMOVER_GRUPO">Remover de um grupo</option><option value="RETIRAR_COMUNIDADE">Retirar da comunidade</option></select></div><div class="pv-native-field" id="membros-pm-acao-grupo-wrap" style="display:none"><label id="membros-pm-acao-grupo-label">Grupo</label><select id="membros-pm-acao-grupo"></select></div><p class="pm-note" id="membros-pm-acao-nota" style="display:none">O grupo Avisos não aparece aqui: todo mundo confirmado na comunidade já está nele, e removê-lo de lá é o mesmo que retirar a pessoa da comunidade (use a ação "Retirar da comunidade").</p><div id="membros-pm-acao-picker" style="display:none"><div class="pv-native-field"><label>Buscar pessoa</label><input id="membros-pm-acao-busca" placeholder="Digite para filtrar a lista abaixo"></div><div class="pm-bulk-dropdown-row"><strong id="membros-pm-acao-count">0 selecionado(s)</strong><a href="#" id="membros-pm-acao-select-all">Selecionar todos</a><a href="#" id="membros-pm-acao-select-none">Limpar seleção</a></div><div class="pm-group-list" id="membros-pm-acao-list"></div></div><span class="pa-error" id="membros-pm-bulk-error"></span></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Cancelar</a><a href="#" id="membros-pm-acao-submit">Enviar solicitação</a></div></div></section><div class="pv-toast" id="membros-pm-toast"><i data-lucide="info" aria-hidden="true"></i><span></span></div>
+<div class="pv-page-head"><div><span class="pv-kicker">Comunidade</span><h1>Membros</h1><p>Consulte e gerencie as pessoas registradas na comunidade conforme o seu acesso.</p></div><div class="pv-comm-head-side"><div class="pv-profile"><input class="pv-profile-toggle" id="pv-profile-toggle-membros" type="checkbox"><label class="pv-profile-btn" for="pv-profile-toggle-membros" aria-label="Abrir opções do usuário"><span class="pv-avatar">AS</span></label><div class="pv-profile-menu" id="pv-profile-menu-membros"><div class="pv-profile-summary"><strong>Ana Silva</strong><span>Administradora · Tecnologia</span></div><a href="#pv-native-profile"><i data-lucide="user-round" aria-hidden="true"></i> Meu perfil</a><a href="#pv-native-preferences"><i data-lucide="palette" aria-hidden="true"></i> Aparência e preferências</a><a href="#pv-native-notifications"><i data-lucide="bell" aria-hidden="true"></i> Notificações</a><a href="#pv-native-logout"><i data-lucide="log-out" aria-hidden="true"></i> Sair</a></div></div><div class="pm-actions"><a class="pv-comm-button" href="#membros-pm-filter"><i data-lucide="sliders-horizontal"></i>Filtrar</a><button class="pv-comm-button" id="membros-pm-export"><i data-lucide="download"></i>Exportar</button><a class="pv-comm-button" href="#membros-pm-acoes" id="membros-pm-acoes-toggle"><i data-lucide="users" aria-hidden="true"></i>Ações</a><a class="pv-comm-button" href="#membros-pm-naoident" id="membros-pm-naoident-toggle"><i data-lucide="help-circle" aria-hidden="true"></i>Não identificados</a></div></div></div><div class="pv-metrics"><div class="pv-metric"><span>Relação atual</span><strong id="membros-pm-total">0</strong><small>registros visíveis</small></div><div class="pv-metric"><span>Na comunidade</span><strong id="membros-pm-included">0</strong><small>presença confirmada</small></div><div class="pv-metric"><span>Convite enviado</span><strong id="membros-pm-invited">0</strong><small>aguardando confirmação</small></div><div class="pv-metric"><span>Pendente</span><strong id="membros-pm-pending">0</strong><small title="Sem confirmação, ainda não processado">sem confirmação</small></div><div class="pv-metric"><span>Precisam de atenção</span><strong id="membros-pm-errors">0</strong><small title="Telefone divergente, erro ou não identificado">erro ou divergência</small></div></div><section class="pv-section"><div class="pv-comm-toolbar"><div><h2>Relação atual de membros</h2><p>A relação inclui pessoas confirmadas, convidadas e registros com divergência. Para incluir, remover de um grupo ou retirar alguém da comunidade, use o botão "Ações" acima.</p></div><span class="pv-comm-cell" id="membros-pm-label"></span></div><div class="pm-list" id="membros-pm-list"></div><div class="pv-pagination"><span id="membros-pm-summary"></span><div class="pv-page-buttons" id="membros-pm-pages"></div></div></section>
+<section class="pv-native-panel" id="membros-pm-filter"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Filtrar membros</h2><p>Localize apenas os registros necessários.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-filter-grid"><div class="pv-native-field"><label>Nome</label><input id="membros-pm-q" placeholder="Digite para pesquisar"></div><div class="pv-native-field"><label>Tipo de membro</label><select id="membros-pm-type"><option value="">Todos</option><option>Colaborador</option><option>Prestador</option></select></div><div class="pv-native-field"><label>Status</label><select id="membros-pm-status"><option value="">Todos</option><option value="atencao">Precisam de atenção (agrupado)</option><option value="incluido">Incluído</option><option value="convite_pendente">Convite enviado (aguardando confirmação)</option><option value="pendente_sem_convite">Pendente (sem confirmação)</option><option value="telefone_divergente">Telefone com divergência</option><option value="erro_processamento">Erro de processamento</option><option value="nao_identificado">Não identificado</option><option value="removido">Removido da comunidade</option><option value="ausente">Ausente (saiu após confirmação)</option></select></div><div class="pv-native-field"><label>Grupo</label><select id="membros-pm-group"><option value="">Todos</option><option>Avisos</option><option>Financeiro</option><option>Departamento Pessoal</option></select></div></div></div><div class="pv-native-actions"><a class="pv-native-secondary" id="membros-pm-clear" href="#">Limpar</a><a id="membros-pm-apply" href="#">Aplicar filtros</a></div></div></section><section class="pv-native-panel" id="membros-pm-detail"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Detalhes do membro</h2><p>Consulte o cadastro e a situação real nos grupos de WhatsApp.</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><div class="pm-detail-grid" id="membros-pm-detail-data"></div><h3 style="font-size:10px">Grupos vinculados (situação real no WhatsApp)</h3><div class="pm-groups" id="membros-pm-groups-view"><span class="pm-cell">Carregando...</span></div><p class="pm-note" id="membros-pm-groups-note">Esta lista reflete a última sincronização de grupos (a cada 15 minutos) - pode levar alguns minutos para refletir uma movimentação recente.</p><p class="pm-note">Para incluir, remover de um grupo ou retirar da comunidade, use o botão "Ações" no topo da tela - vale tanto para 1 pessoa quanto para várias de uma vez.</p></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Fechar</a></div></div></section><section class="pv-native-panel" id="membros-pm-acoes"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Ações</h2><p>Incluir/remover pessoas de um grupo ou retirar da comunidade - vale para 1 pessoa ou para várias de uma vez.</p></div><a class="pv-native-close" href="#" id="membros-pm-acao-close">×</a></div><div class="pv-native-body"><div class="pv-native-field"><label>O que você quer fazer?</label><select id="membros-pm-acao-tipo"><option value="">Selecione</option><option value="INCLUIR_GRUPO">Incluir em um grupo</option><option value="REMOVER_GRUPO">Remover de um grupo</option><option value="RETIRAR_COMUNIDADE">Retirar da comunidade</option></select></div><div class="pv-native-field" id="membros-pm-acao-grupo-wrap" style="display:none"><label id="membros-pm-acao-grupo-label">Grupo</label><select id="membros-pm-acao-grupo"></select></div><p class="pm-note" id="membros-pm-acao-nota" style="display:none">O grupo Avisos não aparece aqui: todo mundo confirmado na comunidade já está nele, e removê-lo de lá é o mesmo que retirar a pessoa da comunidade (use a ação "Retirar da comunidade").</p><div id="membros-pm-acao-picker" style="display:none"><div class="pv-native-field"><label>Buscar pessoa</label><input id="membros-pm-acao-busca" placeholder="Digite para filtrar a lista abaixo"></div><div class="pm-bulk-dropdown-row"><strong id="membros-pm-acao-count">0 selecionado(s)</strong><a href="#" id="membros-pm-acao-select-all">Selecionar todos</a><a href="#" id="membros-pm-acao-select-none">Limpar seleção</a></div><div class="pm-group-list" id="membros-pm-acao-list"></div></div><span class="pa-error" id="membros-pm-bulk-error"></span></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Cancelar</a><a href="#" id="membros-pm-acao-submit">Enviar solicitação</a></div></div></section><section class="pv-native-panel" id="membros-pm-naoident"><div class="pv-native-drawer is-wide"><div class="pv-native-head"><div><h2>Números não identificados</h2><p>Pessoas que estão na comunidade real do WhatsApp hoje, mas cujo número não bate com nenhum registro conhecido na relação. Atualizado automaticamente a cada verificação (não é hora real).</p></div><a class="pv-native-close" href="#">×</a></div><div class="pv-native-body"><p class="pm-note" id="membros-pm-naoident-summary">Carregando...</p><div id="membros-pm-naoident-list"></div></div><div class="pv-native-actions"><a class="pv-native-secondary" href="#">Fechar</a></div></div></section><div class="pv-toast" id="membros-pm-toast"><i data-lucide="info" aria-hidden="true"></i><span></span></div>
 </section>
 <script>
 (function(){
@@ -2492,6 +2501,97 @@ html>body{padding:0}
           onOk();
         }).catch(function(err){console.error('[Membros] falha inesperada ao registrar movimentação:',err);onErro('Não foi possível registrar o pedido. Tente novamente em instantes.')});
       }
+      // "Não identificados" (2026-09-01, pedido da Ana): números da
+      // comunidade real que não batem com nenhum registro conhecido -
+      // persistidos pelo workflow "Atualizar Status Automático" em
+      // comunidades.membros_nao_identificados (substituído por inteiro a
+      // cada execução, sempre a foto mais recente - não é histórico).
+      // "Vincular" grava em comunidades.telefones_alternativos: MANTÉM o
+      // telefone já cadastrado da pessoa (decisão confirmada com a Ana,
+      // via pergunta direta) - só soma um número reconhecido a mais, que
+      // o workflow passa a usar a partir da PRÓXIMA verificação
+      // automática (o vínculo não refaz a reconciliação na hora aqui).
+      let naoIdentificados=[];
+      const naoIdentList=document.getElementById('membros-pm-naoident-list');
+      const naoIdentSummary=document.getElementById('membros-pm-naoident-summary');
+      function renderNaoIdentificados(){
+        if(!naoIdentList)return;
+        naoIdentSummary.textContent=naoIdentificados.length?naoIdentificados.length+' número(s) na comunidade sem registro conhecido.':'Nenhum número sem identificação na última verificação automática.';
+        if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(naoIdentSummary);
+        naoIdentList.innerHTML=naoIdentificados.map(function(n,idx){
+          const rotulo=n.telefone?n.telefone:'LID '+n.lid;
+          return '<div class="pm-naoident-row" data-idx="'+idx+'"><span>'+escapeHtml(rotulo)+'</span><a href="#" data-vincular="'+idx+'">Vincular a uma pessoa</a></div>';
+        }).join('');
+      }
+      function fecharVinculoAberto(){
+        const aberto=naoIdentList.querySelector('.pm-naoident-link-box');
+        if(aberto)aberto.remove();
+      }
+      function abrirVinculo(idx){
+        fecharVinculoAberto();
+        const item=naoIdentificados[idx];
+        const row=naoIdentList.querySelector('.pm-naoident-row[data-idx="'+idx+'"]');
+        if(!item||!row)return;
+        const box=document.createElement('div');
+        box.className='pm-naoident-link-box';
+        box.innerHTML='<input placeholder="Digite o nome da pessoa"><div class="pm-group-list"></div><a href="#" class="pm-naoident-link-cancel">Cancelar</a>';
+        row.insertAdjacentElement('afterend',box);
+        const input=box.querySelector('input'),listEl=box.querySelector('.pm-group-list');
+        function renderResultados(){
+          const q=input.value.trim().toLowerCase();
+          const resultados=q?data.filter(function(m){return (m.name+' '+m.phone).toLowerCase().indexOf(q)!==-1}).slice(0,20):[];
+          listEl.innerHTML=resultados.length?resultados.map(function(m){return '<button type="button" data-pessoa="'+m.id+'"><strong>'+escapeHtml(m.name)+'</strong> · '+escapeHtml(m.phone)+'</button>'}).join(''):(q?'<div style="padding:8px;color:var(--pv-muted);font-size:8px">Ninguém encontrado.</div>':'');
+        }
+        input.addEventListener('input',renderResultados);
+        listEl.addEventListener('click',function(e){
+          const btn=e.target.closest('[data-pessoa]');
+          if(!btn)return;
+          const m=findById(btn.dataset.pessoa);
+          if(m)vincularTelefone(item,m);
+        });
+        box.querySelector('.pm-naoident-link-cancel').addEventListener('click',function(e){e.preventDefault();box.remove()});
+        input.focus();
+      }
+      function vincularTelefone(item,m){
+        const numero=item.telefone||item.lid;
+        if(!window.confirm('Vincular este número a '+m.name+'? O telefone já cadastrado dela não é substituído - os dois passam a ser reconhecidos como dela.'))return;
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient){showToast('Não foi possível conectar ao serviço.');return}
+        const tabela=m.id.charAt(0)==='g'?'participantes_permanentes':'participantes';
+        const pessoaId=m.id.slice(2);
+        const usuarioId=(window.AsserthSession&&window.AsserthSession.user&&window.AsserthSession.user.id)||null;
+        supaClient.from('telefones_alternativos').insert({telefone:numero,pessoa_tabela:tabela,pessoa_id:pessoaId,vinculado_por:usuarioId,origem:'Vinculado manualmente a partir da lista de números não identificados.'}).then(function(resposta){
+          if(resposta&&resposta.error){
+            console.error('[Membros] erro ao vincular telefone:',resposta.error);
+            showToast('Não foi possível vincular agora: '+(resposta.error.message||'tente novamente.'));
+            return;
+          }
+          naoIdentificados=naoIdentificados.filter(function(x){return x!==item});
+          renderNaoIdentificados();
+          showToast('Vinculado a '+m.name+'. A relação será atualizada na próxima verificação automática.');
+        }).catch(function(err){
+          console.error('[Membros] falha inesperada ao vincular telefone:',err);
+          showToast('Não foi possível vincular agora. Tente novamente.');
+        });
+      }
+      if(naoIdentList)naoIdentList.addEventListener('click',function(e){
+        const link=e.target.closest('[data-vincular]');
+        if(!link)return;
+        e.preventDefault();
+        abrirVinculo(Number(link.dataset.vincular));
+      });
+      function loadNaoIdentificados(){
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient||!naoIdentSummary)return;
+        naoIdentSummary.textContent='Carregando...';
+        supaClient.from('membros_nao_identificados').select('telefone,lid').order('telefone',{ascending:true}).then(function(resposta){
+          if(resposta&&resposta.error){console.error('[Membros] erro ao carregar não identificados:',resposta.error);naoIdentSummary.textContent='Não foi possível carregar agora.';return}
+          naoIdentificados=(resposta&&resposta.data)||[];
+          renderNaoIdentificados();
+        }).catch(function(err){console.error('[Membros] falha inesperada ao carregar não identificados:',err);naoIdentSummary.textContent='Não foi possível carregar agora.'});
+      }
+      const naoIdentToggle=document.getElementById('membros-pm-naoident-toggle');
+      if(naoIdentToggle)naoIdentToggle.onclick=function(){loadNaoIdentificados()};
       loadGruposAtivos();
       loadData();
     }
@@ -2811,7 +2911,7 @@ html>body{padding:0}
 <div class="pv-native-field"><label>Data do disparo *</label><div class="pv-date-picker" id="comunicados-pv-send-picker"><input id="comunicados-pv-send-date" type="hidden"><button class="pv-date-trigger" id="comunicados-pv-send-date-trigger" type="button"><span>Selecione uma data</span><i data-lucide="calendar-days"></i></button><div class="pv-calendar" id="comunicados-pv-send-calendar"></div></div></div><div class="pv-native-field"><label>Hora do disparo *</label><input id="comunicados-pv-send-time" type="time"></div><div class="pv-native-field"><label>Recorrência</label><select id="comunicados-pv-recurrence"><option value="once">Envio único</option><option value="daily">Todos os dias · segunda a sexta</option><option value="weekly">Uma vez por semana · mesmo dia</option><option value="biweekly">A cada 15 dias · mesmo dia da semana</option><option value="monthly">Primeiro dia útil do mês</option><option value="lastBusiness">Último dia útil do mês</option></select></div><div class="pv-native-field pv-recurrence-end" id="comunicados-pv-recurrence-end" hidden><label>Repetir até *</label><div class="pv-date-picker" id="comunicados-pv-until-picker"><input id="comunicados-pv-recurrence-until" type="hidden"><button class="pv-date-trigger" id="comunicados-pv-until-date-trigger" type="button"><span>Selecione uma data</span><i data-lucide="calendar-days"></i></button><div class="pv-calendar" id="comunicados-pv-until-calendar"></div></div></div><p class="pv-recurrence-note" id="comunicados-pv-recurrence-note">Este comunicado será enviado uma única vez.</p><div class="pv-form-error is-full" id="comunicados-pv-schedule-error"></div>
 <div class="pv-native-field is-full"><label>Grupos de destino *</label><div class="pv-group-picker" id="comunicados-pv-group-picker"><div class="pv-group-control" id="comunicados-pv-group-control"></div><div class="pv-group-menu" id="comunicados-pv-group-menu"><label><input type="checkbox" value="Avisos" checked>Avisos</label><label><input type="checkbox" value="Departamento Pessoal">Departamento Pessoal</label><label><input type="checkbox" value="Recrutamento e Seleção">Recrutamento e Seleção</label><label><input type="checkbox" value="Financeiro">Financeiro</label><label><input type="checkbox" value="Comercial">Comercial</label><label><input type="checkbox" value="Tecnologia">Tecnologia</label><label><input type="checkbox" value="Diretoria">Diretoria</label><label><input type="checkbox" value="Gerência">Gerência</label><label><input type="checkbox" value="Colaboradores">Colaboradores</label><label><input type="checkbox" value="Prestadores">Prestadores</label></div></div></div><div class="pv-native-field is-full"><label>Observação</label><textarea class="pv-message-box" style="min-height:70px" placeholder="Informação interna opcional. Não será enviada no WhatsApp."></textarea></div></form></div><div class="pv-native-actions"><a class="pv-native-secondary" id="comunicados-pv-comm-cancel" href="#">Cancelar</a><a class="pv-native-secondary" id="comunicados-pv-preview-action" href="#comunicados-pv-comm-preview">Visualizar</a><a id="comunicados-pv-register-action" href="#">Cadastrar comunicado</a></div></div></section>
 
-  <section class="pv-native-panel" id="comunicados-pv-comm-preview"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Prévia no WhatsApp</h2></div><a class="pv-native-close" id="comunicados-pv-preview-close" href="#">×</a></div><div class="pv-native-body"><div class="pv-whatsapp"><div class="pv-wa-body"><div class="pv-wa-bubble"><img class="pv-wa-image" id="comunicados-pv-wa-image" alt="Imagem do comunicado"><div id="comunicados-pv-wa-message"></div><div class="pv-wa-time" id="comunicados-pv-wa-time">09:00 ✓✓</div></div></div></div></div><div class="pv-native-actions"><a id="comunicados-pv-preview-back" href="#">Fechar</a></div></div></section>
+  <section class="pv-native-panel" id="comunicados-pv-comm-preview"><div class="pv-native-drawer"><div class="pv-native-head"><div><h2>Prévia no WhatsApp</h2></div><a class="pv-native-close" id="comunicados-pv-preview-close" href="#">×</a></div><div class="pv-native-body"><div class="pv-whatsapp"><div class="pv-wa-body"><div class="pv-wa-bubble"><img class="pv-wa-image" id="comunicados-pv-wa-image" alt="Imagem do comunicado"><div id="comunicados-pv-wa-message"></div><div class="pv-wa-time" id="comunicados-pv-wa-time">09:00 ✓✓</div></div></div></div><p class="pm-note" id="comunicados-pv-preview-decision" hidden></p></div><div class="pv-native-actions"><a id="comunicados-pv-preview-back" href="#">Fechar</a></div></div></section>
 </section>
 <script>
 (function(){
@@ -2841,6 +2941,42 @@ html>body{padding:0}
       }
       function brDate(value){const p=value.split('-');return p[2]+'/'+p[1]+'/'+p[0]}
       function escapeHtml(value){return String(value==null?'':value).replace(/[&<>]/g,function(char){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[char]})}
+      // "Aprovado por" na prévia (2026-08-31): mesmo mecanismo já usado em
+      // Aprovações (nomes_usuarios(uuid[])) - aqui só precisa resolver
+      // quem decidiu (aprovou/reprovou), não quem criou (não pedido nesta
+      // tela). `lastPreviewRecord` guarda o registro mostrado na prévia no
+      // momento, pra atualizar o texto se o nome chegar depois de aberta.
+      const userNames={};
+      const UUID_RE=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      let lastPreviewRecord=null;
+      function resolveDecisionNames(rows){
+        const supaClient=window.AsserthSupabase;
+        if(!supaClient)return Promise.resolve();
+        const ids=[...new Set(rows.map(r=>r.decidedById).filter(id=>id&&UUID_RE.test(id)&&!userNames[id]))];
+        if(!ids.length)return Promise.resolve();
+        return supaClient.rpc('nomes_usuarios',{p_ids:ids}).then(function(resposta){
+          if(resposta&&resposta.error){console.error('[Comunicados] erro ao resolver nome de quem decidiu:',resposta.error);return}
+          (resposta&&resposta.data||[]).forEach(function(u){if(u&&u.id)userNames[u.id]=u.nome||userNames[u.id]});
+        }).catch(function(err){console.error('[Comunicados] falha inesperada ao resolver nome de quem decidiu:',err)});
+      }
+      function applyDecisionNames(rows){
+        rows.forEach(function(r){if(r.decidedById&&userNames[r.decidedById])r.decidedBy=userNames[r.decidedById]});
+      }
+      function renderPreviewDecision(record){
+        const el=document.getElementById('comunicados-pv-preview-decision');
+        if(!el)return;
+        if(record&&record.decidedById){
+          const nome=userNames[record.decidedById]||record.decidedById;
+          const quando=record.decidedAt?new Date(record.decidedAt).toLocaleString('pt-BR'):'';
+          const acao=record.status==='rejected'?'Reprovado':'Aprovado';
+          el.textContent=acao+' por '+nome+(quando?' em '+quando:'')+(record.status==='rejected'&&record.reason?' · Motivo: '+record.reason:'');
+          el.hidden=false;
+        }else{
+          el.textContent='';
+          el.hidden=true;
+        }
+        if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(el);
+      }
       // Status reais do fluxo (n8n + aba Aprovações): um comunicado nasce
       // AGUARDANDO_APROVACAO; ao ser aprovado vira PENDENTE (agendado,
       // aguardando o disparo do workflow "Disparo de Comunicados"); depois
@@ -2899,7 +3035,13 @@ html>body{padding:0}
           status:mapStatus(row.status),
           type:/imag/i.test(row.tipo||'')?'image':'text',
           message:row.mensagem||'',
-          image:row.url_imagem||''
+          image:row.url_imagem||'',
+          // "Aprovado por" (2026-08-31) - ver resolveDecisionNames/
+          // applyDecisionNames/renderPreviewDecision acima.
+          decidedById:row.aprovado_por||row.rejeitado_por||null,
+          decidedAt:row.aprovado_em||row.rejeitado_em||null,
+          decidedBy:(function(){const id=row.aprovado_por||row.rejeitado_por;return (id&&userNames[id])||''})(),
+          reason:row.motivo_rejeicao||''
         };
       }
       function loadRecords(){
@@ -2920,6 +3062,15 @@ html>body{padding:0}
           filtered=records.slice();
           currentPage=1;
           render();
+          return resolveDecisionNames(records).then(function(){
+            applyDecisionNames(records);
+            // Se a prévia estiver aberta mostrando um desses registros,
+            // atualiza o texto de "aprovado/reprovado por" sem fechar nada.
+            if(lastPreviewRecord){
+              const atualizado=records.find(function(item){return item.id===lastPreviewRecord.id});
+              if(atualizado){lastPreviewRecord=atualizado;renderPreviewDecision(atualizado)}
+            }
+          });
         }).catch(function(err){
           console.error('[Comunicados] falha inesperada ao carregar comunicados:',err);
           showToast('Não foi possível carregar os comunicados agora. Tente novamente em instantes.');
@@ -3057,9 +3208,9 @@ html>body{padding:0}
           }).catch(function(err){console.error('[Comunicados] não foi possível carregar campanhas reais (mantendo seletor padrão):',err)});
         }catch(err){console.error('[Comunicados] tentativa de carregar campanhas reais falhou (mantendo seletor padrão):',err)}
       })();
-      function showPreview(value,time,imageSource){document.getElementById('comunicados-pv-wa-message').innerHTML=formatted(value);document.getElementById('comunicados-pv-wa-time').textContent=(time||'09:00')+' ✓✓';const img=document.getElementById('comunicados-pv-wa-image');if(objectUrl){URL.revokeObjectURL(objectUrl);objectUrl=''}let src=imageSource||'';if(!src&&type.value==='image'&&imageFile.files&&imageFile.files[0]){objectUrl=URL.createObjectURL(imageFile.files[0]);src=objectUrl}if(src){img.src=src;img.style.display='block'}else{img.removeAttribute('src');img.style.display='none'}}
+      function showPreview(value,time,imageSource,record){document.getElementById('comunicados-pv-wa-message').innerHTML=formatted(value);document.getElementById('comunicados-pv-wa-time').textContent=(time||'09:00')+' ✓✓';const img=document.getElementById('comunicados-pv-wa-image');if(objectUrl){URL.revokeObjectURL(objectUrl);objectUrl=''}let src=imageSource||'';if(!src&&type.value==='image'&&imageFile.files&&imageFile.files[0]){objectUrl=URL.createObjectURL(imageFile.files[0]);src=objectUrl}if(src){img.src=src;img.style.display='block'}else{img.removeAttribute('src');img.style.display='none'}lastPreviewRecord=record||null;renderPreviewDecision(record)}
       document.getElementById('comunicados-pv-preview-action').addEventListener('click',function(){previewOrigin='form';showPreview(message.value,sendTime.value,'')});
-      list.addEventListener('click',function(e){const link=e.target.closest('[data-record]');if(!link)return;const r=records.find(function(item){return item.id===Number(link.dataset.record)});if(r){previewOrigin='list';showPreview(r.message,r.time,r.image||'')}});
+      list.addEventListener('click',function(e){const link=e.target.closest('[data-record]');if(!link)return;const r=records.find(function(item){return item.id===Number(link.dataset.record)});if(r){previewOrigin='list';showPreview(r.message,r.time,r.image||'',r)}});
       function closePreview(e){e.preventDefault();location.hash=previewOrigin==='form'?'comunicados-pv-comm-new':''}
       document.getElementById('comunicados-pv-preview-close').addEventListener('click',closePreview);document.getElementById('comunicados-pv-preview-back').addEventListener('click',closePreview);
       // Limpa o formulário de "Novo comunicado" depois de um cadastro bem
@@ -3619,6 +3770,14 @@ html>body{padding:0}
           group:row.grupo_nome||'—',
           authorId:row.criado_por||null,
           author:(row.criado_por&&userNames[row.criado_por])||row.criado_por||'—',
+          // "Aprovado por"/"Reprovado por" (2026-08-31): `aprovado_por`/
+          // `rejeitado_por` já eram gravados no banco desde a rodada de
+          // 25/08 (ver o UPDATE em aprovacoes-pa-approve/reject-confirm
+          // logo abaixo) - só nunca tinham sido lidos nem exibidos aqui.
+          // Reaproveita o mesmo mecanismo de resolução de nome por uuid já
+          // usado para "Criado por" (resolveAuthorNames/applyAuthorNames).
+          decidedById:row.aprovado_por||row.rejeitado_por||null,
+          decidedBy:(function(){const id=row.aprovado_por||row.rejeitado_por;return (id&&userNames[id])||id||''})(),
           date:parts.date,
           time:parts.time,
           status:mapStatus(row.status),
@@ -3662,7 +3821,9 @@ html>body{padding:0}
       function resolveAuthorNames(rows){
         const supaClient=window.AsserthSupabase;
         if(!supaClient)return Promise.resolve();
-        const ids=[...new Set(rows.map(r=>r.authorId).filter(id=>id&&UUID_RE.test(id)&&!userNames[id]))];
+        // Junta autor + quem decidiu (aprovou/reprovou) num único lote -
+        // mesma função `nomes_usuarios`, só precisa de mais uuids.
+        const ids=[...new Set(rows.flatMap(r=>[r.authorId,r.decidedById]).filter(id=>id&&UUID_RE.test(id)&&!userNames[id]))];
         if(!ids.length)return Promise.resolve();
         return supaClient.rpc('nomes_usuarios',{p_ids:ids}).then(function(resposta){
           if(resposta&&resposta.error){
@@ -3675,7 +3836,10 @@ html>body{padding:0}
         });
       }
       function applyAuthorNames(rows){
-        rows.forEach(function(r){if(r.authorId&&userNames[r.authorId])r.author=userNames[r.authorId]});
+        rows.forEach(function(r){
+          if(r.authorId&&userNames[r.authorId])r.author=userNames[r.authorId];
+          if(r.decidedById&&userNames[r.decidedById])r.decidedBy=userNames[r.decidedById];
+        });
       }
       function loadRecords(){
         const supaClient=window.AsserthSupabase;
@@ -3698,6 +3862,14 @@ html>body{padding:0}
               selected.author=userNames[selected.authorId];
               const authorEl=document.getElementById('aprovacoes-pa-review-author');
               if(authorEl)authorEl.textContent=selected.author;
+            }
+            // Idem para "aprovado/reprovado por" - se a tela de revisão já
+            // estava aberta quando o nome chegou, só atualiza o texto da
+            // auditoria (sem navegar nem mexer no hash, igual ao autor).
+            if(selected&&selected.status!=='pending'&&selected.decidedById&&userNames[selected.decidedById]){
+              selected.decidedBy=userNames[selected.decidedById];
+              const auditEl=document.getElementById('aprovacoes-pa-review-audit');
+              if(auditEl)auditEl.innerHTML='<strong>Decisão registrada:</strong> '+labels[selected.status][0]+(selected.decisionAt?' em '+esc(selected.decisionAt):'')+(selected.decidedBy?' por '+esc(selected.decidedBy):'')+(selected.reason?'<br><strong>Justificativa:</strong> '+esc(selected.reason):'');
             }
           });
         }).catch(function(err){
@@ -3734,7 +3906,7 @@ html>body{padding:0}
         }catch(err){console.error('[Aprovações] tentativa de carregar campanhas reais falhou (mantendo filtro padrão):',err)}
       })();
       function render(){const total=Math.max(1,Math.ceil(filtered.length/size));if(page>total)page=total;const start=(page-1)*size,rows=filtered.slice(start,start+size);list.innerHTML=rows.length?rows.map(r=>{const s=labels[r.status],stateClass=r.status==='pending'?'is-pending':r.status==='approved'?'is-sent':'is-error';return '<div class="pv-comm-row"><div><strong>'+esc(r.title)+'</strong><span>'+esc(r.campaign)+'</span></div><div class="pv-comm-cell">'+esc(r.group)+'</div><div class="pv-comm-cell">'+date(r.date)+' · '+r.time+'</div><div class="pv-comm-state"><span class="pv-comm-status '+stateClass+'">'+s[0]+'</span></div><a class="pv-comm-view" href="#aprovacoes-pa-review" data-review="'+r.id+'">'+(r.status==='pending'?'Analisar':'Visualizar')+' →</a></div>'}).join(''):'<div style="padding:30px;text-align:center;color:var(--pv-muted);font-size:9px">Nenhum comunicado encontrado.</div>';document.getElementById('aprovacoes-pa-result-label').textContent=filtered.length+' registros';document.getElementById('aprovacoes-pa-page-summary').textContent=filtered.length?(start+1)+'–'+(start+rows.length)+' de '+filtered.length:'0 registros';['pending','approved','rejected'].forEach(s=>document.getElementById('aprovacoes-pa-count-'+s).textContent=filtered.filter(r=>r.status===s).length);const next=filtered.filter(r=>r.status==='pending').sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time))[0];document.getElementById('aprovacoes-pa-next-time').textContent=next?next.time:'—';const nextDateEl=document.getElementById('aprovacoes-pa-next-date');nextDateEl.textContent=next?date(next.date)+' · '+next.group:'sem pendências';if(window.AsserthI18n&&typeof window.AsserthI18n.retagAndRefresh==='function')window.AsserthI18n.retagAndRefresh(nextDateEl);window.AsserthPaginacao.render(pages,{page:page,total:total,onSelect:function(p){page=p;render()}});}
-      function openReview(r){selected=r;document.getElementById('aprovacoes-pa-review-title').textContent=r.title;document.getElementById('aprovacoes-pa-review-author').textContent=r.author;document.getElementById('aprovacoes-pa-review-context').textContent=r.group+' · '+r.campaign;document.getElementById('aprovacoes-pa-review-schedule').textContent=date(r.date)+' às '+r.time;document.getElementById('aprovacoes-pa-review-message').innerHTML=fmt(r.message);document.getElementById('aprovacoes-pa-review-time').textContent=r.time+' ✓✓';const reviewImg=document.getElementById('aprovacoes-pa-review-image');if(r.image){reviewImg.src=r.image;reviewImg.style.display='block'}else{reviewImg.removeAttribute('src');reviewImg.style.display='none'}const recurrenceNote=document.getElementById('aprovacoes-pa-review-recurrence');if(r.recorrencia&&r.recorrencia!=='once'){recurrenceNote.innerHTML='<strong>🔁 Comunicado recorrente:</strong> '+esc(recurrenceLabels[r.recorrencia]||r.recorrencia)+(r.recorrenciaFim?', até '+date(r.recorrenciaFim):'')+'. Confira se o texto continua fazendo sentido sendo reenviado nas próximas datas.';recurrenceNote.hidden=false}else{recurrenceNote.hidden=true}const actions=document.getElementById('aprovacoes-pa-review-actions'),audit=document.getElementById('aprovacoes-pa-review-audit');actions.hidden=r.status!=='pending';audit.hidden=r.status==='pending';if(r.status!=='pending')audit.innerHTML='<strong>Decisão registrada:</strong> '+labels[r.status][0]+(r.decisionAt?' em '+esc(r.decisionAt):'')+(r.reason?'<br><strong>Justificativa:</strong> '+esc(r.reason):'');location.hash='aprovacoes-pa-review'}
+      function openReview(r){selected=r;document.getElementById('aprovacoes-pa-review-title').textContent=r.title;document.getElementById('aprovacoes-pa-review-author').textContent=r.author;document.getElementById('aprovacoes-pa-review-context').textContent=r.group+' · '+r.campaign;document.getElementById('aprovacoes-pa-review-schedule').textContent=date(r.date)+' às '+r.time;document.getElementById('aprovacoes-pa-review-message').innerHTML=fmt(r.message);document.getElementById('aprovacoes-pa-review-time').textContent=r.time+' ✓✓';const reviewImg=document.getElementById('aprovacoes-pa-review-image');if(r.image){reviewImg.src=r.image;reviewImg.style.display='block'}else{reviewImg.removeAttribute('src');reviewImg.style.display='none'}const recurrenceNote=document.getElementById('aprovacoes-pa-review-recurrence');if(r.recorrencia&&r.recorrencia!=='once'){recurrenceNote.innerHTML='<strong>🔁 Comunicado recorrente:</strong> '+esc(recurrenceLabels[r.recorrencia]||r.recorrencia)+(r.recorrenciaFim?', até '+date(r.recorrenciaFim):'')+'. Confira se o texto continua fazendo sentido sendo reenviado nas próximas datas.';recurrenceNote.hidden=false}else{recurrenceNote.hidden=true}const actions=document.getElementById('aprovacoes-pa-review-actions'),audit=document.getElementById('aprovacoes-pa-review-audit');actions.hidden=r.status!=='pending';audit.hidden=r.status==='pending';if(r.status!=='pending')audit.innerHTML='<strong>Decisão registrada:</strong> '+labels[r.status][0]+(r.decisionAt?' em '+esc(r.decisionAt):'')+(r.decidedBy?' por '+esc(r.decidedBy):'')+(r.reason?'<br><strong>Justificativa:</strong> '+esc(r.reason):'');location.hash='aprovacoes-pa-review'}
       list.addEventListener('click',e=>{const b=e.target.closest('[data-review]');if(b)openReview(data.find(r=>r.id===b.dataset.review||String(r.id)===b.dataset.review))});
       // Aprovar: AGUARDANDO_APROVACAO -> PENDENTE (o único status que o
       // workflow n8n "Disparo de Comunicados da Comunidade" busca). É
